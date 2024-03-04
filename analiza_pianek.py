@@ -1,10 +1,21 @@
 from datetime import datetime as dt, timedelta
 import pandas as pd
 import numpy as np
+import json
 
 from modele_db import *
 
-path_dane_pianki = "dane_excel/DANE_PIANKI_2409.xlsx"
+import warnings
+warnings.filterwarnings('ignore')
+
+with open("./linki.json") as f:
+  linki = json.load(f)
+  path_dane_pianki = linki["path_dane_pianki"]
+  owaty_linki = linki["owaty"]
+  zam_pianki_link = linki["zam_pianki_link"]
+
+print(linki)
+
 #daty kompletacji
 daty_kompletacji = {
                     # "04/03":dt(2024,2,14),
@@ -19,14 +30,14 @@ daty_kompletacji = {
 
 # data_WST = dt.strptime(daty_kompletacji[list(daty_kompletacji.keys())[-1]], "%Y-%m-%d") + timedelta(7)
 data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
-print(data_WST)
+# print(data_WST)
 
 pda = list(daty_kompletacji.keys())
 
 
 
 #@title OWATY
-_owaty = pd.read_excel("dane_excel/111 KROJOWNIA SUROWKI PIANKI OWATY.xlsx", sheet_name="Arkusz1")
+_owaty = pd.read_excel(owaty_linki, sheet_name="Arkusz1")
 
 #w zamowieniu podajemy ilosc belek, na FV dostajemy całkwitą ilosc metrów kwadratowych dla danego typu
 
@@ -83,7 +94,7 @@ for t in ltypy[1:]:
 #@title PRZYGOTOWANIE DANYCH
 
 #PLIKI ZAM_PIANKI
-komplety_pianek = pd.read_excel("dane_excel/ZAM_PIANKI.xlsx", sheet_name="Arkusz3")
+komplety_pianek = pd.read_excel(zam_pianki_link, sheet_name="Arkusz3")
 komplety_pianek['CZY_BRYLA'] = komplety_pianek['CZY_BRYLA'].fillna(1)
 komplety_pianek['BRYLA_GEN'] = komplety_pianek['BRYLA_GEN'].fillna("").astype(str).apply(lambda x: x.replace(".", ","))
 komplety_pianek["RODZINA_NAZWA"] = komplety_pianek.OPIS.apply(lambda x: x[:3])
