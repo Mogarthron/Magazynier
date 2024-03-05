@@ -2,6 +2,7 @@ from datetime import datetime as dt, timedelta
 import pandas as pd
 import numpy as np
 import json
+import plotly.express as px
 
 from modele_db import *
 
@@ -14,7 +15,7 @@ with open("./linki.json") as f:
   owaty_linki = linki["owaty"]
   zam_pianki_link = linki["zam_pianki_link"]
 
-print(linki)
+# print(linki)
 
 #daty kompletacji
 daty_kompletacji = {
@@ -28,6 +29,17 @@ daty_kompletacji = {
                     "09/01":dt(2024,3,27),
                     }
 
+#ZACIAGNIECIE TABELI PIANEK I LISTY BRYŁ Z BAZY
+# lista_bryl = dict()
+# with engine.begin() as conn:
+#       # lb = conn.execute(text(f"SELECT * from lista_bryl_pianki"))
+#       tab = pd.read_sql(text("SELECT * from baza_PIANKI"), conn)
+# # for i in lb:
+#   # print(i[0], i[1].split("_"))
+#   lista_bryl[i[0]] = [x for x in i[1].split("_")]
+
+
+
 # data_WST = dt.strptime(daty_kompletacji[list(daty_kompletacji.keys())[-1]], "%Y-%m-%d") + timedelta(7)
 data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
 # print(data_WST)
@@ -36,60 +48,7 @@ pda = list(daty_kompletacji.keys())
 
 
 
-#@title OWATY
-_owaty = pd.read_excel(owaty_linki, sheet_name="Arkusz1")
 
-#w zamowieniu podajemy ilosc belek, na FV dostajemy całkwitą ilosc metrów kwadratowych dla danego typu
-
-ozn_owat = {                  #g/m2, szer, mb
-    "O1": ["B/16/150 (1.6x50)", 150, 1.6, 50, "zielona"],
-    "O2": ["B/16/200 (1.2x40)", 200, 1.2, 40, "niebieska"],
-    "O3": ["B/16/200 (1.6x40)", 200, 1.6, 40, "czerwona"],
-}
-# wyjatki
-# ama 3,5 uważać!!
-# hud NW
-# wil uważać!!!
-# hor 3
-# hor 3,5
-# sto z50
-# sto z70
-# sto 3,5
-# max z70
-# max z60
-# oxy 5
-
-def wyczysc_zuzcie(x):
-  if type(x) == float:
-    return x
-  elif type(x) == int:
-    return float(x)
-
-  x = x.rstrip()
-  if x[-1] == ".":
-    x = x[:-1]
-
-  try:
-    return float(x)
-  except:
-    return 99999.0
-
-_owaty["ZUZYCIE"] = _owaty.ZUZYCIE_mb.apply(wyczysc_zuzcie)
-_owaty["TYP_OWATY"] = _owaty.NAZWA_UKL.apply(lambda x: x[:2].replace("0", "O"))
-_owaty["RODZINA_NAZWA"] = _owaty.OPIS.fillna("BRAK").apply(lambda x: x[:3])
-
-typy_owat = _owaty.TYP_OWATY.unique()
-
-
-ltypy = list()
-for t in typy_owat:
-  df = _owaty[(_owaty.TYP_OWATY == t)&(_owaty.RODZINA_NAZWA != "BRA")]
-  df.rename(columns={"ZUZYCIE": t}, inplace=True)
-  ltypy.append(df[["OPIS", t]])
-
-owaty = ltypy[0]
-for t in ltypy[1:]:
-  owaty = owaty.merge(t, how="outer", on="OPIS").fillna(0)
 
 #@title PRZYGOTOWANIE DANYCH
 
@@ -320,7 +279,7 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
    return zagr
 
 
-import plotly.express as px
+
 
 def Wykres_propozycji_zamowien():
   oao = Ogolna_analiza_objetosci("podsum").reset_index()

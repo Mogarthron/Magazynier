@@ -159,7 +159,7 @@ class AMALFI(MODEL1):
   def __init__(self, b:dict, b_memory={"NW":0}):
     super().__init__(b=b)
 
-    ama_mem_pianki = tab[(tab.MODEL == "AMALFI")&(tab.TYP == "G-401")&(tab.BRYLA.isin(["[RS", "RS]", "NW", "WN", "[LA", "LA]"]))]
+    # ama_mem_pianki = tab[(tab.MODEL == "AMALFI")&(tab.TYP == "G-401")&(tab.BRYLA.isin(["[RS", "RS]", "NW", "WN", "[LA", "LA]"]))]
 
 class ELIXIR(MODEL1):
   MODEL = "ELIXIR"
