@@ -132,6 +132,11 @@ class LENOX(MODEL4):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class OVAL(MODEL4):
+  MODEL = "OVAL"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 
 from Modele_pianek.Model5 import MODEL5
 
@@ -171,6 +176,11 @@ class ELIXIR_P(MODEL6):
 
 class MAXWELL_P(MODEL6):
   MODEL = "MAXWELL"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class REVERSO_P(MODEL6):
+  MODEL = "REVERSO"
   def __init__(self,b:dict):
     super().__init__(b=b)
 

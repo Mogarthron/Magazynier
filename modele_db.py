@@ -3,7 +3,6 @@ from sqlalchemy import update, insert, delete
 from sqlalchemy import Column, String, Integer, Numeric
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-from sqlalchemy import create_engine, text
 
 engine = create_engine("sqlite:///Z:/450. PLANISTA - ZAOPATRZENIE/GENERATORY.db", echo=False)
 
