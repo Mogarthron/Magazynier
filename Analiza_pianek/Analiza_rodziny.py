@@ -155,10 +155,11 @@ class Analiza_Rodziny():
       return {"GRUPA":self.grupa_sprzedarzy,
               "MODEL": self.MODEL,
               "POZYCJE_ZAGROZONE": self.zagrozone.shape[0],
+              "POZYCJE_ZAGROZONE_NIE_ZAMOWIONE": self.zagrozone[self.zagrozone.ZAMOWIONE == 0].shape[0],
               "BRAKI": self.krytyczne.shape[0],
               "ILOSC_BRAKOW": abs(self.krytyczne.WOLNE_SALDO.sum()),
               "BRYL_DO_ZAMOWIENIA": dzs.sum(),
-              "OBJ_BRYL_DO_ZAM_DO_OBJ_MAX": (self.analiza_obj.DO_ZAM_obj / self.analiza_obj.MAX_obj),
+              "OBJ_BRYL_DO_ZAM_DO_OBJ_MAX": np.round(self.analiza_obj.DO_ZAM_obj / self.analiza_obj.MAX_obj,2)*100,
               "OBJ_CIECH": np.round_(bdz.ciech_VOL,2),
               "OBJ_VITA": np.round_(bdz.vita_VOL,2),
               "OBJ_PIANPOL": np.round_(bdz.pianpol_VOL,2)

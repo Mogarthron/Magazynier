@@ -15,17 +15,24 @@ with open("./linki.json") as f:
 
 
 #daty kompletacji
-daty_kompletacji = {
-                    # "04/03":dt(2024,2,14),
-                    # "05/03":dt(2024,2,21),
-                    # "05/05":dt(2024,2,21),
-                    # "05/01":dt(2024,2,28),
-                    "06/01":dt(2024,3,13),
-                    "07/01":dt(2024,3,20),
-                    "08/01":dt(2024,3,27),
-                    "09/01":dt(2024,4,3),
-                    "10/01":dt(2024,4,10),
-                    }
+# daty_kompletacji = {
+#                     # "04/03":dt(2024,2,14),
+#                     # "05/03":dt(2024,2,21),
+#                     # "05/05":dt(2024,2,21),
+#                     # "05/01":dt(2024,2,28),
+#                     "06/01":dt(2024,3,13),
+#                     "07/01":dt(2024,3,20),
+#                     "08/01":dt(2024,3,27),
+#                     "09/01":dt(2024,4,3),
+#                     "10/01":dt(2024,4,10),
+#                     }
+with open("daty_kompletacji.json") as f:
+    dkom = json.load(f)
+    daty_kompletacji = dkom["daty_kompletacji"]
+    plik_DANE_PIANKI = dkom["plik_dane_pianki"]
+
+for k in daty_kompletacji:
+    daty_kompletacji[k] = dt.strptime(daty_kompletacji[k], "%Y-%m-%d")
 
 data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
 

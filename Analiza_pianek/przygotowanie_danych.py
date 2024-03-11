@@ -13,29 +13,30 @@ komplety_pianek["RODZINA_NAZWA"] = komplety_pianek.OPIS.apply(lambda x: x[:3])
 
 with engine.begin() as conn:
   zam_pianki = pd.read_sql(text("""SELECT TYDZIEN, KOD, NR_KOMPLETACJI, OPIS, ILE_ZAMOWIONE, ZNACZNIK_DOSTAWCY,
-                      ZAM1, ZAM2, POTW_DATA_DOS_1 as dos1, POTW_DATA_DOS_2 as dos2, STATUS_KOMPLETACJA, UWAGI from ZAM_PIANKI WHERE STATUS_KOMPLETACJA IS NOT '1'"""), conn)
+                      ZAM1, ZAM2, POTW_DATA_DOS_1 as dos1, POTW_DATA_DOS_2 as dos2, STATUS_KOMPLETACJA, UWAGI, nr_PZ from ZAM_PIANKI WHERE STATUS_KOMPLETACJA IS NOT '1'"""), conn)
 
 
-def dostarczone(x, y):
+def dostarczone(zd, sk):
     """
-    0 - nie dostarczono
+    0 - nie dostarczono lub dostarczono cześciowo (dostawca nie przywiózł wszystkich brył)
     1 - dostarczono częściowo (dodtarczył tylko jeden dostawca)
     2 - czeka na spakowanie
     3 - spakowana częściowo
+    9999 - błąd
     """
-    if type(y) != str:
+    if type(sk) != str:
       return 0
 
-    if y == np.NaN:
+    if sk == np.NaN:
       return 0
 
-    if x == np.NaN:
+    if zd == np.NaN:
       return 0
 
     try:
-      if len(x) == len(y):
+      if len(zd) == len(sk):
         return 2
-      elif y == "":
+      elif sk == "":
         return 0
       else:
         return 1
@@ -56,9 +57,11 @@ pianki_w_drodze = zam_pianki[(zam_pianki.STATUS_KOMPLETACJA == "") & (~zam_piank
 pianki_w_drodze.rename(columns={"ILE_ZAMOWIONE": "ZAMOWIONE"}, inplace=True)
 
 #PLIK DANE_PIANKI_XXXX
-saldo = pd.read_excel(path_dane_pianki, sheet_name="SALDO", usecols="B,D,H")
-naliczone = pd.read_excel(path_dane_pianki, sheet_name="NALICZONE", usecols="C,F,Y,Z,AK").query(f"LIMIT_NAZWA.str.contains('{'|'.join(pda)}')", engine='python')
-wstrzymane = pd.read_excel(path_dane_pianki, sheet_name="ZLECENIA")#.query("KOD.str.contains('16.')", engine='python')
+
+
+saldo = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="SALDO", usecols="B,D,H")
+naliczone = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="NALICZONE", usecols="C,F,Y,Z,AK").query(f"LIMIT_NAZWA.str.contains('{'|'.join(pda)}')", engine='python')
+wstrzymane = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="ZLECENIA")#.query("KOD.str.contains('16.')", engine='python')
 
 #PACZKI Z ZAMÓWIENIAMI
 nal_paczki = [naliczone[naliczone.LIMIT_NAZWA == x].groupby("KOD_ART").ZAPOTRZ.sum().reset_index().rename(columns={"KOD_ART": "KOD", "ZAPOTRZ": "/".join(x.split("/")[1:3])}) for x in naliczone.LIMIT_NAZWA.unique()]

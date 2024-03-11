@@ -128,6 +128,8 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
   if prt:
     print(f"PONIZEJ MIN: {zagr.shape[0]} POZYCJE")
     print(f"PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE")
+    print(f"SALDO PONIZEJ MIN: {zagr[zagr.SALDO < zagr.MIN].shape[0]} POZYCJE")
+    print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[(zagr.ZAMOWIONE == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
   else:
    return zagr
 
