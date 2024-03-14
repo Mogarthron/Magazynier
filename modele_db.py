@@ -60,6 +60,21 @@ class ZAM_PIANKI(Base):
     return f"{self.tydzien}, {self.opis}"
 
 
+class Lista_bryl_pianki(Base):
+  __tablename__ = "lista_bryl_pianki"
+
+  model = Column("Model", String(25), primary_key=True)
+  lista_bryl = Column("lista_brył", String)
+
+  def __init__(self, model, lista_bryl):
+    self.model = model
+    self.lista_bryl = lista_bryl
+
+  def __repr__(self):
+    return f"{self.model}, {len(self.lista_bryl.split('_'))}"
+
+
+
 
 
 Base.metadata.create_all(bind=engine)
@@ -67,5 +82,3 @@ Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# ZAM_PIANKI.__table__.drop(session.bind)
-# ZAM_PIANKI.__table__.create(session.bind)
