@@ -16,23 +16,28 @@ for i in lb:
 
 from Modele_pianek.Model1 import MODEL1
 
-class ELIXIR(MODEL1):
+class ELIXIR_CV(MODEL1):
   MODEL = "ELIXIR"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class REVERSO(MODEL1):
+class AMALFI_CV(MODEL1):
+  MODEL = "AMALFI"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class REVERSO_CV(MODEL1):
   MODEL = "REVERSO"
   def __init__(self,b=None):
     super().__init__(b=b)
 
-class WILLOW(MODEL1):
+class WILLOW_CV(MODEL1):
   mod_VOL_ciech = 0.95
   MODEL = "WILLOW"
   def __init__(self, b:dict):
     super().__init__(b=b)
 
-class OXYGEN(MODEL1):
+class OXYGEN_CV(MODEL1):
   mod_VOL_ciech = 0.95
   MODEL = "OXYGEN"
   def __init__(self, b:dict):
@@ -41,32 +46,32 @@ class OXYGEN(MODEL1):
 
 from Modele_pianek.Model2 import MODEL2
 
-class HORIZON(MODEL2):
+class HORIZON_CV(MODEL2):
   MODEL = "HORIZON"
   def __init__(self,b:dict):
     super().__init__(bg=b)
 
-class LOBBY(MODEL2):
+class LOBBY_CV(MODEL2):
   MODEL = "LOBBY"
   def __init__(self,b:dict):
     super().__init__(bg=b)
 
-class DUO(MODEL2):
+class DUO_CV(MODEL2):
   MODEL = "DUO"
   def __init__(self,b:dict):
     super().__init__(bg=b)
 
-class MAXWELL(MODEL2):
+class MAXWELL_CV(MODEL2):
   MODEL = "MAXWELL"
   def __init__(self,b:dict):
     super().__init__(bg=b)
 
-class ONYX(MODEL2):
+class ONYX_CV(MODEL2):
   MODEL = "ONYX"
   def __init__(self,b:dict):
     super().__init__(bg=b)
 
-class COCO(MODEL2):
+class COCO_CV(MODEL2):
   MODEL = "COCO"
   def __init__(self,b:dict):
     super().__init__(bg=b)
@@ -74,17 +79,17 @@ class COCO(MODEL2):
 
 from Modele_pianek.Model3 import MODEL3
 
-class STONE(MODEL3):
+class STONE_V(MODEL3):
   MODEL = "STONE"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class CUPIDO(MODEL3):
+class CUPIDO_V(MODEL3):
   MODEL = "CUPIDO"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class UNO(MODEL3):
+class UNO_V(MODEL3):
   MODEL = "UNO"
   def __init__(self,b:dict):
     super().__init__(b=b)
@@ -92,51 +97,55 @@ class UNO(MODEL3):
 
 from Modele_pianek.Model4 import MODEL4
 
-class CALYPSO(MODEL4):
+class CALYPSO_C(MODEL4):
   MODEL = "CALYPSO"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class DIVA(MODEL4):
+class DIVA_C(MODEL4):
   MODEL = "DIVA"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class HUDSON(MODEL4):
+class HUDSON_C(MODEL4):
   MODEL = "HUDSON"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class RITZ(MODEL4):
+class RITZ_C(MODEL4):
   MODEL = "RITZ"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class SAMOA(MODEL4):
+class SAMOA_C(MODEL4):
   MODEL = "SAMOA"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class SPECTRA(MODEL4):
+class SPECTRA_C(MODEL4):
   MODEL = "SPECTRA"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class GREY(MODEL4):
+class GREY_C(MODEL4):
   MODEL = "GREY"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class LENOX(MODEL4):
+class LENOX_C(MODEL4):
   MODEL = "LENOX"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class OVAL(MODEL4):
+class OVAL_C(MODEL4):
   MODEL = "OVAL"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class KELLY_C(MODEL4):
+  MODEL = "KELLY"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
 
 from Modele_pianek.Model5 import MODEL5
 
@@ -153,6 +162,26 @@ class OVAL_P(MODEL5):
 
 from Modele_pianek.Model6 import MODEL6
 
+class UNO_P(MODEL6):
+  MODEL = "UNO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class ONYX_P(MODEL6):
+  MODEL = "ONYX"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class DUO_P(MODEL6):
+  MODEL = "DUO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class WILLOW_P(MODEL6):
+  MODEL = "WILLOW"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 class OXYGEN_P(MODEL6):
   MODEL = "OXYGEN"
   def __init__(self,b:dict):
@@ -168,7 +197,6 @@ class STONE_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-
 class ELIXIR_P(MODEL6):
   MODEL = "ELIXIR"
   def __init__(self,b:dict):
@@ -181,6 +209,11 @@ class MAXWELL_P(MODEL6):
 
 class REVERSO_P(MODEL6):
   MODEL = "REVERSO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class DIVA_P(MODEL6):
+  MODEL = "DIVA"
   def __init__(self,b:dict):
     super().__init__(b=b)
 
