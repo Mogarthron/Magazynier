@@ -14,18 +14,6 @@ with open("./linki.json") as f:
   zam_pianki_link = linki["zam_pianki_link"]
 
 
-#daty kompletacji
-# daty_kompletacji = {
-#                     # "04/03":dt(2024,2,14),
-#                     # "05/03":dt(2024,2,21),
-#                     # "05/05":dt(2024,2,21),
-#                     # "05/01":dt(2024,2,28),
-#                     "06/01":dt(2024,3,13),
-#                     "07/01":dt(2024,3,20),
-#                     "08/01":dt(2024,3,27),
-#                     "09/01":dt(2024,4,3),
-#                     "10/01":dt(2024,4,10),
-#                     }
 with open("daty_kompletacji.json") as f:
     dkom = json.load(f)
     daty_kompletacji = dkom["daty_kompletacji"]
@@ -64,7 +52,6 @@ def do_zam_szt(m,w,zam,czek_na_spak, czesiowo_dos):
 analiza.drop("KOD_ART", axis=1, inplace=True)
 analiza.fillna(0, axis=1, inplace=True)
 analiza[["MAX", "obj", "SALDO", "ZLECENIA", "WST", "CZEKA_NA_SPAKOWANIE", "ZAMOWIONE"]] = analiza[["MAX", "obj", "SALDO", "ZLECENIA", "WST", "CZEKA_NA_SPAKOWANIE", "ZAMOWIONE"]].astype(float)
-
 analiza["MIN"] = (analiza.MAX/2).round(0).astype(int)
 analiza["SUMA_ZLEC"] = (analiza.ZLECENIA + analiza.WST)
 analiza["SALDO_Z_NIE_SPAK"] = analiza.SALDO + analiza.CZEKA_NA_SPAKOWANIE
@@ -78,5 +65,30 @@ analiza["SALDO_obj"] = (analiza.SALDO * analiza.obj)
 analiza["WOLNE_obj"] = (analiza.WOLNE_SALDO * analiza.obj)
 analiza["WOLNE_NIE_SPAK_obj"] = (analiza.WOLNE_NIE_SPAK * analiza.obj)
 analiza["DO_ZAM_SZT"] = analiza.apply(lambda x: do_zam_szt(x.MAX, x.WOLNE_SALDO, x.ZAMOWIONE, x.CZEKA_NA_SPAKOWANIE, x.CZESIOWO_DOSTARCZONE), axis=1)
-
 analiza["DO_ZAM_obj"] = (analiza.DO_ZAM_SZT * analiza.obj)
+
+
+class Podsumowanie_analizy_pianek():
+    
+    def __init__(self, instrukcja_zamawiania) -> None:
+        
+        self.ard = {a.MODEL: a for a in instrukcja_zamawiania}
+
+        ar_podsum = pd.DataFrame([x.Raport() for x in instrukcja_zamawiania])
+
+        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "OBJ_BRYL_DO_ZAM_DO_OBJ_MAX"], ascending=[True,False])
+
+        podsumowanie_VOL = ar_podsum[["OBJ_CIECH",	"OBJ_VITA",	"OBJ_PIANPOL"]].sum()
+        podsumowanie_VOL["RAZEM"] = podsumowanie_VOL.sum()
+
+        self.Podsumowanie_obietosci_pianek = podsumowanie_VOL
+
+    def Optymalizuj_auto(dostawca, objetosc):
+        pass
+
+    def __getitem__(self, index):
+        return self.ard[index]
+    
+    def __repr__(self):
+        return self.Podsumowanie_obietosci_pianek.to_string()
+        

@@ -118,7 +118,7 @@ def Braki(prt=True, WOLNE="SALDO"):
 
 def Zagrozone(prt=True, WOLNE="SALDO"):
   if WOLNE == "SALDO":
-    zagr = analiza[(analiza.WOLNE_SALDO >= 0) & (analiza.WOLNE_SALDO < analiza.MIN)][["OPIS", "ZAMOWIONE", "SALDO", "MIN", "WOLNE_SALDO"]]
+    zagr = analiza[(analiza.WOLNE_SALDO >= 0) & (analiza.WOLNE_SALDO < analiza.MIN)][["OPIS", "ZAMOWIONE", "CZEKA_NA_SPAKOWANIE","SALDO", "MIN", "WOLNE_SALDO"]]
   if WOLNE == "NIE_SPAK":
     zagr = analiza[(analiza.WOLNE_NIE_SPAK >= 0) & (analiza.WOLNE_NIE_SPAK < analiza.MIN)][["OPIS", "ZAMOWIONE", "SALDO_Z_NIE_SPAK", "MIN", "WOLNE_NIE_SPAK"]]
 
@@ -129,11 +129,28 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
     print(f"PONIZEJ MIN: {zagr.shape[0]} POZYCJE")
     print(f"PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE")
     print(f"SALDO PONIZEJ MIN: {zagr[zagr.SALDO < zagr.MIN].shape[0]} POZYCJE")
-    print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[(zagr.ZAMOWIONE == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
+    print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
   else:
    return zagr
 
 
+def Podsumowanie_paczek_i_Pw(nr_pw) -> None:
+ 
+  pw = pd.read_excel(zam_pianki_link, sheet_name="PW")
+  pw= pw[pw.PW.str.contains(nr_pw)].merge(komplety_pianek[["KOD", "obj"]], how="left", on="KOD")
+  pw["SPAKOWANE_M3"] = pw.ILOSC * pw.obj
+
+  print("OBIĘTOSC PACZEK (Z OWATAMI)")
+  sum_obj = 0
+  for p in pda:
+    p_obj = (analiza[p]*analiza.obj).sum()
+    sum_obj += p_obj
+    print(f"{p}: {p_obj:.0f}m3")
+
+
+  print(f"WST: {(analiza.WST*analiza.obj).sum():.0f}m3")
+  print(f"Objetość wszystkich paczek: {sum_obj + (analiza.WST*analiza.obj).sum():.0f}m3")
+  print(f"PW {nr_pw} spakowano: {pw.SPAKOWANE_M3.sum():.0f}M3")
 
 
 def Wykres_propozycji_zamowien():
