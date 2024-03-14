@@ -151,8 +151,7 @@ def raport_vita(*args):
   """
   Zesatwaienie zamówionych pianek do VITA ilośiowe i z podziałem na bryły
   """
-
-
+  
   pianki = [x.vita for x in args]
   zam_pianek_vita = pd.concat(pianki).fillna("")[["TYP", "NUMER", "ilosc", "PROFIL", "OZN", "OPIS", "WYMIAR"]]
   zam_pianek_vita.set_index(pd.Index([x for x in range(1,zam_pianek_vita.shape[0]+1)]),inplace=True)
@@ -160,22 +159,23 @@ def raport_vita(*args):
   podsumowanie_zamowienia_vita = pd.concat(pianki).fillna("").sort_values(by="NUMER")
   podsumowanie_zamowienia_vita.set_index(pd.Index([x for x in range(1,podsumowanie_zamowienia_vita.shape[0]+1)]),inplace=True)
 
-
-
   return zam_pianek_vita, podsumowanie_zamowienia_vita[["TYP", "NUMER", "ilosc", "VOL", "PROFIL", "OZN", "OPIS", "WYMIAR"] + [x for x in podsumowanie_zamowienia_vita.columns if "br" in x]]
 
 
-def raport_dostarczonych_pianek(cls, drukuj_excel=False):
+def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
   """
   Zesatwianie ilosci pianek do modelu z dostawy
-  komplety_pianek -> df z kopletami pianek
+ 
   cls -> zinicjalizowana instacja klasy zawierająca odpowiedni model
+
+  nr_dos -> numer dostawy z saturn
   """
   zestawienie_pianek_do_bryly = list()
 
   for br in cls.bryly.keys():
     df = tab[(tab.MODEL == cls.MODEL) & (tab.BRYLA == br)]
-    df["ILOŚĆ"] = (df.ilosc * cls.bryly[br]).astype(int)
+    # df["ILOŚĆ"] = (df.ilosc * cls.bryly[br]).astype(int) #ilosc pianek * ilosc kompletów
+    df["ILOŚĆ"] = (df.ilosc) #ilosc piabek w modelu wg dokumnetacja
     df["DOSTARCZONO/UWAGI"] = ""
     df = df[['TYP', 'PRZEZ', 'OR', 'OZN', 'PROFIL', 'NUMER', 'WYMIAR', 'ILOŚĆ', 'DOSTARCZONO/UWAGI']].fillna("-")
     df.set_index(pd.Index([x for x in range(1,df.shape[0]+1)]),inplace=True)
@@ -191,7 +191,7 @@ def raport_dostarczonych_pianek(cls, drukuj_excel=False):
     sheet.oddHeader.left.text = header
     sheet.oddHeader.left.size = 18
     sheet.oddHeader.left.font = "Calibry,Bold"
-    # sheet.oddHeader.right.text = "Data dostawy:            \nNr dostawy:           "
+    sheet.oddHeader.right.text = f"Nr dostawy: {nr_dos}"
     sheet.append(["LP"]+list(_df.columns))
     rows = dataframe_to_rows(_df,header=False)
     for r in list(rows)[1:]:
@@ -203,9 +203,15 @@ def raport_dostarczonych_pianek(cls, drukuj_excel=False):
       for cell in row:
         cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
-    wb.save(f"{cls.MODEL[:3]} {zpdb_n[0]}.xlsx")
+    path_ = f'Z:/160. ROZKRÓJ PIANEK/160.50 DOSTAWY PIANEK/{nr_dos.replace("/","_")}/'
+    import os
+    if not os.path.exists(path_):
+      os.makedirs(path_)
+    wb.save(path_ + f"{cls.MODEL[:3]} {zpdb_n[0]}.xlsx")
+    # wb.save(f"{cls.MODEL[:3]} {zpdb_n[0]}.xlsx")
 
   if drukuj_excel:
+
     for i in zestawienie_pianek_do_bryly:
       drukuj_zestawienie_dla_bryly_xlsx(i)
     return 0
