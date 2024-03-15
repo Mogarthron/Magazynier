@@ -1,12 +1,33 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy import update, insert, delete
-from sqlalchemy import Column, String, Integer, Numeric
+from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean
 from sqlalchemy.orm import sessionmaker, declarative_base
 
 
 engine = create_engine("sqlite:///Z:/450. PLANISTA - ZAOPATRZENIE/GENERATORY.db", echo=False)
 
 Base = declarative_base()
+
+class BRAKI_PIANKI(Base):
+  __tablename__ = "BRAKI_PIANKI"
+
+  lpid = Column("LPID", Integer, autoincrement=True,  primary_key=True)
+  lp = Column("LP", SmallInteger)
+  pozycja = Column("POZYCJA", String)
+  ilosc_brakow = Column("ILOSC_BRAKOW", SmallInteger)
+  paczka = Column("PACZKA", String(5))
+  data_kompletacji = Column("DATA_KOMPLETACJI", String(10))
+  zamowione = Column("ZAMOWIONE", Integer)
+  uwagi = Column("UWAGI", String)
+  grupa = Column("GRUPA", Integer)
+  tydzien_raportu = Column("TYDZIEN_RAPORTU", Integer)
+  nr_zlecenia = Column("NR_ZLECENIA", String(10))
+  naglowek_zlecenia = Column("NAGLOWEK_ZLECENIA", String)
+  ilosc_na_zleceniu = Column("ILOSC_NA_ZLECENIU", Integer)
+  opis_do_zlecenia = Column("OPIS_DO_ZLECENIA", String)
+  data_wydania = Column("DATA_WYDANIA", String(10))
+  data_zakonczenia = Column("DATA_ZAKONCZENIA", String(10))
+  zamkniete = Column("ZAMKNIETE", Boolean)
 
 class ZAM_PIANKI(Base):
   __tablename__ = "ZAM_PIANKI"
