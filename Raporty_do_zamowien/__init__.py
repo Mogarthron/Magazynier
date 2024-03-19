@@ -177,7 +177,8 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
     # df["ILOŚĆ"] = (df.ilosc * cls.bryly[br]).astype(int) #ilosc pianek * ilosc kompletów
     df["ILOŚĆ"] = (df.ilosc) #ilosc piabek w modelu wg dokumnetacja
     df["DOSTARCZONO/UWAGI"] = ""
-    df = df[['TYP', 'PRZEZ', 'OR', 'OZN', 'PROFIL', 'NUMER', 'WYMIAR', 'ILOŚĆ', 'DOSTARCZONO/UWAGI']].fillna("-")
+    df = df[['TYP', 'PRZEZ', 'OR', 'OZN', 'PROFIL', 'NUMER', 'WYMIAR', 'TOLERANCJA', 'ILOŚĆ', 'DOSTARCZONO/UWAGI']].fillna("-")
+    df["TOLERANCJA"] = df.TOLERANCJA.apply(lambda x: x.replace("+", "").replace("/", "").replace("-", ""))
     df.set_index(pd.Index([x for x in range(1,df.shape[0]+1)]),inplace=True)
     zestawienie_pianek_do_bryly.append([br, df])
 
@@ -199,7 +200,7 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
 
     thin = Side(border_style="thin", color="000000")
     sheet.page_setup.orientation = sheet.ORIENTATION_LANDSCAPE
-    for row in sheet[f"A1:J{_df.shape[0]+1}"]:
+    for row in sheet[f"A1:K{_df.shape[0]+1}"]:
       for cell in row:
         cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
