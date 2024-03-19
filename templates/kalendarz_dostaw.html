@@ -38,137 +38,59 @@
         <div class="row">
             <div class="col">
                 <div class="week">
-                    <div class="day">
-                        <div class="text-container">
-                            TYDZIEN
-                        </div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            PONIEDZIALEK
-                        </div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            WTOREK
-                        </div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            SRODA
-                        </div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            CZWARTEK
-                        </div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            PIATEK
-                        </div>
-                    </div>
 
-           
+                    {% for h in ["TYDZIEN", "PONIEDZIALEK", "WTOREK", "SRODA", "CZWARTEK", "PIATEK"] %}
+                    <div class="day">
+                        <div class="text-container">
+                            {{h}}
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
+            </div>
+        </div>
        
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="week">
-                    <div class="day">
-                        <div class="text-container">
-                            11
-                        </div>
-                        <!-- <div class="date">10-Mar</div> -->
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            Lorem ipsum dolor sit amet conse
-                        </div>
-                        <div class="date">11-Mar</div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                           
-                        </div>
-                        <div class="date">12-Mar</div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            
-                        </div>
-                        <div class="date">13-Mar</div>
-                    </div>
-                    <div class="day">
-                        <div class="text-container">
-                            
-                        </div>
-                        <div class="date">14-Mar</div>
-                    </div>
-                    <div class="day">
-                        <ul class="list-group">
-                            <li class="list-group-item">PAINPOL</li>
-                            <li class="list-group-item">NR_PARTII 08/11</li>
-                            <li class="list-group-item">DOS 24/0151</li>
-                            <li class="list-group-item">AVA, OXY, MAX</li>
-                            
-                        </ul>
-                        <div class="date">15-Mar</div>
-                    </div>
-
-                    
-                </div>
-          
-            </div>
-            <div class="week">
-                <div class="day">
-                    <div class="text-container">
-                        12
-                    </div>
-   
-                </div>
-                <div class="day">
-                    <div class="text-container">
-                        Lorem ipsum dolor sit amet conse
-                    </div>
-                    <div class="date">18-Mar</div>
-                </div>
-                <div class="day">
-                    <div class="text-container">
-                       
-                    </div>
-                    <div class="date">19-Mar</div>
-                </div>
-                <div class="day">
-                    <div class="text-container">
-                        
-                    </div>
-                    <div class="date">20-Mar</div>
-                </div>
-                <div class="day">
-                    <div class="text-container">
-                        
-                    </div>
-                    <div class="date">21-Mar</div>
-                </div>
-                <div class="day">
-                    <ul class="list-group">
-                        <li class="list-group-item">VITA</li>
-                        <li class="list-group-item">NR_PARTII 09/11</li>
-                        <li class="list-group-item">DOS 24/0299</li>
-                        <li class="list-group-item">STO, HOR</li>
-                        
-                    </ul>
-                    <div class="date">22-Mar</div>
-                </div>
-
+        {% for  tydzien  in lista_dni%}
+            <div class="row">
+                <div class="col">
+                    <div class="week">
+                        {% for dzien in range(tydzien | length) %}
+                        <div class="day">
+                            <div class="text-container">
+                                {% if dzien == 0 %}
+                                    {{tydzien[dzien]}}
+                                {% else %}
+                                    {% if tydzien[dzien] in kal_dos.keys() %}
+                                    <ul class="list-group">
+                                        <li class="list-group-item">{{kal_dos[tydzien[dzien]]["DOSTAWCA"]}}</li>
+                                        <li class="list-group-item">{{kal_dos[tydzien[dzien]]["NR PARTII"]}}</li>
+                                        <li class="list-group-item">{{kal_dos[tydzien[dzien]]["NR DOS"]}}</li>
+                                        <li class="list-group-item">{{kal_dos[tydzien[dzien]]["MODELE"]}}</li>
+                                        <li class="list-group-item">
+                                            <div class="progress">
+                                                <div class="progress-bar" 
+                                                        style="{{kal_dos[tydzien[dzien]]['OBJ'][0]}}"
+                                                        role="progressbar" 
+                                                        aria-valuenow={{kal_dos[tydzien[dzien]]['OBJ'][1]}}></div>
+                                            </div>
+                                        </li>
             
+                                    </ul>
+                                    {% endif %}
+                               <div class="date">{{tydzien[dzien].strftime("%d-%b")}}</div> 
+                               {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+
+
+                    </div>
+                </div>
             </div>
-            
-        </div>
-        </div>
+           
+        {% endfor %}
+       
+    </div>
     </div>
 </body>
 
