@@ -126,8 +126,8 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
   zagr_nie_zam = zagr[zagr.ZAMOWIONE == 0]
 
   if prt:
-    print(f"PONIZEJ MIN: {zagr.shape[0]} POZYCJE")
-    print(f"PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE")
+    print(f"WOLNE PONIZEJ MIN: {zagr.shape[0]} POZYCJE")
+    print(f"WOLNE PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE")
     print(f"SALDO PONIZEJ MIN: {zagr[zagr.SALDO < zagr.MIN].shape[0]} POZYCJE")
     print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
   else:
@@ -135,6 +135,9 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
 
 
 def Podsumowanie_paczek_i_Pw(nr_pw) -> None:
+  """
+  nr_pw -> numery pw przyjete w czasie analizy np: '24/12|24/14'
+  """
  
   pw = pd.read_excel(zam_pianki_link, sheet_name="PW")
   pw= pw[pw.PW.str.contains(nr_pw)].merge(komplety_pianek[["KOD", "obj"]], how="left", on="KOD")
