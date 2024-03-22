@@ -218,3 +218,49 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
     return 0
 
   return zestawienie_pianek_do_bryly
+
+
+
+
+def Wozki_do_dostawy(dostawca:str, nr_dos:str, zam="ZAM1", obj_wozka=5.5, drukuj_do_excel=False):
+  """
+  dostawca -> np. PIANPOL
+
+  nr_dos -> 24/0347
+
+  zam -> kolumna w zam pianki z ktrej pobieramy nr_dos, defoult: ZAM1
+  """
+
+  _tab = tab.copy()
+  _tab["vol"] = _tab.DLUG*_tab.SZER*_tab.WYS/1000_000_000
+  _tab["VOL"] = _tab.vol*_tab.ilosc
+
+  with engine.begin() as conn:
+    wnd = pd.read_sql(text(f"SELECT KOD, OPIS, MODEL, NR_KOMPLETACJI, ILE_ZAMOWIONE, ZNACZNIK_DOSTAWCY, ZAM1, ZAM2, GALANTERIA, SIEDZISKA_HR, LENIWA, UWAGI, nr_SAMOCHODU from ZAM_PIANKI WHERE {zam} = '{nr_dos}'"), conn)
+
+  wnd = wnd.merge(komplety_pianek[["KOD", "BRYLA_GEN", "obj"]], how="left", on="KOD")
+
+
+
+  def obj_typ(m,bg,i,g,s,l):
+
+      war_len = (_tab.TYP == "G-401")
+      war_shr = (_tab.TYP.str.contains("HR|EE"))
+
+      gal = _tab[(_tab.MODEL == m) & (_tab.BRYLA == bg) & ~war_len & ~war_shr].VOL.sum()*i if g == dostawca[0] else 0
+      shr = _tab[(_tab.MODEL == m) & (_tab.BRYLA == bg) & (war_shr)].VOL.sum()*i if s == dostawca[0] else 0
+      len = _tab[(_tab.MODEL == m) & (_tab.BRYLA == bg) & (war_len)].VOL.sum()*i if l == dostawca[0] else 0
+
+      # return f"{gal} + {shr} + {len}"
+      return gal + shr + len
+
+
+  wnd["OBJ_DOSTAWA"] = wnd.apply(lambda x: obj_typ(x.MODEL, x.BRYLA_GEN, x.ILE_ZAMOWIONE, x.GALANTERIA, x.SIEDZISKA_HR, x.LENIWA), axis=1).round(1)
+  wnd["ILE_WOZKOW"] = (wnd.OBJ_DOSTAWA / obj_wozka)
+  wnd["ILE_WOZKOW"] = wnd["ILE_WOZKOW"].apply(np.ceil).astype(int)
+  wnd["OBJ_KOMPLETACJA"] = wnd.ILE_ZAMOWIONE * wnd.obj
+
+  if drukuj_do_excel:
+    wnd[["MODEL", "NR_KOMPLETACJI", "OPIS", "ILE_ZAMOWIONE", "OBJ_DOSTAWA", "ILE_WOZKOW"]].to_excel(f"WOZKI_{dostawca}_{nr_dos.replace('/', '_')}.xlsx")
+  else:
+    return wnd
