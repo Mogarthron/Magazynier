@@ -23,11 +23,12 @@ class MODEL5(Pianki):
     filtr_pianpol = (self.zpm.TYP != "G-401")
 
     self.vita = None
-    self.ciech = self.zpm[~filtr_pianpol]
+    self.ciech = None
+    self.olta = self.zpm[~filtr_pianpol]
     self.pianpol = self.zpm[filtr_pianpol]
     self.vita_VOL = 0
     self.ciech_VOL = 0
-    self.olta_VOL = self.ciech.VOL.sum()
+    self.olta_VOL = self.olta.VOL.sum()
     self.pianpol_VOL = self.pianpol.VOL.sum()
 
   def __repr__(self):

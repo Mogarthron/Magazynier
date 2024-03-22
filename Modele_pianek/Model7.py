@@ -7,7 +7,8 @@ class MODEL7(Pianki):
   """
   MODEL7 rozdział pianek Memory PIANPOL reszta VITA
   """
-
+  mod_VOL_pianpol = 1
+  mod_VOL_vita = .9
 
   MODEL = ""
 
@@ -21,9 +22,9 @@ class MODEL7(Pianki):
     self.vita = self.zpm[filtr_vita]
     self.ciech = None
     self.pianpol = self.zpm[~filtr_vita]
-    self.vita_VOL = self.vita.VOL.sum()
+    self.vita_VOL = self.vita.VOL.sum()*self.mod_VOL_vita
     self.ciech_VOL = 0
-    self.pianpol_VOL = self.pianpol.VOL.sum()
+    self.pianpol_VOL = self.pianpol.VOL.sum()*self.mod_VOL_pianpol
 
   def __repr__(self):
     return f"{self.MODEL} Vol Vita: {self.vita_VOL:.2f}m3, Vol Pianpol: {self.pianpol_VOL:.2f}m3"
