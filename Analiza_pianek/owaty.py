@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+from modele_db import * 
 
 with open("./linki.json") as f:
   linki = json.load(f)
@@ -8,7 +9,9 @@ with open("./linki.json") as f:
 #   zam_pianki_link = linki["zam_pianki_link"]
 
 #@title OWATY
-_owaty = pd.read_excel(owaty_linki, sheet_name="Arkusz1")
+# _owaty = pd.read_excel(owaty_linki, sheet_name="Arkusz1")
+with engine.begin() as conn:
+  _owaty = pd.read_sql(text("SELECT * FROM OWATY"), conn)
 
 #w zamowieniu podajemy ilosc belek, na FV dostajemy całkwitą ilosc metrów kwadratowych dla danego typu
 
@@ -45,8 +48,8 @@ def wyczysc_zuzcie(x):
   except:
     return 99999.0
 
-_owaty["ZUZYCIE"] = _owaty.ZUZYCIE_mb.apply(wyczysc_zuzcie)
-_owaty["TYP_OWATY"] = _owaty.NAZWA_UKL.apply(lambda x: x[:2].replace("0", "O"))
+# _owaty["ZUZYCIE"] = _owaty.ZUZYCIE_mb.apply(wyczysc_zuzcie)
+# _owaty["TYP_OWATY"] = _owaty.NAZWA_UKL.apply(lambda x: x[:2].replace("0", "O"))
 _owaty["RODZINA_NAZWA"] = _owaty.OPIS.fillna("BRAK").apply(lambda x: x[:3])
 
 typy_owat = _owaty.TYP_OWATY.unique()
