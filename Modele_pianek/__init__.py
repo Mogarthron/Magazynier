@@ -1,8 +1,8 @@
-from modele_db import *
+from Modele_db import *
 import pandas as pd
 # import numpy as np
 
-from modele_db import *
+# from modele_db import *
 
 lista_bryl = dict()
 with engine.begin() as conn:

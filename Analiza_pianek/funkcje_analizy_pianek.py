@@ -3,7 +3,7 @@ import numpy as np
 import plotly.express as px
 
 from Analiza_pianek import *
-from modele_db import *
+from Modele_db import *
 
 
 def Ogolna_analiza_objetosci(widok = None):

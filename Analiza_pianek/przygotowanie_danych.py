@@ -1,5 +1,5 @@
 from Analiza_pianek import *
-from modele_db import engine, text
+from Modele_db import engine, text
 import pandas as pd
 
 #@title PRZYGOTOWANIE DANYCH

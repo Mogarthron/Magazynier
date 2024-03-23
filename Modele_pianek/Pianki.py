@@ -1,4 +1,4 @@
-from modele_db import *
+from Modele_db import *
 import pandas as pd
 import numpy as np
 
