@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PLAN PRACY PIANKI</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>ZNACZNIK DOSTAWCY</th>
+          <th>ZAM1</th>
+          <th>ZAM2</th>
+          <th>MODEL</th>
+          <th>NR KOMPLETCJI</th>
+          <th>OPIS</th>
+          <th>ZAMOWIONE</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for r in plan_pracy["plan_pracy"]%}
+        <tr>
+          <td>{{r["znacznikDostawcy"]}}</td>
+          <td>{{r["zam1"]}}</td>
+          <td>{{r["zam2"]}}</td>
+          <td>{{r["model"]}}</td>
+          <td>{{r["nrKompletacji"]}}</td>
+          <td>{{r["opis"]}}</td>
+          <td>{{r["zamowione"]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,11 +1,24 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
 from Analiza_pianek import Podsumowanie_analizy_pianek
 from Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
+from Modele_db import *
+from Modele_db.modele_db import *
 from datetime import datetime as dt, timedelta
+import pandas as pd
 # arp = Podsumowanie_analizy_pianek(instrukcja_zamawiania_pianpol)
 
 app = Flask(__name__)
 pap = Podsumowanie_analizy_pianek(izp)
+
+
+@app.route("/plan_pracy_wydzialu_pianek")
+def paln_pracy_wydzialu_pianek():
+
+    plan_pracy = session.query(ZAM_PIANKI).where(ZAM_PIANKI.status_kompletacja != "1").all()
+    json_plan_pracy = list(map(lambda x: x.plan_pracy_to_json(), plan_pracy))
+    
+    return render_template("plan_pracy_wydzialu_pianek.html", plan_pracy={"plan_pracy":json_plan_pracy})
+
 
 @app.route("/")
 def index():
@@ -79,6 +92,8 @@ def kalendarz_dostaw():
 
     
     return render_template("kalendarz_dostaw.html", lista_dni=lista_dni, kal_dos=kal_dos)
+
+
 
 @app.route("/analiza_pianek")
 def analiza_pianek():    
