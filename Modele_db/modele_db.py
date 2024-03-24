@@ -128,6 +128,18 @@ class ZAM_PIANKI(Base):
     self.zam2 = zam2
     self.uwagi = uwagi
 
+  def plan_pracy_to_json(self):
+    return {
+            "zam1": self.zam1 if type(self.zam1) == str else "",
+            "zam2": self.zam2 if type(self.zam2) == str else "",
+            "znacznikDostawcy": self.znacznik_dostawcy,
+            "model": self.model,
+            "nrKompletacji": self.nr_kompletacji,
+            "opis": self.opis,
+            "zamowione": int(self.ile_zam),
+        }
+
+
   def __repr__(self):
     return f"{self.tydzien}, {self.opis}"
 
