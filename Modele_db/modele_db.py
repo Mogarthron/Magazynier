@@ -130,6 +130,7 @@ class ZAM_PIANKI(Base):
 
   def plan_pracy_to_json(self):
     return {
+            "lp": self.lp,
             "zam1": self.zam1 if type(self.zam1) == str else "",
             "zam2": self.zam2 if type(self.zam2) == str else "",
             "znacznikDostawcy": self.znacznik_dostawcy,
@@ -137,6 +138,10 @@ class ZAM_PIANKI(Base):
             "nrKompletacji": self.nr_kompletacji,
             "opis": self.opis,
             "zamowione": int(self.ile_zam),
+            "leniwa": self.status_leniwa if "AVANT" in self.opis else "ND",
+            "leniwaSkos": self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
+            "owaty": self.status_owaty,
+            "statusKompletacja": self.status_kompletacja if type(self.status_kompletacja) == str else ""
         }
 
 
