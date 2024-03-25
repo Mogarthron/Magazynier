@@ -20,6 +20,9 @@ with engine.begin() as conn:
 
 def dostarczone(zd, sk):
     """
+    zd -> znacznik dostawcy
+    sk -> status kompletacja
+
     0 - nie dostarczono lub dostarczono cześciowo (dostawca nie przywiózł wszystkich brył)
     1 - dostarczono częściowo (dodtarczył tylko jeden dostawca)
     2 - czeka na spakowanie

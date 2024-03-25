@@ -86,7 +86,6 @@ class Analiza_Rodziny():
 
     fig.show()
 
-
   def Wykres_obj(self, nazwa_modelu=True, saldo=True,):
     analiza_obj = analiza[analiza.RODZINA_NAZWA == self.MODEL[:3]][["OPIS"]+[x for x in analiza.columns if "obj" in x][1:-1]]
 
