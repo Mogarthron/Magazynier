@@ -28,7 +28,7 @@ class Pianki:
     return df
 
   def zestawienie_pianek_modelu(self, bryly:dict):
-    lt = list()
+    lt = list() #lista tabel pianek dla karzdej bryły w madelu
     lista_opisowa = list()
 
     # self.tab = self.tab[self.tab.BRYLA.isin(list(bryly.keys()))]
@@ -36,22 +36,29 @@ class Pianki:
     for i in bryly:
       lt.append(self.__bryla_pianki(i, bryly[i]))
 
-    pianki = pd.concat(lt).groupby("NUMER").sum().reset_index()[["NUMER", "ilosc"]]
-
     def vol(N, i):
       _vol = self.tab[self.tab.NUMER == N][["WYS", "SZER", "DLUG"]].drop_duplicates()
       return i * _vol["WYS"].values[0] * _vol["SZER"].values[0] * _vol["DLUG"].values[0] / 1000_000_000
 
-    pianki["VOL"] = pianki.apply(lambda x: vol(x.NUMER, x.ilosc), axis=1)
+    if len(lt) > 0:
+      pianki = pd.concat(lt).groupby("NUMER").sum().reset_index()[["NUMER", "ilosc"]]
+      try:
+        pianki["VOL"] = pianki.apply(lambda x: vol(x.NUMER, x.ilosc), axis=1)
+      except:
+        print(f"VOL 0!! {self.MODEL}")
+        pianki["VOL"] = np.zeros(pianki.shape[1])
+    else:
+      pianki = pd.DataFrame(data=[["ND", 0, "ND", "ND", "ND", "ND", "ND", 0] for x in range(8)], columns=['NUMER', 'ilosc', 'TYP', 'PROFIL', 'OZN', 'OPIS', 'WYMIAR', 'VOL'])
+      
 
     for n in pianki.NUMER.index:
       t = self.tab[self.tab.NUMER == pianki.NUMER.iloc[n]]
       num = pianki.NUMER.iloc[n]
-      typ = t.TYP.unique()[0]
-      profil = t.PROFIL.unique()[0]
-      ozn = t.OZN.unique()[0]
-      opis = t.PRZEZ.unique()[0]
-      wymiar = t.WYMIAR.unique()[0]
+      typ = t.TYP.unique()[0] if len(t) != 0 else "ND"
+      profil = t.PROFIL.unique()[0] if len(t) != 0 else "ND"
+      ozn = t.OZN.unique()[0] if len(t) != 0 else "ND"
+      opis = t.PRZEZ.unique()[0] if len(t) != 0 else "ND"
+      wymiar = t.WYMIAR.unique()[0] if len(t) != 0 else "ND"
       #{self.Model[:3]} opis modelu do br poniżej
       br = [f"{self.Model[:3]} {x} {t[t.BRYLA == x].ilosc.values[0]*bryly[x]:.0f}szt" for x in t.BRYLA.tolist() if x in list(bryly.keys())]
 
@@ -70,8 +77,12 @@ class Pianki:
       # print(i[-1])
     lo_b = [x[-1] for x in lista_opisowa]
 
-    zpm = pianki.merge(pd.concat([pd.DataFrame([x[:-1] for x in lista_opisowa], columns=["NUMER", "TYP", "PROFIL", "OZN", "OPIS", "WYMIAR"]),
+    if len(lt) > 0:
+      zpm = pianki.merge(pd.concat([pd.DataFrame([x[:-1] for x in lista_opisowa], columns=["NUMER", "TYP", "PROFIL", "OZN", "OPIS", "WYMIAR"]),
               pd.DataFrame(lo_b, columns=[f"br{x}" for x in range(1, maks+1)])],axis=1), how="left", on="NUMER")
+    
+    else:
+      zpm = pianki
 
     return zpm
 
