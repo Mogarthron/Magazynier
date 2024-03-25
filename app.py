@@ -1,20 +1,23 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
-from Analiza_pianek import Podsumowanie_analizy_pianek
+# from Analiza_pianek import Podsumowanie_analizy_pianek
 from Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
 from Modele_db import *
 from Modele_db.modele_db import *
 from datetime import datetime as dt, timedelta
-import pandas as pd
-# arp = Podsumowanie_analizy_pianek(instrukcja_zamawiania_pianpol)
+# import pandas as pd
+from sqlalchemy import or_
+
 
 app = Flask(__name__)
-pap = Podsumowanie_analizy_pianek(izp)
+# pap = Podsumowanie_analizy_pianek(izp)
 
 
-@app.route("/plan_pracy_wydzialu_pianek")
+@app.route("/plan_pracy_wydzialu_pianek", methods=["GET", "POST"])
 def paln_pracy_wydzialu_pianek():
 
-    plan_pracy = session.query(ZAM_PIANKI).where(ZAM_PIANKI.status_kompletacja != "1").all()
+    plan_pracy = session.query(ZAM_PIANKI).filter(
+                    or_(ZAM_PIANKI.status_kompletacja.not_like("%ZAKONCZONO%"), ZAM_PIANKI.status_kompletacja == None)).all()
+    
     json_plan_pracy = list(map(lambda x: x.plan_pracy_to_json(), plan_pracy))
     
     return render_template("plan_pracy_wydzialu_pianek.html", plan_pracy={"plan_pracy":json_plan_pracy})
@@ -22,8 +25,9 @@ def paln_pracy_wydzialu_pianek():
 
 @app.route("/")
 def index():
-    return "ddd"
-    # return render_template("index.html", tables=[arp.Tabela_podsumowania_analizy.to_html(index=False, classes='table table-striped table-hover', header="true")])   
+    # return "ddd"
+    iz = list(map(lambda x: x.Raport(), izp))
+    return render_template("index.html", iz = {"Raport": iz})   
 
 @app.route("/kalendarz_dostaw")
 def kalendarz_dostaw():
@@ -95,10 +99,10 @@ def kalendarz_dostaw():
 
 
 
-@app.route("/analiza_pianek")
-def analiza_pianek():    
+# @app.route("/analiza_pianek")
+# def analiza_pianek():    
 
-    return render_template("analiza_pianek.html", pap=pap)
+#     return render_template("analiza_pianek.html", pap=pap)
 
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
