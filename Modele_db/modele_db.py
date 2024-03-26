@@ -45,7 +45,7 @@ class AKTYWNE_DOSTAWY(Base):
   data_zamowienia = Column("DATA_ZAMOWIENIA", String(10))
   uwagi = Column("UWAGI", String)
   polaczona_z_dos = Column("POLACZONA_Z_DOS", String(30))
-  aktywna = Column("AKTYWNA", Boolean)
+  aktywna = Column("AKTYWNA", Integer)
 
   def __init__(self, nr_dos, dostawca, preferowana_data_dostawy, zamowienie_opis=""):
     
@@ -58,6 +58,8 @@ class AKTYWNE_DOSTAWY(Base):
     self.polaczona_z_dos = None
     self.aktywna = True
 
+def __repr__(self):
+    return f"{self.nr_dos}, {self.dostawca}, {self.data_zamowienia}, {self.preferowana_data_dostawy}, {self.aktywna}"
 
 class BRAKI_PIANKI(Base):
   __tablename__ = "BRAKI_PIANKI"
@@ -105,9 +107,9 @@ class ZAM_PIANKI(Base):
   data_dos1 = Column("DATA_DOSTARCZENIA_1", String(10))
   data_dos2 = Column("DATA_DOSTARCZENIA_2", String(10))
 
-  status_leniwa = Column("STATUS_LENIWA", String(30))
-  status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(30))
-  status_owaty = Column("STATUS_OWATY", String(30))
+  status_leniwa = Column("STATUS_LENIWA", String(50))
+  status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
+  status_owaty = Column("STATUS_OWATY", String(50))
   nr_pz = Column("nr_PZ", String)
   nr_pw = Column("nr_PW", String)
   status_kompletacja = Column("STATUS_KOMPLETACJA", String(50))
@@ -166,8 +168,8 @@ class Lista_bryl_pianki(Base):
 
 
 
-Base.metadata.create_all(bind=engine)
+# Base.metadata.create_all(bind=engine)
 
-Session = sessionmaker(bind=engine)
-session = Session()
+# Session = sessionmaker(bind=engine)
+# session = Session()
 

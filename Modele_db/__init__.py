@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy import update, insert, delete
 from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean
 from sqlalchemy.orm import sessionmaker, declarative_base
+from Modele_db import *
 
 import json
 
@@ -10,10 +11,10 @@ with open("linki.json", "r") as f:
 
 engine = create_engine("sqlite:///"+gen_link, echo=False)
 
-# Base = declarative_base()
+Base = declarative_base()
 
 
-# Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
-# Session = sessionmaker(bind=engine)
-# session = Session()
+Session = sessionmaker(bind=engine)
+session = Session()

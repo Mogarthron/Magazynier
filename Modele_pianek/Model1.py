@@ -37,13 +37,13 @@ class MODEL1(Pianki):
     return f"{self.MODEL} Vol Vita: {self.vita_VOL:.2f}m3, Vol Ciech: {self.ciech_VOL:.2f}m3"
 
 
-class AMALFI(MODEL1):
+# class AMALFI(MODEL1):
 
-  mod_VOL_ciech = 0.9
-  MODEL = "AMALFI"
+#   mod_VOL_ciech = 0.9
+#   MODEL = "AMALFI"
 
-  def __init__(self, b:dict, b_memory={"NW":0}):
-    super().__init__(b=b)
+#   def __init__(self, b:dict, b_memory={"NW":0}):
+#     super().__init__(b=b)
 
     # ama_mem_pianki = tab[(tab.MODEL == "AMALFI")&(tab.TYP == "G-401")&(tab.BRYLA.isin(["[RS", "RS]", "NW", "WN", "[LA", "LA]"]))]
 
