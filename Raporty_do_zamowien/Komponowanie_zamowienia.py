@@ -1,4 +1,5 @@
-from modele_db import *
+from Modele_db.modele_db import *
+from Analiza_pianek.owaty import *
 import pandas as pd
 
 
@@ -28,11 +29,25 @@ def zapotrzebowanie_na_owaty(zam_owaty, wyjatki:list):
   # return zap
 
 
+def Raport_zamowionych_pianek_i_owat(tabele_zamowien=list, nazwa_pliku_xlsx=None):
+  zapotrzebowanie_na_owaty(oblicz_owaty_do_zamowienia(tabele_zamowien),[])
+
+  if nazwa_pliku_xlsx:
+    pd.concat(tabele_zamowien).merge(
+        oblicz_owaty_do_zamowienia(tabele_zamowien)[["KOD", "O1", "O2", "O3", "L1","W3"]].fillna(0),
+        how="left",
+        on="KOD").rename(columns={"O1":"ZIELONA", "O2":"NIEBIESKA", "O3":"CZERWONA", "L1":"ŻÓŁTA"}).to_excel(nazwa_pliku_xlsx)
+  else:
+    return  pd.concat(tabele_zamowien).merge(
+        oblicz_owaty_do_zamowienia(tabele_zamowien)[["KOD", "O1", "O2", "O3", "L1","W3"]].fillna(0),
+        how="left",
+        on="KOD").rename(columns={"O1":"ZIELONA", "O2":"NIEBIESKA", "O3":"CZERWONA", "L1":"ŻÓŁTA"})
+
 
 # def pobierz_zamowienie_z_ZAM_PIANKI(tydzien, _cls):
 #   _zam = zam_pianki[(zam_pianki.TYDZIEN == tydzien) & (zam_pianki.OPIS.str.contains(_cls.MODEL))].merge(komplety_pianek[["KOD", "BRYLA_GEN"]])[["OPIS", "BRYLA_GEN", "ILE_ZAMOWIONE"]]
 #   return _cls({i[1].BRYLA_GEN: i[1].ILE_ZAMOWIONE for i in _zam[["BRYLA_GEN", "ILE_ZAMOWIONE"]].iterrows()})
 
-def Utwoz_klase_modelu_pianek_z_bazy_ZAM_PIANKI():
-  with engine.begin() as conn:
-    zp = pd.read_sql(text(""))
+# def Utwoz_klase_modelu_pianek_z_bazy_ZAM_PIANKI():
+#   with engine.begin() as conn:
+#     zp = pd.read_sql(text(""))
