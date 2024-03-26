@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from modele_db import * 
+from Modele_db.modele_db import * 
 
 with open("./linki.json") as f:
   linki = json.load(f)
