@@ -33,22 +33,6 @@ def index():
 def kalendarz_dostaw():
 
     kal_dos = {
-        # dt(2024,3,15): [{"DOSTAWCA": "PIANPOL",
-        #                   "NR PARTII": "08/01",
-        #                   "NR DOS": "24/0216",
-        #                   "MODELE": "AVA",
-        #                   "OBJ": ["width: 42%;", 42]},],
-                dt(2024,3,22): [{"DOSTAWCA": "VITA",
-                          "NR PARTII": "09/01",
-                          "NR DOS": "24/0299",
-                          "MODELE": "STO, HOR, BLOK T-30",
-                          "OBJ": ["width: 99%;", 99]},
-                        #   {"DOSTAWCA": "PIANPOL",
-                        #   "NR PARTII": "08/01",
-                        #   "NR DOS": "24/0216",
-                        #   "MODELE": "MAX, OXY",
-                        #   "OBJ": ["width: 25%;", 25]}
-                          ],
                 dt(2024,3,27): [{"DOSTAWCA": "PIANPOL",
                           "NR PARTII": "08/01",
                           "NR DOS": "24/0216",

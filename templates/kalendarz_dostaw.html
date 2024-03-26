@@ -60,24 +60,37 @@
                                 {% if dzien == 0 %}
                                     <span style="font-size: 25px; font-weight: bold;">{{tydzien[dzien]}}</span>
                                 {% else %}
-                                    {% if tydzien[dzien] in kal_dos.keys() %}
+                                    {% if tydzien[dzien] in kal_dos.keys() %}                                        
+
                                         {% for poz in kal_dos[tydzien[dzien]] %}
-                                        <ul class="list-group">
-                                            <li class="list-group-item">{{poz["DOSTAWCA"]}}</li>
-                                            <li class="list-group-item">{{poz["NR PARTII"]}}</li>
-                                            <li class="list-group-item">{{poz["NR DOS"]}}</li>
-                                            <li class="list-group-item">{{poz["MODELE"]}}</li>
-                                            <li class="list-group-item">
-                                                <div class="progress">
-                                                    <div class="progress-bar" 
-                                                            style="{{poz['OBJ'][0]}}"
-                                                            role="progressbar" 
-                                                            aria-valuenow={{poz['OBJ'][1]}}></div>
-                                                </div>
-                                            </li>
-                
-                                        </ul>
+                                            {% if poz["DOSTAWCA"] == "OWATY" %}
+
+                                            <ul class="list-group">
+                                                <li class="list-group-item">{{poz["DOSTAWCA"]}}</li>
+                                                <li class="list-group-item">{{poz["MODELE"]}}</li>
+                                            </ul>
+
+                                            {% else %}
+
+                                            <ul class="list-group">
+                                                <li class="list-group-item">{{poz["DOSTAWCA"]}}</li>
+                                                <li class="list-group-item">{{poz["NR PARTII"]}}</li>
+                                                <li class="list-group-item">{{poz["NR DOS"]}}</li>
+                                                <li class="list-group-item">{{poz["MODELE"]}}</li>
+                                                <li class="list-group-item">
+                                                    <div class="progress">
+                                                        <div class="progress-bar" 
+                                                                style="{{poz['OBJ'][0]}}"
+                                                                role="progressbar" 
+                                                                aria-valuenow={{poz['OBJ'][1]}}>{{poz['OBJ'][1]}}</div>
+                                                    </div>
+                                                </li>
+                    
+                                            </ul>
+                                            {% endif %}
+
                                         {% endfor %}
+
                                     
                                     {% endif %}
                                <div class="date">{{tydzien[dzien].strftime("%d-%b")}}</div> 
