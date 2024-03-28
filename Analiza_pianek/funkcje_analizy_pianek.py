@@ -113,7 +113,7 @@ def Braki(prt=True, WOLNE="SALDO"):
   # braki.set_index(pd.Index([x for x in range(1, braki.shape[0]+1)]),inplace=True)
 
   lista_brakujacych_modeli = braki.OPIS
-  zp = zam_pianki[(zam_pianki.STATUS_KOMPLETACJA != 'ZAKONCZONO')&(zam_pianki.OPIS.isin(lista_brakujacych_modeli))][["OPIS", "ILE_ZAMOWIONE","ZNACZNIK_DOSTAWCY", "STATUS_KOMPLETACJA", "dos1", "dos2", "dostarczono"]]
+  zp = zam_pianki[(~zam_pianki.STATUS_KOMPLETACJA.str.contains('ZAKONCZONO'))&(zam_pianki.OPIS.isin(lista_brakujacych_modeli))][["OPIS", "ILE_ZAMOWIONE","ZNACZNIK_DOSTAWCY", "STATUS_KOMPLETACJA", "dos1", "dos2", "dostarczono"]]
   # list(lista_brakujacych_modeli)[0]
   braki = braki.merge(zp, how="left", on="OPIS")
   braki[["dos1", "dos2"]] = braki[["dos1", "dos2"]].fillna("")
