@@ -161,7 +161,6 @@ def raport_vita(*args):
 
   return zam_pianek_vita, podsumowanie_zamowienia_vita[["TYP", "NUMER", "ilosc", "VOL", "PROFIL", "OZN", "OPIS", "WYMIAR"] + [x for x in podsumowanie_zamowienia_vita.columns if "br" in x]]
 
-
 def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
   """
   Zesatwianie ilosci pianek do modelu z dostawy
@@ -219,9 +218,6 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
 
   return zestawienie_pianek_do_bryly
 
-
-
-
 def Wozki_do_dostawy(dostawca:str, nr_dos:str, zam="ZAM1", obj_wozka=5.5, drukuj_do_excel=False):
   """
   dostawca -> np. PIANPOL
@@ -264,3 +260,10 @@ def Wozki_do_dostawy(dostawca:str, nr_dos:str, zam="ZAM1", obj_wozka=5.5, drukuj
     wnd[["MODEL", "NR_KOMPLETACJI", "OPIS", "ILE_ZAMOWIONE", "OBJ_DOSTAWA", "ILE_WOZKOW"]].to_excel(f"WOZKI_{dostawca}_{nr_dos.replace('/', '_')}.xlsx")
   else:
     return wnd
+  
+
+
+
+def pobierz_zamowienie_z_ZAM_PIANKI(tydzien, _cls):
+  _zam = zam_pianki[(zam_pianki.TYDZIEN == tydzien) & (zam_pianki.OPIS.str.contains(_cls.MODEL))].merge(komplety_pianek[["KOD", "BRYLA_GEN"]])[["OPIS", "BRYLA_GEN", "ILE_ZAMOWIONE"]]
+  return _cls({i[1].BRYLA_GEN: i[1].ILE_ZAMOWIONE for i in _zam[["BRYLA_GEN", "ILE_ZAMOWIONE"]].iterrows()})

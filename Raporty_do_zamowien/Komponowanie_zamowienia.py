@@ -44,9 +44,7 @@ def Raport_zamowionych_pianek_i_owat(tabele_zamowien=list, nazwa_pliku_xlsx=None
         on="KOD").rename(columns={"O1":"ZIELONA", "O2":"NIEBIESKA", "O3":"CZERWONA", "L1":"ŻÓŁTA"})
 
 
-# def pobierz_zamowienie_z_ZAM_PIANKI(tydzien, _cls):
-#   _zam = zam_pianki[(zam_pianki.TYDZIEN == tydzien) & (zam_pianki.OPIS.str.contains(_cls.MODEL))].merge(komplety_pianek[["KOD", "BRYLA_GEN"]])[["OPIS", "BRYLA_GEN", "ILE_ZAMOWIONE"]]
-#   return _cls({i[1].BRYLA_GEN: i[1].ILE_ZAMOWIONE for i in _zam[["BRYLA_GEN", "ILE_ZAMOWIONE"]].iterrows()})
+
 
 # def Utwoz_klase_modelu_pianek_z_bazy_ZAM_PIANKI():
 #   with engine.begin() as conn:
