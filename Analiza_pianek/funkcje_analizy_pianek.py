@@ -69,12 +69,16 @@ def Braki(prt=True, WOLNE="SALDO"):
     braki["ZAMOWIONE"] =  braki.ZAMOWIONE + braki.CZEKA_NA_SPAKOWANIE + braki.CZESIOWO_DOSTARCZONE
     saldo = braki.SALDO.to_numpy()
 
+    suma_brakow = "WOLNE_SALDO"
+
   if WOLNE == "NIE_SPAK":
     kol_1 = ["OPIS", "ZAMOWIONE", "CZEKA_NA_SPAKOWANIE", "CZESIOWO_DOSTARCZONE","SALDO_Z_NIE_SPAK", "WOLNE_NIE_SPAK"]
     kol_braki = ["OPIS","WOLNE_NIE_SPAK", "SALDO_Z_NIE_SPAK", "PACZKA", "DATA_KOMPLETACJI", "ZAMOWIONE"]
     braki = analiza[analiza.WOLNE_NIE_SPAK < 0][kol_1+kol_2]
     # braki["ZAMOWIONE"] =  braki.ZAMOWIONE + braki.CZEKA_NA_SPAKOWANIE + braki.CZESIOWO_DOSTARCZONE
     saldo = braki.SALDO_Z_NIE_SPAK.to_numpy()
+
+    suma_brakow = "WOLNE_NIE_SPAK"
 
   kiedy_zabraknie = ["" for x in range(braki.shape[0])]
   sum_zlec = braki[pda[0]].to_numpy()
@@ -109,7 +113,7 @@ def Braki(prt=True, WOLNE="SALDO"):
   # braki.set_index(pd.Index([x for x in range(1, braki.shape[0]+1)]),inplace=True)
 
   lista_brakujacych_modeli = braki.OPIS
-  zp = zam_pianki[(zam_pianki.STATUS_KOMPLETACJA != '1')&(zam_pianki.OPIS.isin(lista_brakujacych_modeli))][["OPIS", "ILE_ZAMOWIONE","ZNACZNIK_DOSTAWCY", "STATUS_KOMPLETACJA", "dos1", "dos2", "dostarczono"]]
+  zp = zam_pianki[(zam_pianki.STATUS_KOMPLETACJA != 'ZAKONCZONO')&(zam_pianki.OPIS.isin(lista_brakujacych_modeli))][["OPIS", "ILE_ZAMOWIONE","ZNACZNIK_DOSTAWCY", "STATUS_KOMPLETACJA", "dos1", "dos2", "dostarczono"]]
   # list(lista_brakujacych_modeli)[0]
   braki = braki.merge(zp, how="left", on="OPIS")
   braki[["dos1", "dos2"]] = braki[["dos1", "dos2"]].fillna("")
@@ -132,8 +136,8 @@ def Braki(prt=True, WOLNE="SALDO"):
 
   braki["UWAGI"] = braki.apply(lambda x: grupa(x.dostarczono, x.ZNACZNIK_DOSTAWCY, x.STATUS_KOMPLETACJA, x.dos1, x.dos2)[0], axis=1)
   braki["GRUPA"] = braki.apply(lambda x: grupa(x.dostarczono, x.ZNACZNIK_DOSTAWCY, x.STATUS_KOMPLETACJA, x.dos1, x.dos2)[1], axis=1)
-  # braki
-  return braki[kol_braki+["UWAGI", "GRUPA"]], {"POZYCJE": braki.shape[0], "ILOSC_BAKOW": abs(braki[braki.columns[3]].sum())}
+  # print(braki.columns)
+  return braki[kol_braki+["UWAGI", "GRUPA"]], {"POZYCJE": braki.shape[0], "ILOSC_BAKOW": abs(braki[suma_brakow].sum())}
 
 def Zagrozone(prt=True, WOLNE="SALDO"):
   """
