@@ -68,9 +68,11 @@ def zlecenia_produkcyjne_pianki_owaty(model, nr_kompletacji, nr_partii):
 
     path_ = f'Z:/160. ROZKRÓJ PIANEK/160.30 ZLECENIA/{model}/{model} {nr_kompletacji}/OWATY/'
     _file = f"OWATY {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '').replace('/','_')}.xlsx"
-    # wb.save(f"{model} {nr_kompletacji}/OWATY/OWATY {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '')}.xlsx")
+    
     if not os.path.exists(path_):
         os.makedirs(path_)
+        print("path:", path_)
+    print(_file)
 
     wb.save(path_ + _file)
 
@@ -82,9 +84,9 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
 
   for p in range(zp.shape[0]):
 
-    ow = _owaty[_owaty.OPIS == zp.iloc[p].OPIS][["TYP_OWATY", "ZUZYCIE", "RODZAJ_CIECIA", "NAZWA_UKL"]].reset_index()
-    ow["ZUZYCIE"] = ow.ZUZYCIE*zp.iloc[p].ILE_ZAMOWIONE*1.1
-    ow["KATER_UKL"] = ow.apply(lambda x: x.NAZWA_UKL if x.RODZAJ_CIECIA == "K" else "", axis=1)
+    # ow = _owaty[_owaty.OPIS == zp.iloc[p].OPIS][["TYP_OWATY", "ZUZYCIE", "RODZAJ_CIECIA", "NAZWA_UKL"]].reset_index()
+    # ow["ZUZYCIE"] = ow.ZUZYCIE*zp.iloc[p].ILE_ZAMOWIONE*1.1
+    # ow["KATER_UKL"] = ow.apply(lambda x: x.NAZWA_UKL if x.RODZAJ_CIECIA == "K" else "", axis=1)
 
     wb = openpyxl.Workbook()
     sheet = wb.active
@@ -113,6 +115,9 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
     # wb.save(f"KOMPLETACJA/KOMPLETACJA {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '')}.xlsx")
     if not os.path.exists(path_):
         os.makedirs(path_)
+        print("path:", path_)
+
+    print(_file)
     wb.save(path_ + _file)
     # wb.save(file_path)
 
@@ -204,10 +209,15 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
         cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
     path_ = f'Z:/160. ROZKRÓJ PIANEK/160.50 DOSTAWY PIANEK/{nr_dos.replace("/","_")}/'
+    _file = f"{cls.MODEL[:3]} {zpdb_n[0].replace('/','_')}.xlsx"
+
     import os
     if not os.path.exists(path_):
       os.makedirs(path_)
-    wb.save(path_ + f"{cls.MODEL[:3]} {zpdb_n[0]}.xlsx")
+      print("path:", path_)
+    
+    print(_file)
+    wb.save(path_ + _file)
     # wb.save(f"{cls.MODEL[:3]} {zpdb_n[0]}.xlsx")
 
   if drukuj_excel:
@@ -251,13 +261,13 @@ def Wozki_do_dostawy(dostawca:str, nr_dos:str, zam="ZAM1", obj_wozka=5.5, drukuj
       return gal + shr + len
 
 
-  wnd["OBJ_DOSTAWA"] = wnd.apply(lambda x: obj_typ(x.MODEL, x.BRYLA_GEN, x.ILE_ZAMOWIONE, x.GALANTERIA, x.SIEDZISKA_HR, x.LENIWA), axis=1).round(1)
+  wnd["VOL_DOSTAWA"] = wnd.apply(lambda x: obj_typ(x.MODEL, x.BRYLA_GEN, x.ILE_ZAMOWIONE, x.GALANTERIA, x.SIEDZISKA_HR, x.LENIWA), axis=1).round(1)
   wnd["ILE_WOZKOW"] = (wnd.OBJ_DOSTAWA / obj_wozka)
   wnd["ILE_WOZKOW"] = wnd["ILE_WOZKOW"].apply(np.ceil).astype(int)
   wnd["OBJ_KOMPLETACJA"] = wnd.ILE_ZAMOWIONE * wnd.obj
 
   if drukuj_do_excel:
-    wnd[["MODEL", "NR_KOMPLETACJI", "OPIS", "ILE_ZAMOWIONE", "OBJ_DOSTAWA", "ILE_WOZKOW"]].to_excel(f"WOZKI_{dostawca}_{nr_dos.replace('/', '_')}.xlsx")
+    wnd[["MODEL", "NR_KOMPLETACJI", "OPIS", "ILE_ZAMOWIONE", "VOL_DOSTAWA", "ILE_WOZKOW"]].to_excel(f"WOZKI_{dostawca}_{nr_dos.replace('/', '_')}.xlsx")
   else:
     return wnd
   
