@@ -55,7 +55,7 @@ def kalendarz_dostaw():
                           "MODELE": "REV, SAM",
                           "OBJ": []}],
             
-                dt(2024,4,12): [{"DOSTAWCA": "CIECH",
+                dt(2024,4,15): [{"DOSTAWCA": "CIECH",
                           "NR PARTII": "11/01",
                           "NR DOS": "24/0327",
                           "MODELE": "SAM, DIV, GRE, OVA, CAL, KEL",
@@ -64,12 +64,37 @@ def kalendarz_dostaw():
                           "NR PARTII": "12/01",
                           "NR DOS": "24/0347",
                           "MODELE": "REV, AVA",
-                          "OBJ": ["width: 78%;", 78]},],            
+                          "OBJ": ["width: 78%;", 78]},],   
+                dt(2024,4,29): [{"DOSTAWCA": "WOLNE",
+                          "NR PARTII": "",
+                          "NR DOS": "",
+                          "MODELE": "",
+                          "OBJ": []},],    
+                dt(2024,4,30): [{"DOSTAWCA": "WOLNE",
+                          "NR PARTII": "",
+                          "NR DOS": "",
+                          "MODELE": "",
+                          "OBJ": []},],    
+                dt(2024,5,1): [{"DOSTAWCA": "WOLNE",
+                          "NR PARTII": "",
+                          "NR DOS": "",
+                          "MODELE": "",
+                          "OBJ": []},],    
+                dt(2024,5,2): [{"DOSTAWCA": "WOLNE",
+                          "NR PARTII": "",
+                          "NR DOS": "",
+                          "MODELE": "",
+                          "OBJ": []},],    
+                dt(2024,5,3): [{"DOSTAWCA": "WOLNE",
+                          "NR PARTII": "",
+                          "NR DOS": "",
+                          "MODELE": "",
+                          "OBJ": []},],                                                           
                                               }
     
     lista_dni = list()
     start_mc = 3
-    start_d = 18
+    start_d = 25
     tygodni_do_przodu = 7
 
     for i in range(tygodni_do_przodu):
