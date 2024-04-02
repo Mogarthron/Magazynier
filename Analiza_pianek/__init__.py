@@ -89,6 +89,14 @@ class Podsumowanie_analizy_pianek():
     def __getitem__(self, index):
         return self.ard[index]
     
+    def __lt__(self, value):
+       
+        return self.Tabela_podsumowania_analizy[self.Tabela_podsumowania_analizy.WSPL_DO_ZAM < value]
+    
+    def __gt__(self, value):
+       
+        return self.Tabela_podsumowania_analizy[self.Tabela_podsumowania_analizy.WSPL_DO_ZAM > value]
+
     def __repr__(self):
         
         saldo = analiza.SALDO_obj.sum()
