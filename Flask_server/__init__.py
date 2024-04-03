@@ -7,9 +7,23 @@ from datetime import datetime as dt, timedelta
 # import pandas as pd
 from sqlalchemy import or_
 
+from Flask_server.kalendarz_dostaw import kal_dos
+
 
 app = Flask(__name__)
 # pap = Podsumowanie_analizy_pianek(izp)
+ard = {x.MODEL: x for x in izp}
+
+@app.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
+def dodaj_pianki_bryla(model):
+    
+    return render_template("dodaj_pianki_bryla.html", model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True))
+
+@app.route("/dodaj_pianki_model", methods=["GET", "POST"])
+def dodaj_pianki_model():
+
+    return render_template("dodaj_pianki_model.html", lista_modeli = list([x.MODEL for x in izp])) 
+
 
 
 @app.route("/plan_pracy_wydzialu_pianek", methods=["GET", "POST"])
@@ -54,66 +68,7 @@ def index():
 @app.route("/kalendarz_dostaw")
 def kalendarz_dostaw():
 
-    kal_dos = {
-                dt(2024,3,27): [{"DOSTAWCA": "PIANPOL",
-                          "NR PARTII": "08/01",
-                          "NR DOS": "24/0216",
-                          "MODELE": "MAX, OXY",
-                          "OBJ": ["width: 40%;", 40]},],
-                dt(2024,4,4): [{"DOSTAWCA": "OWATY",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "REV, SAM",
-                          "OBJ": []}],
-                dt(2024,4,5): [{"DOSTAWCA": "PIANPOL",
-                          "NR PARTII": "10/01",
-                          "NR DOS": "24/0299",
-                          "MODELE": "AVA, ELI, REV",
-                          "OBJ": ["width: 74%;", 74]},
-
-                          {"DOSTAWCA": "OWATY",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "REV, SAM",
-                          "OBJ": []}],
-            
-                dt(2024,4,15): [{"DOSTAWCA": "CIECH",
-                          "NR PARTII": "11/01",
-                          "NR DOS": "24/0327",
-                          "MODELE": "SAM, DIV, GRE, OVA, CAL, KEL",
-                          "OBJ": ["width: 83%;", 83]},],
-                dt(2024,4,19): [{"DOSTAWCA": "PIANPOL",
-                          "NR PARTII": "12/01",
-                          "NR DOS": "24/0347",
-                          "MODELE": "REV, AVA",
-                          "OBJ": ["width: 78%;", 78]},],   
-                dt(2024,4,29): [{"DOSTAWCA": "WOLNE",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "",
-                          "OBJ": []},],    
-                dt(2024,4,30): [{"DOSTAWCA": "WOLNE",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "",
-                          "OBJ": []},],    
-                dt(2024,5,1): [{"DOSTAWCA": "WOLNE",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "",
-                          "OBJ": []},],    
-                dt(2024,5,2): [{"DOSTAWCA": "WOLNE",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "",
-                          "OBJ": []},],    
-                dt(2024,5,3): [{"DOSTAWCA": "WOLNE",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "",
-                          "OBJ": []},],                                                           
-                                              }
-    
+        
     lista_dni = list()
     start_mc = 3
     start_d = 25
@@ -135,6 +90,5 @@ def kalendarz_dostaw():
 
 #     return render_template("analiza_pianek.html", pap=pap)
 
-if __name__ == "__main__":
-    app.run(debug=True, host="127.0.0.1", port=5000)
+
 
