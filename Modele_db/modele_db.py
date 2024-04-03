@@ -142,7 +142,7 @@ class ZAM_PIANKI(Base):
             "zamowione": int(self.ile_zam),
             "leniwa": self.status_leniwa if "AVANT" in self.opis else "ND",
             "leniwaSkos": self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
-            "owaty": self.status_owaty,
+            "owaty": self.status_owaty.split(",") if self.status_owaty else ["","",""],
             "statusKompletacja": self.status_kompletacja if type(self.status_kompletacja) == str else ""
         }
 

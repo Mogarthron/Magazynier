@@ -1,83 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PLAN PRACY PIANKI</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <table class="table table-striped-columns">
-      <thead style="position: sticky; top: 0">
-        <tr>
-          <th>ZNACZNIK DOSTAWCY</th>
-          <th>ZAM1</th>
-          <th>ZAM2</th>
-          <th>MODEL</th>
-          <th>NR KOMPLETCJI</th>
-          <th>OPIS</th>
-          <th>ZAMOWIONE</th>
-          <th>LENIWA</th>
-          <th>LENIWA SKOS</th>
-          <th>OWATY</th>
-          <th>STATUS KOMPLETACJA</th>
-          <th></th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {%for r in plan_pracy["plan_pracy"]%}
-        <tr>
-          <td>{{r["znacznikDostawcy"]}}</td>
-          <td>{{r["zam1"]}}</td>
-          <td>{{r["zam2"]}}</td>
-          <td>{{r["model"]}}</td>
-          <td>{{r["nrKompletacji"]}}</td>
-          <td>{{r["opis"]}}</td>
-          <td>{{r["zamowione"]}}</td>
-          <!-- leniwa -->
-          {% if r["leniwa"] == 'ND' %}
-          <td>{{r["leniwa"]}}</td>
-          {% else %}
-          <td>
-            {{r["leniwa"]}}
-            <button>ZAKONCZONO</button>
-          </td>
-          {% endif %}
-          <!-- leniwa skos -->
-          {% if r["leniwaSkos"] == 'ND' %}
-          <td>{{r["leniwaSkos"]}}</td>
-          {% else %}
-          <td>
-            {{r["leniwaSKos"]}}
-            <button>ZAKONCZONO</button>
-          </td>
-          {% endif %}
-          <!-- owaty -->
-          {% if r["owaty"] == 'ND' %}
-          <td>{{r["owaty"]}}</td>
-          {% else %}
-          <td>
-            {{r["owaty"]}}
-            <button>ZAKONCZONO</button>
-          </td>
-          {% endif %}
-          <td>{{r["statusKompletacja"]}}</td>
-          <td><button>EDYTUJ</button></td>
-          <td><button>ZAKONCZ</button></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PLAN PRACY PIANKI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <table class="table table-striped-columns table-hover">
+    <thead style="position: sticky; top: 0">
+      <tr>
+        <th>ZNACZNIK DOSTAWCY</th>
+        <th>ZAM1</th>
+        <th>ZAM2</th>
+        <th>MODEL</th>
+        <th>NR KOMPLETCJI</th>
+        <th>OPIS</th>
+        <th>ZAMOWIONE</th>
+        <th>LENIWA</th>
+        <th>LENIWA SKOS</th>
+        <th>OWATY</th>
+        <th>STATUS KOMPLETACJA</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for r in plan_pracy["plan_pracy"]%}
+      <tr>
+        <td>{{r["znacznikDostawcy"]}}</td>
+        <td>{{r["zam1"]}}</td>
+        <td>{{r["zam2"]}}</td>
+        <td>{{r["model"]}}</td>
+        <td>{{r["nrKompletacji"]}}</td>
+        <td>{{r["opis"]}}</td>
+        <td>{{r["zamowione"]}}</td>
+        <!-- leniwa -->
+        {% if r["leniwa"] == 'ND' %}
+        <td>{{r["leniwa"]}}</td>
+        {% else %}
+        <td>
+          {{r["leniwa"]}}
+          <form method="POST">
+            <label for="leniwa_{{r['lp']}}"></label>
+            <button type="submit" name="lewniwa_{{r['lp']}}">ZAKONCZONO</button>
+          </form>
+        </td>
+        {% endif %}
+        <!-- leniwa skos -->
+        {% if r["leniwaSkos"] == 'ND' %}
+        <td>{{r["leniwaSkos"]}}</td>
+        {% else %}
+        <td>
+          {{r["leniwaSkos"]}}
+          <form method="POST">
+            <label for="leniwaSkos_{{r['lp']}}"></label>
+            <button type="submit" name="leniwaSkos_{{r['lp']}}">ZAKONCZONO</button>
+          </form>
+        </td>
+        {% endif %}
+        <!-- owaty -->
+        {% if r["owaty"] == 'ND' %}
+        <td>{{r["owaty"]}}</td>
+        {% else %}
+        <td>
+          <ul class="list-group list-group-horizontal">
+            <li class="list-group-item">{% if r["owaty"][0] != "" %}
+              WYDANE: {{r["owaty"][0]}}
+              {% else %}
+              <form method="POST">
+                <label for="owatyWydane_{{r['lp']}}"></label>
+                <button type="submit" name="owatyWydane_{{r['lp']}}">WYDANO</button>
+              </form>
+              {% endif%}
+            </li>
+            <li class="list-group-item">{% if r["owaty"][1] != "" %}
+              WYCIETE: {{r["owaty"][1]}}
+              {% else %}
+              <form method="POST">
+                <label for="owatyWyciete_{{r['lp']}}"></label>
+                <button type="submit" name="owatyWyciete_{{r['lp']}}">WYCIETO</button>
+              </form>
+              {% endif%}
+            </li>
+            <li class="list-group-item">{% if r["owaty"][2] != "" %}
+              SKOMPLETOWANO: {{r["owaty"][2]}}
+              {% else %}
+              <form method="POST">
+                <label for="owatyKompletacja_{{r['lp']}}"></label>
+                <button type="submit" name="owatyKompletacja_{{r['lp']}}">ZAKONCZONO</button>
+              </form>
+              {% endif%}
+            </li>
+          </ul>
+        </td>
+        {% endif %}
+        <td>{{r["statusKompletacja"]}}</td>
+        <td>
+          <form method="POST">
+            <label for="edytuj_{{r['lp']}}"></label>
+            <button type="submit" name="edytuj_{{r['lp']}}">EDYTUJ</button>
+          </form>
+        </td>
+        </td>
+        <td>
+          <form method="POST">
+            <label for="zakonczono_{{r['lp']}}"></label>
+            <button type="submit" name="zakonczono_{{r['lp']}}">ZAKONCZONO</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+
 </html>

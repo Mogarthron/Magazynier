@@ -164,11 +164,17 @@ def Podsumowanie_paczek_i_Pw(nr_pw) -> None:
   """
   Drukuje informacje o obiętosci paczek z owatami i obietosci spakowanych pianek dla podanych pw
 
-  nr_pw -> numery pw przyjete w czasie analizy np: '24/12|24/14'
+  nr_pw -> numery pw przyjete w czasie analizy np: '24/12,24/14'
   """
- 
-  pw = pd.read_excel(zam_pianki_link, sheet_name="PW")
-  pw= pw[pw.PW.str.contains(nr_pw)].merge(komplety_pianek[["KOD", "obj"]], how="left", on="KOD")
+  with engine.begin() as conn:
+    # params = handle_params(pwszki=(x for x in nr_pw.split(",")))
+    stmt = text("SELECT * FROM PRZYJECIE_WEWNETRZNE WHERE PW in (:x)")
+    stmt = stmt.bindparams(x=nr_pw)
+    pw = pd.read_sql(stmt, conn)    
+
+  # pw = pd.read_excel(zam_pianki_link, sheet_name="PW")
+  # pw= pw[pw.PW.str.contains(nr_pw)].merge(komplety_pianek[["KOD", "obj"]], how="left", on="KOD")
+  pw= pw.merge(komplety_pianek[["KOD", "obj"]], how="left", on="KOD")
   pw["SPAKOWANE_M3"] = pw.ILOSC * pw.obj
 
   print("OBIĘTOSC PACZEK (Z OWATAMI)")

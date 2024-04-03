@@ -19,7 +19,29 @@ def paln_pracy_wydzialu_pianek():
                     or_(ZAM_PIANKI.status_kompletacja.not_like("%ZAKONCZONO%"), ZAM_PIANKI.status_kompletacja == None)).all()
     
     json_plan_pracy = list(map(lambda x: x.plan_pracy_to_json(), plan_pracy))
-    
+
+
+    if request.method == "POST" and "zakonczono" in list(request.form.keys())[0]:
+        print("zakonczono id", int(list(request.form.keys())[0].replace("zakonczono_", "")))
+        
+    if request.method == "POST" and "edytuj" in list(request.form.keys())[0]:
+        print("edytuj id", int(list(request.form.keys())[0].replace("edytuj_", "")))
+
+    if request.method == "POST" and "leniwa" == list(request.form.keys())[0].split("_")[0]:
+        print("leniwa id", int(list(request.form.keys())[0].replace("leniwa_", "")))
+
+    if request.method == "POST" and "leniwaSkos" == list(request.form.keys())[0].split("_")[0]:
+        print("leniwaSkos id", int(list(request.form.keys())[0].replace("leniwaSkos_", "")))
+
+    if request.method == "POST" and "owatyWydane" in list(request.form.keys())[0].split("_")[0]:
+        print("owatyWydane id", int(list(request.form.keys())[0].replace("owatyWydane_", "")))
+
+    if request.method == "POST" and "owatyWyciete" in list(request.form.keys())[0].split("_")[0]:
+        print("owatyWyciete id", int(list(request.form.keys())[0].replace("owatyWyciete_", "")))
+
+    if request.method == "POST" and "owatyKompletacja" in list(request.form.keys())[0].split("_")[0]:
+        print("owatyKompletacja id", int(list(request.form.keys())[0].replace("owatyKompletacja_", "")))
+
     return render_template("plan_pracy_wydzialu_pianek.html", plan_pracy={"plan_pracy":json_plan_pracy})
 
 
