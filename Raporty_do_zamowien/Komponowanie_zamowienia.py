@@ -46,6 +46,9 @@ def Raport_zamowionych_pianek_i_owat(tabele_zamowien=list, nazwa_pliku_xlsx=None
 
 
 
+# Dodaj_pozycje_do_ZAM_PIANKI(2414, "P", "1_24", zwil, wil, "24/0382", nr_partii="14/01,")#, DODAJ_DO_BAZY=True)
+#Dodaj_pozycje_do_ZAM_PIANKI(2412, "P", "2_24", zrev, rev, "24/0347", nr_partii="12/01,")#, DODAJ_DO_BAZY=True)
+
 # def Utwoz_klase_modelu_pianek_z_bazy_ZAM_PIANKI():
 #   with engine.begin() as conn:
 #     zp = pd.read_sql(text(""))

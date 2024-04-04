@@ -272,6 +272,30 @@ def Wozki_do_dostawy(dostawca:str, nr_dos:str, zam="ZAM1", obj_wozka=5.5, drukuj
     return wnd
   
 
+def Dodaj_pozycje_do_ZAM_PIANKI(tydzien, zancznik_dostawcy, nr_kompletacji, modele:pd.DataFrame, klasa, zam1=None, zam2=None, nr_partii=None, DODAJ_DO_BAZY = False):
+
+  model = klasa.MODEL
+  galanteria = klasa.galanteria
+  siedziska_HR = klasa.siedziska_HR
+  leniwa = klasa.leniwa
+
+
+
+  if DODAJ_DO_BAZY:
+
+    for r in modele.iterrows():
+      session.add(ZAM_PIANKI(tydzien, model, r[1].KOD, r[1].OPIS, r[1].DO_ZAMOWIENIA, zancznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji, zam1, zam2, "nr_partii: " + nr_partii))
+
+    session.commit()
+
+  else:
+    pozycje = list()
+
+    for r in modele.iterrows():
+      # tydzien, model, kod, opis, ile_zam, znacznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji=None, zam1=None, zam2=None, nr_partii=None
+      pozycje.append([tydzien, model, r[1].KOD, r[1].OPIS, r[1].DO_ZAMOWIENIA, zancznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji, zam1, zam2, "nr_partii: " + nr_partii])
+    
+    return pd.DataFrame(pozycje)
 
 
 def pobierz_zamowienie_z_ZAM_PIANKI(tydzien, _cls):
