@@ -14,6 +14,11 @@ import openpyxl
 from openpyxl.utils.dataframe import dataframe_to_rows
 from openpyxl.styles import Border, Side
 from datetime import datetime as dt
+import json
+
+with open("linki.json", "r", encoding="UTF8") as f:
+  rozkroj_pianek = json.load(f)["rozkroj_pianek"]
+
 
 #zlecenia na kopletacje pianek i owat
 def zlecenia_produkcyjne_pianki_owaty(model, nr_kompletacji, nr_partii):
@@ -66,7 +71,7 @@ def zlecenia_produkcyjne_pianki_owaty(model, nr_kompletacji, nr_partii):
     
     import os 
 
-    path_ = f'Z:/160. ROZKRÓJ PIANEK/160.30 ZLECENIA/{model}/{model} {nr_kompletacji}/OWATY/'
+    path_ = f'{rozkroj_pianek}{model}/{model} {nr_kompletacji}/OWATY/'
     _file = f"OWATY {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '').replace('/','_')}.xlsx"
     
     if not os.path.exists(path_):
@@ -83,10 +88,6 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
   zp = zam_pianki[(zam_pianki.OPIS.str.contains(model))&(zam_pianki.NR_KOMPLETACJI == nr_kompletacji)][["OPIS", "ILE_ZAMOWIONE"]]
 
   for p in range(zp.shape[0]):
-
-    # ow = _owaty[_owaty.OPIS == zp.iloc[p].OPIS][["TYP_OWATY", "ZUZYCIE", "RODZAJ_CIECIA", "NAZWA_UKL"]].reset_index()
-    # ow["ZUZYCIE"] = ow.ZUZYCIE*zp.iloc[p].ILE_ZAMOWIONE*1.1
-    # ow["KATER_UKL"] = ow.apply(lambda x: x.NAZWA_UKL if x.RODZAJ_CIECIA == "K" else "", axis=1)
 
     wb = openpyxl.Workbook()
     sheet = wb.active
@@ -108,18 +109,16 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
 
     import os 
 
-    path_ = f'Z:/160. ROZKRÓJ PIANEK/160.30 ZLECENIA/{model}/{model} {nr_kompletacji}/KOMPLETACJA/'
+    path_ = f'{rozkroj_pianek}{model}/{model} {nr_kompletacji}/KOMPLETACJA/'
     _file = f"KOMPLETACJA {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '').replace('/','_')}.xlsx"
-
-
-    # wb.save(f"KOMPLETACJA/KOMPLETACJA {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '')}.xlsx")
+  
     if not os.path.exists(path_):
         os.makedirs(path_)
         print("path:", path_)
 
     print(_file)
     wb.save(path_ + _file)
-    # wb.save(file_path)
+
 
 
 
@@ -190,7 +189,7 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
     _df = zpdb_n[1]
     # _df = _df[_df.TYP != "G-401"]
     header = f"{cls.MODEL} {zpdb_n[0]} - {cls.bryly[zpdb_n[0]]:.0f}szt"
-    print(header)
+    # print(header)
     wb = openpyxl.Workbook()
     sheet = wb.active
     sheet.oddHeader.left.text = header
@@ -262,7 +261,7 @@ def Wozki_do_dostawy(dostawca:str, nr_dos:str, zam="ZAM1", obj_wozka=5.5, drukuj
 
 
   wnd["VOL_DOSTAWA"] = wnd.apply(lambda x: obj_typ(x.MODEL, x.BRYLA_GEN, x.ILE_ZAMOWIONE, x.GALANTERIA, x.SIEDZISKA_HR, x.LENIWA), axis=1).round(1)
-  wnd["ILE_WOZKOW"] = (wnd.OBJ_DOSTAWA / obj_wozka)
+  wnd["ILE_WOZKOW"] = (wnd.VOL_DOSTAWA / obj_wozka)
   wnd["ILE_WOZKOW"] = wnd["ILE_WOZKOW"].apply(np.ceil).astype(int)
   wnd["OBJ_KOMPLETACJA"] = wnd.ILE_ZAMOWIONE * wnd.obj
 
