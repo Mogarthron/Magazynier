@@ -22,6 +22,10 @@ def dodaj_pianki_bryla(model):
 @app.route("/dodaj_pianki_model", methods=["GET", "POST"])
 def dodaj_pianki_model():
 
+    if request.method == "POST":
+        print(request.form["model"])
+        return redirect(url_for("dodaj_pianki_bryla", model=request.form["model"]))
+
     return render_template("dodaj_pianki_model.html", lista_modeli = list([x.MODEL for x in izp])) 
 
 
@@ -82,13 +86,6 @@ def kalendarz_dostaw():
 
     
     return render_template("kalendarz_dostaw.html", lista_dni=lista_dni, kal_dos=kal_dos)
-
-
-
-# @app.route("/analiza_pianek")
-# def analiza_pianek():    
-
-#     return render_template("analiza_pianek.html", pap=pap)
 
 
 
