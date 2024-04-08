@@ -14,12 +14,19 @@ app = Flask(__name__)
 # pap = Podsumowanie_analizy_pianek(izp)
 ard = {x.MODEL: x for x in izp}
 
-@app.route("raport_jakosciowy_pianek")
-def raport_jakosciowy_pianek():
-    pass
-    # bryla_jakosc = select(ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis).where
+@app.route("/raport_jakosciowy_pianek/<id>")
+def raport_jakosciowy_pianek(id):
+    # pass
+    bryla_jakosc = select(ZAM_PIANKI.kod ,ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis, ZAM_PIANKI.ile_zam, ZAM_PIANKI.zam1, ZAM_PIANKI.zam2).where(
+        ZAM_PIANKI.lp == id)
 
-    # session.execute(bryla_jakosc).first()
+    kod, model, nr_kompletacji, opis, ile_zam, zam1, zam2 = session.execute(bryla_jakosc).first()
+    bryla_gen = session.execute(select(
+                                KOMPLETY_PIANEK.kod, KOMPLETY_PIANEK.bryla_gen).where(KOMPLETY_PIANEK.kod == kod)).first()[1]
+
+    tabelka_kj = [list(x) for x in session.execute(text(f"SELECT * FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
+    
+    return render_template("raport_jakosciowy_pianek.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
 
 
 
@@ -68,6 +75,10 @@ def paln_pracy_wydzialu_pianek():
 
     if request.method == "POST" and "owatyKompletacja" in list(request.form.keys())[0].split("_")[0]:
         print("owatyKompletacja id", int(list(request.form.keys())[0].replace("owatyKompletacja_", "")))
+
+    if request.method == "POST" and "kj" in list(request.form.keys())[0].split("_")[0]:
+        # print("kj id", int(list(request.form.keys())[0].replace("kj_", "")))
+        return redirect(url_for("raport_jakosciowy_pianek", id=int(list(request.form.keys())[0].replace("kj_", ""))))
 
     return render_template("plan_pracy_wydzialu_pianek.html", plan_pracy={"plan_pracy":json_plan_pracy})
 
