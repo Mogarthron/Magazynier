@@ -2,14 +2,14 @@ from Modele_db import *
 
 Base = declarative_base()
 
-class KOMPLETY_PIANEK(Base):
-  __tablename__ = "KOMPLETY_PIANEK"
+# class KOMPLETY_PIANEK(Base):
+#   __tablename__ = "KOMPLETY_PIANEK"
 
-  kod = Column("KOD", String(), primary_key=True)
-  opis = Column("OPIS", String())
-  stan_max = Column("MAX", Integer)
-  czy_bryla = Column("CZY_BRYLA", Boolean, default=0)
-  bryla_gen = Column("BRYLA_GEN", String())
+#   kod = Column("KOD", String(), primary_key=True)
+#   opis = Column("OPIS", String())
+#   stan_max = Column("MAX", Integer)
+#   czy_bryla = Column("CZY_BRYLA", Boolean, default=0)
+#   bryla_gen = Column("BRYLA_GEN", String())
 
 class PRZYJECIE_ZEWNETRZE(Base):
   __tablename__ = "PRZYJECIE_ZEWNETRZNE"
