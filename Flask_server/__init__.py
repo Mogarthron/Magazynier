@@ -5,7 +5,7 @@ from Modele_db import *
 from Modele_db.modele_db import *
 from datetime import datetime as dt, timedelta
 # import pandas as pd
-from sqlalchemy import or_
+from sqlalchemy import or_, select
 
 from Flask_server.kalendarz_dostaw import kal_dos
 
@@ -13,6 +13,15 @@ from Flask_server.kalendarz_dostaw import kal_dos
 app = Flask(__name__)
 # pap = Podsumowanie_analizy_pianek(izp)
 ard = {x.MODEL: x for x in izp}
+
+@app.route("raport_jakosciowy_pianek")
+def raport_jakosciowy_pianek():
+    pass
+    # bryla_jakosc = select(ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis).where
+
+    # session.execute(bryla_jakosc).first()
+
+
 
 @app.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
