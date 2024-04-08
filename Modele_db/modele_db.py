@@ -2,14 +2,20 @@ from Modele_db import *
 
 Base = declarative_base()
 
-# class KOMPLETY_PIANEK(Base):
-#   __tablename__ = "KOMPLETY_PIANEK"
+# class baza_PIANKI(Base):
+#   __tablename__ = "baza_PAINKI"
 
-#   kod = Column("KOD", String(), primary_key=True)
-#   opis = Column("OPIS", String())
-#   stan_max = Column("MAX", Integer)
-#   czy_bryla = Column("CZY_BRYLA", Boolean, default=0)
-#   bryla_gen = Column("BRYLA_GEN", String())
+
+
+class KOMPLETY_PIANEK(Base):
+  __tablename__ = "KOMPLETY_PIANEK"
+
+  kod = Column("KOD", String(), primary_key=True)
+  opis = Column("OPIS", String())
+  stan_max = Column("MAX", Integer)
+  czy_bryla = Column("CZY_BRYLA", Boolean, default=0)
+  bryla_gen = Column("BRYLA_GEN", String())
+  obj = Column("obj", Float)
 
 class PRZYJECIE_ZEWNETRZE(Base):
   __tablename__ = "PRZYJECIE_ZEWNETRZNE"
@@ -101,7 +107,7 @@ class ZAM_PIANKI(Base):
   model = Column("MODEL", String)
   nr_kompletacji = Column("NR_KOMPLETACJI", String(5))
   opis = Column("OPIS", String)
-  ile_zam = Column("ILE_ZAMOWIONE", Numeric)
+  ile_zam = Column("ILE_ZAMOWIONE", Integer)
   znacznik_dostawcy = Column("ZNACZNIK_DOSTAWCY", String(2))
   galanteria = Column("GALANTERIA", String(1))
   siedziska_HR = Column("SIEDZISKA_HR", String(1))

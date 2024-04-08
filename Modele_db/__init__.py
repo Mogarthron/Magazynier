@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy import update, insert, delete
-from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean
+from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean, Float
 from sqlalchemy.orm import sessionmaker, declarative_base
 from Modele_db import *
 
