@@ -14,7 +14,7 @@ app = Flask(__name__)
 # pap = Podsumowanie_analizy_pianek(izp)
 ard = {x.MODEL: x for x in izp}
 
-@app.route("/raport_jakosciowy_pianek/<id>")
+@app.route("/raport_jakosciowy_pianek/<id>", methods=["GET", "POST"])
 def raport_jakosciowy_pianek(id):
     # pass
     bryla_jakosc = select(ZAM_PIANKI.kod ,ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis, ZAM_PIANKI.ile_zam, ZAM_PIANKI.zam1, ZAM_PIANKI.zam2).where(
@@ -24,8 +24,10 @@ def raport_jakosciowy_pianek(id):
     bryla_gen = session.execute(select(
                                 KOMPLETY_PIANEK.kod, KOMPLETY_PIANEK.bryla_gen).where(KOMPLETY_PIANEK.kod == kod)).first()[1]
 
-    tabelka_kj = [list(x) for x in session.execute(text(f"SELECT * FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
-    
+    tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
+
+    # if 
+
     return render_template("raport_jakosciowy_pianek.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
 
 
