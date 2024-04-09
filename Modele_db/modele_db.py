@@ -5,6 +5,40 @@ Base = declarative_base()
 # class baza_PIANKI(Base):
 #   __tablename__ = "baza_PAINKI"
 
+class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
+  __tablename__ = "RAPORT_KJ_DO_DOSTAWY_PIANEK"
+
+  lp = Column("LP", Integer, primary_key=True, autoincrement=True)
+  lp_zam_pianki = Column("LP_ZAM_PIANKI", Integer)
+  nr_paczka = Column("NR_PACZKI", Integer)
+  model = Column("MODEL", String)
+  bryla_gen = Column("BRYLA_GEN", String)
+  nr_pianki = Column("NR_PIANKI", String(6))
+  blad_dopuszczalny_wysokosc = Column("BLAD_DOPUSZCZALNY_WYSOKOSC", Boolean, default=True)
+  uwaga_wysokosc = Column("UWAGA_WYSOKOSC", String)
+  blad_dopuszczalny_szerokosc = Column("BLAD_DOPUSZCZALNY_SZEROKOSC", Boolean, default=True)
+  uwaga_szerokosc = Column("UWAGA_SZEROKOSC", String)
+  blad_dopuszczalny_dlugosc = Column("BLAD_DOPUSZCZALNY_DLUGOSC", Boolean, default=True)
+  uwaga_dlugosc = Column("UWAGA_DLUGOSC", String)
+  uwaga = Column("UWAGA", String)
+  
+  def __init__(self, lp_zam_pianki, nr_paczka, model, bryla_gen, nr_pianki, blad_dopuszczalny_wysokosc, uwaga_wysokosc, 
+               blad_dopuszczalny_szerokosc, uwaga_szerokosc, blad_dopuszczalny_dlugosc, uwaga_dlugosc, uwaga):
+
+    self.lp_zam_pianki = lp_zam_pianki
+    self.nr_paczka = nr_paczka
+    self.model = model
+    self.bryla_gen = bryla_gen
+    self.nr_pianki = nr_pianki
+    self.blad_dopuszczalny_wysokosc = blad_dopuszczalny_wysokosc
+    self.uwaga_wysokosc = uwaga_wysokosc
+    self.blad_dopuszczalny_szerokosc = blad_dopuszczalny_szerokosc
+    self.uwaga_szerokosc = uwaga_szerokosc
+    self.blad_dopuszczalny_dlugosc = blad_dopuszczalny_dlugosc
+    self.uwaga_dlugosc = uwaga_dlugosc
+    self.uwaga = uwaga
+
+
 
 
 class KOMPLETY_PIANEK(Base):
