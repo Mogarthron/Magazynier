@@ -10,9 +10,6 @@ warnings.filterwarnings('ignore')
 with open("./linki.json") as f:
   linki = json.load(f)
   path_dane_pianki = linki["path_dane_pianki"]
-  owaty_linki = linki["owaty"]
-  zam_pianki_link = linki["zam_pianki_link"]
-
 
 with open("daty_kompletacji.json") as f:
     dkom = json.load(f)
