@@ -1,17 +1,15 @@
 from flask import Flask, render_template, request, url_for, flash, redirect, jsonify
-# from Analiza_pianek import Podsumowanie_analizy_pianek
 from Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
 from Modele_db import *
 from Modele_db.modele_db import *
 from datetime import datetime as dt, timedelta
-# import pandas as pd
 from sqlalchemy import or_, select
 
 from Flask_server.kalendarz_dostaw import kal_dos
 
 
 app = Flask(__name__)
-# pap = Podsumowanie_analizy_pianek(izp)
+
 ard = {x.MODEL: x for x in izp}
 
 @app.route("/raport_jakosciowy_pianek/<id>", methods=["GET", "POST"])
@@ -26,7 +24,8 @@ def raport_jakosciowy_pianek(id):
 
     tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
 
-    # if 
+    if request.method == "POST":
+        print(list(request.form.keys()), request.form["uwagiDlugosc"], request.form.getlist("bladAkceptowanyDlugosc"))        
 
     return render_template("raport_jakosciowy_pianek.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
 
@@ -87,9 +86,9 @@ def paln_pracy_wydzialu_pianek():
 
 @app.route("/")
 def index():
-    # return "ddd"
-    iz = list(map(lambda x: x.Raport(), izp))
-    return render_template("index.html", iz = {"Raport": iz})   
+    return "ddd"
+    # iz = list(map(lambda x: x.Raport(), izp))
+    # return render_template("index.html", iz = {"Raport": iz})   
 
 @app.route("/kalendarz_dostaw")
 def kalendarz_dostaw():
