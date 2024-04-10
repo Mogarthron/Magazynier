@@ -12,6 +12,7 @@ app = Flask(__name__)
 
 ard = {x.MODEL: x for x in izp}
 
+
 @app.route("/raport_jakosciowy_pianek/<id>", methods=["GET", "POST"])
 def raport_jakosciowy_pianek(id):
     # pass
@@ -24,8 +25,26 @@ def raport_jakosciowy_pianek(id):
 
     tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
 
+
+    #['uwagiDlugosc', 'bladAkceptowanyDlugosc', 'uwagiSzerokosc', 'bladAkceptowanySzerokosc', 'uwagiWysokosc', 'bladAkceptowanyWysokosc', 'uwagiInne', 'pozycjaDoReklamacji', 'numerPaczki_1']
     if request.method == "POST":
-        print(list(request.form.keys()), request.form["uwagiDlugosc"], request.form.getlist("bladAkceptowanyDlugosc"))        
+        
+        numery_z_formy = list(request.form.keys())[-1].split("_")
+        nr_paczki = numery_z_formy[1]
+        nr_pianki = numery_z_formy[3]
+        blad_dopuszczalny_wysokosc = 1 if type(request.form.get("bladAkceptowanyWysokosc")) == str else 0 
+        blad_dopuszczalny_szerokosc = 1 if type(request.form.get("bladAkceptowanySzerokosc")) == str else 0 
+        blad_dopuszczalny_dlugosc = 1 if type(request.form.get("bladAkceptowanyDlugosc")) == str else 0 
+        blad_dopuszczalny = 1 if type(request.form.get("pozycjaDoReklamacji")) == str else 0 
+        
+        session.add(RAPORT_KJ_DO_DOSTAWY_PIANEK(id, nr_paczki, model, bryla_gen, nr_pianki, 
+                                                blad_dopuszczalny_wysokosc, request.form["uwagiWysokosc"], 
+                                                blad_dopuszczalny_szerokosc, request.form["uwagiSzerokosc"],
+                                                blad_dopuszczalny_dlugosc, request.form["uwagiDlugosc"], 
+                                                blad_dopuszczalny, request.form["uwagiInne"] ))
+
+        session.commit()
+
 
     return render_template("raport_jakosciowy_pianek.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
 
