@@ -2,7 +2,7 @@ from sqlalchemy import create_engine, text
 from sqlalchemy import update, insert, delete
 from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean, Float
 from sqlalchemy.orm import sessionmaker, declarative_base
-from Modele_db import *
+
 
 import json
 
@@ -15,6 +15,8 @@ Base = declarative_base()
 
 
 Base.metadata.create_all(bind=engine)
+
+from Modele_db import *
 
 Session = sessionmaker(bind=engine)
 session = Session()

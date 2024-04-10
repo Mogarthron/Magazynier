@@ -25,7 +25,7 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
 
   
   def __init__(self, lp_zam_pianki, nr_paczka, model, bryla_gen, nr_pianki, blad_dopuszczalny_wysokosc, uwaga_wysokosc, 
-               blad_dopuszczalny_szerokosc, uwaga_szerokosc, blad_dopuszczalny_dlugosc, uwaga_dlugosc, uwaga):
+               blad_dopuszczalny_szerokosc, uwaga_szerokosc, blad_dopuszczalny_dlugosc, uwaga_dlugosc, blad_dopuszczalny, uwaga):
 
     self.lp_zam_pianki = lp_zam_pianki
     self.nr_paczka = nr_paczka
@@ -38,6 +38,7 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
     self.uwaga_szerokosc = uwaga_szerokosc
     self.blad_dopuszczalny_dlugosc = blad_dopuszczalny_dlugosc
     self.uwaga_dlugosc = uwaga_dlugosc
+    self.blad_dopuszczalny = blad_dopuszczalny
     self.uwaga = uwaga
 
 
@@ -214,13 +215,4 @@ class Lista_bryl_pianki(Base):
 
   def __repr__(self):
     return f"{self.model}, {len(self.lista_bryl.split('_'))}"
-
-
-
-
-
-# Base.metadata.create_all(bind=engine)
-
-# Session = sessionmaker(bind=engine)
-# session = Session()
 
