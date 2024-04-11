@@ -21,7 +21,7 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
   blad_dopuszczalny_dlugosc = Column("BLAD_DOPUSZCZALNY_DLUGOSC", Boolean, default=True)
   uwaga_dlugosc = Column("UWAGA_DLUGOSC", String)
   blad_dopuszczalny = Column("BLAD_DOSPUSZCZALNY", Boolean, default=False)
-  uwaga = Column("UWAGA", String)
+  uwaga = Column("UWAGA", String, default="Brak uwag")
 
   
   def __init__(self, lp_zam_pianki, nr_paczka, model, bryla_gen, nr_pianki, blad_dopuszczalny_wysokosc, uwaga_wysokosc, 

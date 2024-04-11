@@ -12,6 +12,15 @@ app = Flask(__name__)
 
 ard = {x.MODEL: x for x in izp}
 
+@app.route("/raport_jakosciowy_pianek/")
+def podglad_wpisow_w_raporcie():
+
+    kj = RAPORT_KJ_DO_DOSTAWY_PIANEK
+
+    res = session.execute(select(kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_wysokosc, kj.blad_dopuszczalny_dlugosc, kj.blad_dopuszczalny_szerokosc, kj.uwaga_wysokosc, kj.uwaga_dlugosc, kj.uwaga_szerokosc))
+    
+
+    return [list(x) for x in res]
 
 @app.route("/raport_jakosciowy_pianek/<id>", methods=["GET", "POST"])
 def raport_jakosciowy_pianek(id):
@@ -25,7 +34,7 @@ def raport_jakosciowy_pianek(id):
 
     tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
 
-    # uwagi_do_wymiaru = 
+    # uwagi_do_wymiaru = session.execute(select(
 
     #['uwagiDlugosc', 'bladAkceptowanyDlugosc', 'uwagiSzerokosc', 'bladAkceptowanySzerokosc', 'uwagiWysokosc', 'bladAkceptowanyWysokosc', 'uwagiInne', 'pozycjaDoReklamacji', 'numerPaczki_1']
     if request.method == "POST":
@@ -42,7 +51,7 @@ def raport_jakosciowy_pianek(id):
                                                 blad_dopuszczalny_wysokosc, request.form["uwagiWysokosc"], 
                                                 blad_dopuszczalny_szerokosc, request.form["uwagiSzerokosc"],
                                                 blad_dopuszczalny_dlugosc, request.form["uwagiDlugosc"], 
-                                                blad_dopuszczalny, request.form["uwagiInne"] ))
+                                                blad_dopuszczalny, request.form["uwagiInne"]))
 
         session.commit()
 

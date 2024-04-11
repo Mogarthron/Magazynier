@@ -24,7 +24,7 @@
         </div>
         <div class="col">
           <h1>nr paczki:</h1>
-          <select
+          <!-- <select
             class="form-select form-select-sm"
             aria-label=".form-select-sm example"
             id="numerPaczki"
@@ -44,7 +44,17 @@
             <option value="13">13</option>
             <option value="14">14</option>
             <option value="15">15</option>
-          </select>
+          </select> -->
+          <input
+                    type="number"
+                    class="form-control"
+                    id="numerPaczki"
+                    name="numerPaczki"
+                    min="1"
+                    step="1"
+                    max="{{ile_zam}}"
+                    value="1"
+                  />
         </div>
       </div>
     </div>
@@ -61,7 +71,8 @@
             <th>WYMIAR</th>
             <th>TOLERANCJA</th>
             <th>ILOSC</th>
-            <th>BŁĄD</th>
+            <th>BŁĄD OPIS</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -77,6 +88,7 @@
             <td>{{r[5]}}</td>
             <td>{{r[6]}}</td>
             <td>{{r[7]}}</td>
+            <td>szer +2cm</td>
             <td>
               <button
                 type="button"
@@ -263,6 +275,8 @@
           {% endfor %}
         </tbody>
       </table>
+
+      <a href="{{url_for('paln_pracy_wydzialu_pianek')}}">PLAN PRACY WYDZIAŁU PIANEK</a>
     </div>
     <script>
       var opisBledu = document.getElementById("opiszBlad");
