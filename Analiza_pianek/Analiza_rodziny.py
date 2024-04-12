@@ -145,7 +145,7 @@ class Analiza_Rodziny():
       print("------------------------------------------------------------------")
       self.Wykres_podsumowanie_obj(False)
     
-    if prt == "prtWw":
+    elif prt == "prtWw":
       print(f"MODEL: {self.MODEL}")
       print(f"POZYCJE ZAGROZONE: {self.zagrozone.shape[0]} pozycji")
       print(f"BRAKI: {self.krytyczne.shape[0]} pozycji")
