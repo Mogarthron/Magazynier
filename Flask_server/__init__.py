@@ -12,52 +12,60 @@ app = Flask(__name__)
 
 ard = {x.MODEL: x for x in izp}
 
-@app.route("/raport_jakosciowy_pianek/")
-def podglad_wpisow_w_raporcie():
 
-    kj = RAPORT_KJ_DO_DOSTAWY_PIANEK
+@app.route("/dokumentacja_pianek/<numer>")
+def dokumentacja_pianek_numer(numer):
+    dokumentacja = [list(x) for x in session.execute(text(f"SELECT MODEL, BRYLA, TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where NUMER = '{numer}'")).fetchall()]
 
-    res = session.execute(select(kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_wysokosc, kj.blad_dopuszczalny_dlugosc, kj.blad_dopuszczalny_szerokosc, kj.uwaga_wysokosc, kj.uwaga_dlugosc, kj.uwaga_szerokosc))
-    
+    return [list(x) for x in dokumentacja]
 
-    return [list(x) for x in res]
 
+@app.route("/raport_jakosciowy_pianek/", defaults={"id": None})
 @app.route("/raport_jakosciowy_pianek/<id>", methods=["GET", "POST"])
 def raport_jakosciowy_pianek(id):
-    # pass
-    bryla_jakosc = select(ZAM_PIANKI.kod ,ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis, ZAM_PIANKI.ile_zam, ZAM_PIANKI.zam1, ZAM_PIANKI.zam2).where(
-        ZAM_PIANKI.lp == id)
-
-    kod, model, nr_kompletacji, opis, ile_zam, zam1, zam2 = session.execute(bryla_jakosc).first()
-    bryla_gen = session.execute(select(
-                                KOMPLETY_PIANEK.kod, KOMPLETY_PIANEK.bryla_gen).where(KOMPLETY_PIANEK.kod == kod)).first()[1]
-
-    tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
-
-    # uwagi_do_wymiaru = session.execute(select(
-
-    #['uwagiDlugosc', 'bladAkceptowanyDlugosc', 'uwagiSzerokosc', 'bladAkceptowanySzerokosc', 'uwagiWysokosc', 'bladAkceptowanyWysokosc', 'uwagiInne', 'pozycjaDoReklamacji', 'numerPaczki_1']
-    if request.method == "POST":
+    
+    if id:
         
-        numery_z_formy = list(request.form.keys())[-1].split("_")
-        nr_paczki = numery_z_formy[1]
-        nr_pianki = numery_z_formy[3]
-        blad_dopuszczalny_wysokosc = 1 if type(request.form.get("bladAkceptowanyWysokosc")) == str else 0 
-        blad_dopuszczalny_szerokosc = 1 if type(request.form.get("bladAkceptowanySzerokosc")) == str else 0 
-        blad_dopuszczalny_dlugosc = 1 if type(request.form.get("bladAkceptowanyDlugosc")) == str else 0 
-        blad_dopuszczalny = 1 if type(request.form.get("pozycjaDoReklamacji")) == str else 0 
+        bryla_jakosc = select(ZAM_PIANKI.kod ,ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis, ZAM_PIANKI.ile_zam, ZAM_PIANKI.zam1, ZAM_PIANKI.zam2).where(
+            ZAM_PIANKI.lp == id)
+
+        kod, model, nr_kompletacji, opis, ile_zam, zam1, zam2 = session.execute(bryla_jakosc).first()
+        bryla_gen = session.execute(select(
+                                    KOMPLETY_PIANEK.kod, KOMPLETY_PIANEK.bryla_gen).where(KOMPLETY_PIANEK.kod == kod)).first()[1]
+
+        tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
+
+        # uwagi_do_wymiaru = session.execute(select(
+
+        #['uwagiDlugosc', 'bladAkceptowanyDlugosc', 'uwagiSzerokosc', 'bladAkceptowanySzerokosc', 'uwagiWysokosc', 'bladAkceptowanyWysokosc', 'uwagiInne', 'pozycjaDoReklamacji', 'numerPaczki_1']
+        if request.method == "POST":
+            
+            numery_z_formy = list(request.form.keys())[-1].split("_")
+            nr_paczki = numery_z_formy[1]
+            nr_pianki = numery_z_formy[3]
+            blad_dopuszczalny_wysokosc = 1 if type(request.form.get("bladAkceptowanyWysokosc")) == str else 0 
+            blad_dopuszczalny_szerokosc = 1 if type(request.form.get("bladAkceptowanySzerokosc")) == str else 0 
+            blad_dopuszczalny_dlugosc = 1 if type(request.form.get("bladAkceptowanyDlugosc")) == str else 0 
+            blad_dopuszczalny = 1 if type(request.form.get("pozycjaDoReklamacji")) == str else 0 
+            
+            session.add(RAPORT_KJ_DO_DOSTAWY_PIANEK(id, nr_paczki, model, bryla_gen, nr_pianki, 
+                                                    blad_dopuszczalny_wysokosc, request.form["uwagiWysokosc"], 
+                                                    blad_dopuszczalny_szerokosc, request.form["uwagiSzerokosc"],
+                                                    blad_dopuszczalny_dlugosc, request.form["uwagiDlugosc"], 
+                                                    blad_dopuszczalny, request.form["uwagiInne"]))
+
+            session.commit()
+
+
+        return render_template("raport_jakosciowy_pianek.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
+    
+    else:
         
-        session.add(RAPORT_KJ_DO_DOSTAWY_PIANEK(id, nr_paczki, model, bryla_gen, nr_pianki, 
-                                                blad_dopuszczalny_wysokosc, request.form["uwagiWysokosc"], 
-                                                blad_dopuszczalny_szerokosc, request.form["uwagiSzerokosc"],
-                                                blad_dopuszczalny_dlugosc, request.form["uwagiDlugosc"], 
-                                                blad_dopuszczalny, request.form["uwagiInne"]))
+        kj = RAPORT_KJ_DO_DOSTAWY_PIANEK
 
-        session.commit()
+        res = session.execute(select(kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_wysokosc, kj.blad_dopuszczalny_dlugosc, kj.blad_dopuszczalny_szerokosc, kj.uwaga_wysokosc, kj.uwaga_dlugosc, kj.uwaga_szerokosc))   
 
-
-    return render_template("raport_jakosciowy_pianek.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
-
+        return [list(x) for x in res]
 
 
 @app.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
