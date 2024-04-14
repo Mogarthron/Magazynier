@@ -62,11 +62,11 @@ def raport_jakosciowy_pianek(id):
     else:
         
         kj = RAPORT_KJ_DO_DOSTAWY_PIANEK
+               
+        res = session.query(kj)   
 
-        res = session.execute(select(kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_wysokosc, kj.blad_dopuszczalny_dlugosc, kj.blad_dopuszczalny_szerokosc, kj.uwaga_wysokosc, kj.uwaga_dlugosc, kj.uwaga_szerokosc))   
-
-        return [list(x) for x in res]
-
+        json_kj = list(map(lambda x: x.kj_to_json(), res))
+        return json_kj
 
 @app.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
