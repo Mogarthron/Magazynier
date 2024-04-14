@@ -1,4 +1,5 @@
 from Modele_db import *
+from datetime import datetime as dt
 
 Base = declarative_base()
 
@@ -22,7 +23,7 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
   uwaga_dlugosc = Column("UWAGA_DLUGOSC", String)
   blad_dopuszczalny = Column("BLAD_DOSPUSZCZALNY", Boolean, default=False)
   uwaga = Column("UWAGA", String, default="Brak uwag")
-
+  data_dodania = Column("DATA_DODANIA", String(16), default=str(dt.now().strftime("%Y-%m-%d %H:%M")))
   
   def __init__(self, lp_zam_pianki, nr_paczka, model, bryla_gen, nr_pianki, blad_dopuszczalny_wysokosc, uwaga_wysokosc, 
                blad_dopuszczalny_szerokosc, uwaga_szerokosc, blad_dopuszczalny_dlugosc, uwaga_dlugosc, blad_dopuszczalny, uwaga):
@@ -41,7 +42,16 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
     self.blad_dopuszczalny = blad_dopuszczalny
     self.uwaga = uwaga
 
+  def kj_to_json(self):
+    return {
+      "lp": self.lp,
+      # "lpZamPianki": self.lp_zam_pianki,
+      "dataDodania": self.data_dodania,
+      "model": self.model,
+      "brylaGen": self.bryla_gen,
+      "nr_pianki": self.nr_pianki
 
+  }
 
 
 class KOMPLETY_PIANEK(Base):
