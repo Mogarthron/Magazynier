@@ -1,29 +1,8 @@
 from Flask_server import dt
 
-kal_dos = {
-                dt(2024,3,27): [{"DOSTAWCA": "PIANPOL",
-                          "NR PARTII": "08/01",
-                          "NR DOS": "24/0216",
-                          "MODELE": "MAX, OXY",
-                          "OBJ": ["width: 40%;", 40]},],
-                dt(2024,4,4): [{"DOSTAWCA": "OWATY",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "REV, SAM",
-                          "OBJ": []}],
-                dt(2024,4,5): [{"DOSTAWCA": "PIANPOL",
-                          "NR PARTII": "10/01",
-                          "NR DOS": "24/0299",
-                          "MODELE": "AVA, ELI, REV",
-                          "OBJ": ["width: 74%;", 74]},
-
-                          {"DOSTAWCA": "OWATY",
-                          "NR PARTII": "",
-                          "NR DOS": "",
-                          "MODELE": "REV, SAM",
-                          "OBJ": []}],
+kal_dos = {              
             
-                dt(2024,4,15): [{"DOSTAWCA": "CIECH",
+                dt(2024,4,17): [{"DOSTAWCA": "CIECH",
                           "NR PARTII": "11/01",
                           "NR DOS": "24/0327",
                           "MODELE": "SAM, DIV, GRE, OVA, CAL, KEL",
