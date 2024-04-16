@@ -21,7 +21,44 @@ def raport_jakosciowy(id):
 
         tabelka_kj = [list(x) for x in session.execute(text(f"SELECT TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where MODEL = '{model}' and BRYLA = '{bryla_gen}'")).fetchall()]
 
-        # uwagi_do_wymiaru = session.execute(select(
+        kj = RAPORT_KJ_DO_DOSTAWY_PIANEK
+
+        def Uwagi_wysokosc(model, bryla_gen):
+            return [list(x) for x in session.execute(select(kj.nr_pianki, kj.uwaga_wysokosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen, kj.blad_dopuszczalny_wysokosc==True, kj.uwaga_wysokosc != "")).all()]
+
+        def Uwagi_szerokosc(model, bryla_gen):
+            return [list(x) for x in session.execute(select(kj.nr_pianki, kj.uwaga_szerokosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen, kj.blad_dopuszczalny_szerokosc==True, kj.uwaga_szerokosc != "")).all()]
+
+        def Uwagi_dlugosc(model, bryla_gen):
+            return [list(x) for x in session.execute(select(kj.nr_pianki, kj.uwaga_dlugosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen, kj.blad_dopuszczalny_dlugosc==True, kj.uwaga_dlugosc != "")).all()]
+
+        ud = Uwagi_dlugosc(model, bryla_gen)
+        us = Uwagi_szerokosc(model, bryla_gen)
+        uw = Uwagi_wysokosc(model, bryla_gen)
+
+
+        for r in tabelka_kj:
+            r.append("")
+            r.append("")
+            r.append("")
+            # print(r)
+
+        for r in tabelka_kj:
+            for d in ud:
+                if r[4] == d[0]:
+                    r[-2] = "d" + d[1]
+            
+            for s in us:
+                if r[4] == s[0]:
+                    r[-1] = "s" + s[1]
+
+
+            for w in uw:
+                if r[4] == w[0]:
+                    r[-3] = "w"+w[1]
+        
+                    
+         
 
         #['uwagiDlugosc', 'bladAkceptowanyDlugosc', 'uwagiSzerokosc', 'bladAkceptowanySzerokosc', 'uwagiWysokosc', 'bladAkceptowanyWysokosc', 'uwagiInne', 'pozycjaDoReklamacji', 'numerPaczki_1']
         if request.method == "POST":
