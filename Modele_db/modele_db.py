@@ -1,5 +1,6 @@
 from Modele_db import *
 from datetime import datetime as dt
+from sqlalchemy import select
 
 Base = declarative_base()
 
@@ -42,6 +43,13 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
     self.blad_dopuszczalny = blad_dopuszczalny
     self.uwaga = uwaga
 
+  
+  def Uwagi_wysokosc(self, model, bryla_gen):
+    return [list(x) for x in session.execute(select(self.model, self.bryla_gen, self.nr_pianki, self.blad_dopuszczalny_wysokosc, self.uwaga_wysokosc, self.data_dodania).where(self.model == model, self.bryla_gen == bryla_gen, self.uwaga_wysokosc != "")).all()]
+# Uwagi_szerokosc = session.execute(select(kj.model, kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_szerokosc,kj.uwaga_szerokosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen,  kj.uwaga_szerokosc != "")).all()
+# Uwagi_dlugosc = session.execute(select(kj.model, kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_dlugosc,kj.uwaga_dlugosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen, kj.uwaga_dlugosc != "")).all()
+
+
   def kj_to_json(self):
     return {
       "lp": self.lp,
@@ -49,7 +57,14 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
       "dataDodania": self.data_dodania,
       "model": self.model,
       "brylaGen": self.bryla_gen,
-      "nr_pianki": self.nr_pianki
+      "nr_pianki": self.nr_pianki,
+      "uwagaWysokosc": self.uwaga_wysokosc,
+      "bDopWysokosc": self.blad_dopuszczalny_wysokosc,
+      "uwagaSzerokosc": self.uwaga_szerokosc,
+      "bDopSzerokosc": self.blad_dopuszczalny_szerokosc,
+      "uwagaDlugosc": self.uwaga_dlugosc,
+      "bDopDlugosc": self.blad_dopuszczalny_dlugosc,
+      "dataDodania": self.data_dodania
 
   }
 
