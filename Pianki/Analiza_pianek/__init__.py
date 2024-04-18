@@ -24,7 +24,7 @@ data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
 
 pda = list(daty_kompletacji.keys())
 
-from Pianki.Analiza_pianek.przygotowanie_danych import *
+from ..Analiza_pianek.przygotowanie_danych import *
 
 
 analiza = komplety_pianek.merge(

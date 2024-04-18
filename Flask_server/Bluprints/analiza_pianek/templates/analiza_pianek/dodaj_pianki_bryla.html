@@ -1,0 +1,47 @@
+{% extends "layout.html" %} {% block content %}
+<h2>{{model}}</h2>
+
+<div class="containter-lg">
+  <form method="POST">
+    <!-- <div class="container"> -->
+    <div class="grid">
+      {% for b in bryla %} {{b}}
+      <div class="g-col-4">
+        <div class="container">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <label for="bryla" class="visually-hidden"></label>
+              <input
+                type="text"
+                readonly
+                class="form-control-plaintext text-end"
+                name="bryla"
+                value="{{b}}"
+              />
+            </div>
+
+            <div class="col-auto">
+              <label for="ile" class="col-form-label"></label>
+              <input
+                type="number"
+                class="form-control"
+                name="ile"
+                min="0"
+                step="1"
+                value="{{bryla[b]}}"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor%}
+    </div>
+
+    <!-- </div> -->
+
+    <input type="submit" value="Dadaj Bryły" />
+  </form>
+</div>
+
+{% endblock %}

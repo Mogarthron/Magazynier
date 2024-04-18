@@ -4,8 +4,8 @@ from datetime import datetime as dt, timedelta
 
 from Flask_server.kalendarz_dostaw import kal_dos
 
-from Flask_server.wydzial_pianek import wydzial_pianek
-from Flask_server.analiza_pianek import analiza_pianek
+from Flask_server.Bluprints.wydzial_pianek import wydzial_pianek
+from Flask_server.Bluprints.analiza_pianek import analiza_pianek
 
 
 app = Flask(__name__)
@@ -15,9 +15,8 @@ app.register_blueprint(analiza_pianek, url_prefix="/analiza_pianek")
 
 @app.route("/")
 def index():
-    return "ddd"
-    # iz = list(map(lambda x: x.Raport(), izp))
-    # return render_template("index.html", iz = {"Raport": iz})   
+  
+    return render_template("index.html", title="Strona Główna")   
 
 @app.route("/kalendarz_dostaw")
 def kalendarz_dostaw():

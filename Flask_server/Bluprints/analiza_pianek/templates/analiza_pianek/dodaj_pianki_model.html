@@ -1,0 +1,58 @@
+{% extends "layout.html" %} {% block content %}
+<form method="POST">
+  <label for="model">MODEL: </label>
+  <select name="model" id="lista_modeli">
+    {% for m in lista_modeli %}
+    <option value="{{m}}">{{m}}</option>
+    {% endfor %}
+  </select>
+  <button type="submit" class="btn btn-primary btn-sm">PRZEJDZ DO BRYŁ</button>
+</form>
+<div class="container">
+  <div calss="card">
+    <form method="POST">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">MODEL</th>
+            <th scope="col">BRYLA</th>
+            <th scope="col">ILOŚĆ</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in zam_pianki%}
+          <tr>
+            <td>{{b[1][0]}}</td>
+            <td>{{b[1][1]}}</td>
+            <td>{{b[1][2]}}</td>
+            <!-- <td>
+              <input type="number" class="form-control" name="ile" min="0" step="1" value="{{b[1][2]}}">
+            </td> -->
+            <td>
+              <label
+                for="del_{{b[1][0]}}_{{b[1][1]}}"
+                class="visually-hidden"
+              ></label>
+              <button
+                type="submit"
+                name="del_{{b[1][0]}}_{{b[1][1]}}"
+                class="btn btn-danger"
+              >
+                USUŃ
+              </button>
+            </td>
+          </tr>
+          {% endfor%}
+        </tbody>
+      </table>
+    </form>
+  </div>
+  <form method="post">
+    <label for="wyczysc_bryly" class="visually-hidden"></label>
+    <button type="submit" class="btn btn-primary" name="wyczysc_bryly">
+      Wyczyść Bryły
+    </button>
+  </form>
+</div>
+{% endblock %}

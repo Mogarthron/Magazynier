@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for
 from Modele_db.modele_db import session
 from sqlalchemy import text
-from Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
+from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
 
 from ..analiza_pianek import analiza_pianek
 
@@ -18,14 +18,14 @@ def dokumentacja_pianek_numer(numer):
 @analiza_pianek.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
     
-    return render_template("dodaj_pianki_bryla.html", model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True))
+    return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True))
 
 @analiza_pianek.route("/dodaj_pianki_model", methods=["GET", "POST"])
 def dodaj_pianki_model():
 
     if request.method == "POST":
-        print(request.form["model"])
-        return redirect(url_for("dodaj_pianki_bryla", model=request.form["model"]))
+    
+        return redirect(url_for("analiza_pianek.dodaj_pianki_bryla", model=request.form["model"]))
 
-    return render_template("dodaj_pianki_model.html", lista_modeli = list([x.MODEL for x in izp])) 
+    return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp])) 
 
