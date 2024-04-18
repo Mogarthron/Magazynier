@@ -1,5 +1,5 @@
-from Analiza_pianek.Analiza_rodziny import Analiza_Rodziny
-from Modele_pianek import *
+from Pianki.Analiza_pianek.Analiza_rodziny import Analiza_Rodziny
+from Pianki.Modele_pianek import *
 
 
 #INSTRUKCJA ZAM_NOWA_PIANPOL

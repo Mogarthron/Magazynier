@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 
-from Analiza_pianek import *
+from Pianki.Analiza_pianek import *
 from Modele_db import *
 
 

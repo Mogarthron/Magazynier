@@ -1,5 +1,5 @@
 from Modele_db.modele_db import *
-from Analiza_pianek.owaty import *
+from Pianki.Analiza_pianek.owaty import *
 import pandas as pd
 
 

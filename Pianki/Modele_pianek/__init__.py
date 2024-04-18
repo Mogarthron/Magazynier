@@ -14,7 +14,7 @@ for i in lb:
   lista_bryl[i[0]] = [x for x in i[1].split("_")]
 
 
-from Modele_pianek.Model1 import MODEL1
+from Pianki.Modele_pianek.Model1 import MODEL1
 
 class ELIXIR_CV(MODEL1):
   MODEL = "ELIXIR"
@@ -44,7 +44,7 @@ class OXYGEN_CV(MODEL1):
     super().__init__(b=b)
 
 
-from Modele_pianek.Model2 import MODEL2
+from Pianki.Modele_pianek.Model2 import MODEL2
 
 class HORIZON_CV(MODEL2):
   MODEL = "HORIZON"
@@ -77,7 +77,7 @@ class COCO_CV(MODEL2):
     super().__init__(bg=b)
 
 
-from Modele_pianek.Model3 import MODEL3
+from Pianki.Modele_pianek.Model3 import MODEL3
 
 class STONE_V(MODEL3):
   MODEL = "STONE"
@@ -95,7 +95,7 @@ class UNO_V(MODEL3):
     super().__init__(b=b)
 
 
-from Modele_pianek.Model4 import MODEL4
+from Pianki.Modele_pianek.Model4 import MODEL4
 
 class CALYPSO_C(MODEL4):
   MODEL = "CALYPSO"
@@ -147,7 +147,7 @@ class KELLY_C(MODEL4):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-from Modele_pianek.Model5 import MODEL5
+from Pianki.Modele_pianek.Model5 import MODEL5
 
 class AVANT_P(MODEL5):
   MODEL = "AVANT"
@@ -160,7 +160,7 @@ class OVAL_P(MODEL5):
     super().__init__(b=b)
 
 
-from Modele_pianek.Model6 import MODEL6
+from Pianki.Modele_pianek.Model6 import MODEL6
 
 class UNO_P(MODEL6):
   MODEL = "UNO"
@@ -217,7 +217,7 @@ class DIVA_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-from Modele_pianek.Model7 import MODEL7
+from Pianki.Modele_pianek.Model7 import MODEL7
 
 class HORIZON_PV(MODEL7):
   MODEL = "HORIZON"

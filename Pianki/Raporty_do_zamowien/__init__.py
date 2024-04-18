@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 from Modele_db.modele_db import *
-from Analiza_pianek import funkcje_analizy_pianek as ap, owaty as ow
-from Modele_pianek import tab
-from Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as ar
+from Pianki.Analiza_pianek import funkcje_analizy_pianek as ap, owaty as ow
+from Pianki.Modele_pianek import tab
+from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as ar
 
 ard = {a.MODEL: a for a in ar}
 komplety_pianek = ap.komplety_pianek

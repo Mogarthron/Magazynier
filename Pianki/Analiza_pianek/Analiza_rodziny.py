@@ -1,4 +1,4 @@
-from Analiza_pianek.funkcje_analizy_pianek import *
+from Pianki.Analiza_pianek.funkcje_analizy_pianek import *
 #@title KLASA
 
 import plotly.graph_objects as go

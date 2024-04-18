@@ -1,4 +1,4 @@
-from Analiza_pianek import *
+from Pianki.Analiza_pianek import *
 from Modele_db import engine, text
 import pandas as pd
 

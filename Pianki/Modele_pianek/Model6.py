@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from Modele_pianek.Pianki import Pianki
+from Pianki.Modele_pianek.Pianki import Pianki
 # @title KLASY PIANEK M6
 
 class MODEL6(Pianki):
