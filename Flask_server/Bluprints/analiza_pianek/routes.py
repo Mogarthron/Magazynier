@@ -17,7 +17,13 @@ def dokumentacja_pianek_numer(numer):
 
 @analiza_pianek.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
-    
+
+    if request.method == "POST":
+        print({k:v for k,v in request.form.lists()})
+        print(request.form.getlist("ile"))
+        # print(request.form["dodajBryly"])
+
+
     return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True))
 
 @analiza_pianek.route("/dodaj_pianki_model", methods=["GET", "POST"])
