@@ -1,0 +1,32 @@
+{% extends "layout_wp.html" %} {% block content %}
+<h1>PRZYJECIE DOSTAWY</h1>
+<table class="table table-striped-columns table-hover">
+  <thead style="position: sticky; top: 0">
+    <tr>
+      <th>ZNACZNIK DOSTAWCY</th>
+      <th>ZAM1</th>
+      <th>ZAM2</th>
+      <th>MODEL</th>
+      <th>NR KOMPLETCJI</th>
+      <th>OPIS</th>
+      <th>ZAMOWIONE</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {%for r in plan_pracy["plan_pracy"]%}
+    <tr>
+      <td>{{r["znacznikDostawcy"]}}</td>
+      <td>{{r["zam1"]}}</td>
+      <td>{{r["zam2"]}}</td>
+      <td>{{r["model"]}}</td>
+      <td>{{r["nrKompletacji"]}}</td>
+      <td>{{r["opis"]}}</td>
+      <td>{{r["zamowione"]}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

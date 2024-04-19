@@ -25,15 +25,15 @@
         <div class="col">
           <h1>nr paczki:</h1>
           <input
-                    type="number"
-                    class="form-control"
-                    id="numerPaczki"
-                    name="numerPaczki"
-                    min="1"
-                    step="1"
-                    max="{{ile_zam}}"
-                    value="1"
-                  />
+            type="number"
+            class="form-control"
+            id="numerPaczki"
+            name="numerPaczki"
+            min="1"
+            step="1"
+            max="{{ile_zam}}"
+            value="1"
+          />
         </div>
       </div>
     </div>
@@ -79,15 +79,14 @@
               </button>
             </td>
           </tr>
-        
-          {% include "modal_jakosc.html" %}
-          
-          {% endfor %}
+
+          {% include "modal_jakosc.html" %} {% endfor %}
         </tbody>
       </table>
 
-      <a href="{{url_for('wydzial_pianek.paln_pracy')}}">PLAN PRACY WYDZIAŁU PIANEK</a>
-
+      <a href="{{url_for('wydzial_pianek.plan_pracy')}}"
+        >PLAN PRACY WYDZIAŁU PIANEK</a
+      >
     </div>
     <script>
       var opisBledu = document.getElementById("opiszBlad");
@@ -111,7 +110,8 @@
           " W PACZCE " +
           numerPaczki.value;
         modalBodyInput.value = nrPianki;
-        zapiszUwage.name = "numerPaczki_" + numerPaczki.value + "_nrPianki_" + nrPianki;
+        zapiszUwage.name =
+          "numerPaczki_" + numerPaczki.value + "_nrPianki_" + nrPianki;
         //console.log("numerPaczki_" + numerPaczki.value);
       });
     </script>

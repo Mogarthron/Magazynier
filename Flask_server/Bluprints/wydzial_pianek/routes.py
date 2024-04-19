@@ -1,9 +1,28 @@
 from flask import render_template, request, redirect, url_for
-from Modele_db.modele_db import session, ZAM_PIANKI, KOMPLETY_PIANEK, RAPORT_KJ_DO_DOSTAWY_PIANEK 
+from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK 
 from sqlalchemy import or_, select, text
 
 from ..wydzial_pianek import wydzial_pianek
 from ..wydzial_pianek.funkcje_pomocnicze import *
+
+import pandas as pd
+
+@wydzial_pianek.route("/")
+def index():
+    return render_template("wydzial_pianek.html", title="Wydział pianek")
+
+
+
+@wydzial_pianek.route("/przyjecie_dostawy")
+def przyjecie_dostawy():
+    
+    plan_pracy = session.query(ZAM_PIANKI).filter(
+                    or_(ZAM_PIANKI.status_kompletacja.not_like("%ZAKONCZONO%"), ZAM_PIANKI.status_kompletacja == None)).all()
+    
+    json_plan_pracy = list(map(lambda x: x.plan_pracy_to_json(), plan_pracy))
+    
+    
+    return render_template("przyjecie_dostawy.html", title="Przyjecie dostawy", plan_pracy={"plan_pracy":json_plan_pracy})
 
 
 
@@ -34,7 +53,8 @@ def raport_jakosciowy(id):
 
             session.commit()
 
-
+        print(opis)
+        print(pd.DataFrame(tabelka_kj))
         return render_template("raport_jakosciowy.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
     
     else:
@@ -48,7 +68,7 @@ def raport_jakosciowy(id):
     
 
 @wydzial_pianek.route("/plan_pracy", methods=["GET", "POST"])
-def paln_pracy():
+def plan_pracy():
 
     plan_pracy = session.query(ZAM_PIANKI).filter(
                     or_(ZAM_PIANKI.status_kompletacja.not_like("%ZAKONCZONO%"), ZAM_PIANKI.status_kompletacja == None)).all()
