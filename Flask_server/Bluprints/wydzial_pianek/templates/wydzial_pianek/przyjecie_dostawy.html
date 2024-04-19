@@ -3,27 +3,30 @@
 <table class="table table-striped-columns table-hover">
   <thead style="position: sticky; top: 0">
     <tr>
+      <th>LP</th>
       <th>ZNACZNIK DOSTAWCY</th>
+      <th>NR KOMPLETCJI</th>
+      <th>ZAMOWIONE</th>
+      <th>OPIS</th>
       <th>ZAM1</th>
       <th>ZAM2</th>
-      <th>MODEL</th>
-      <th>NR KOMPLETCJI</th>
-      <th>OPIS</th>
-      <th>ZAMOWIONE</th>
-
+      <th>NR PARTII</th>
+      <th>NR SAMOCHODU</th>
       <th></th>
     </tr>
   </thead>
   <tbody>
-    {%for r in plan_pracy["plan_pracy"]%}
+    {%for r in pianki_w_drodze["pianki_w_drodze"]%}
     <tr>
+      <td>{{r["lp"]}}</td>
       <td>{{r["znacznikDostawcy"]}}</td>
+      <td>{{r["nrKompletacji"]}}</td>
+      <td>{{r["zamowione"]}}</td>
+      <td>{{r["opis"]}}</td>
       <td>{{r["zam1"]}}</td>
       <td>{{r["zam2"]}}</td>
-      <td>{{r["model"]}}</td>
-      <td>{{r["nrKompletacji"]}}</td>
-      <td>{{r["opis"]}}</td>
-      <td>{{r["zamowione"]}}</td>
+      <td>{{r["nrPartii"]}}</td>
+      <td>{{r["nrSamochodu"]}}</td>
     </tr>
     {% endfor %}
   </tbody>

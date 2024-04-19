@@ -16,13 +16,12 @@ def index():
 @wydzial_pianek.route("/przyjecie_dostawy")
 def przyjecie_dostawy():
     
-    plan_pracy = session.query(ZAM_PIANKI).filter(
-                    or_(ZAM_PIANKI.status_kompletacja.not_like("%ZAKONCZONO%"), ZAM_PIANKI.status_kompletacja == None)).all()
+    pianki_w_drodze = session.query(ZAM_PIANKI).filter(ZAM_PIANKI.status_kompletacja == None).all()
     
-    json_plan_pracy = list(map(lambda x: x.plan_pracy_to_json(), plan_pracy))
+    json_pianki_w_drodze = list(map(lambda x: x.pianki_w_drodze_to_json(), pianki_w_drodze))
     
-    
-    return render_template("przyjecie_dostawy.html", title="Przyjecie dostawy", plan_pracy={"plan_pracy":json_plan_pracy})
+    # print(json_pianki_w_drodze)
+    return render_template("przyjecie_dostawy.html", title="Przyjecie dostawy", pianki_w_drodze={"pianki_w_drodze":json_pianki_w_drodze})
 
 
 
