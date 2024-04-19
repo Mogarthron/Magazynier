@@ -44,12 +44,6 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
     self.uwaga = uwaga
 
   
-  def Uwagi_wysokosc(self, model, bryla_gen):
-    return [list(x) for x in session.execute(select(self.model, self.bryla_gen, self.nr_pianki, self.blad_dopuszczalny_wysokosc, self.uwaga_wysokosc, self.data_dodania).where(self.model == model, self.bryla_gen == bryla_gen, self.uwaga_wysokosc != "")).all()]
-# Uwagi_szerokosc = session.execute(select(kj.model, kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_szerokosc,kj.uwaga_szerokosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen,  kj.uwaga_szerokosc != "")).all()
-# Uwagi_dlugosc = session.execute(select(kj.model, kj.bryla_gen, kj.nr_pianki, kj.blad_dopuszczalny_dlugosc,kj.uwaga_dlugosc, kj.data_dodania).where(kj.model == model, kj.bryla_gen == bryla_gen, kj.uwaga_dlugosc != "")).all()
-
-
   def kj_to_json(self):
     return {
       "lp": self.lp,
@@ -221,6 +215,19 @@ class ZAM_PIANKI(Base):
             "leniwaSkos": self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
             "owaty": self.status_owaty.split(",") if self.status_owaty else ["","",""],
             "statusKompletacja": self.status_kompletacja if type(self.status_kompletacja) == str else ""
+        }
+  
+  def pianki_w_drodze_to_json(self):
+    return {
+            "lp": self.lp,
+            "znacznikDostawcy": self.znacznik_dostawcy,
+            "nrKompletacji": self.nr_kompletacji,
+            "opis": self.opis,
+            "zamowione": int(self.ile_zam),
+            "zam1": self.zam1 if type(self.zam1) == str else "",
+            "zam2": self.zam2 if type(self.zam2) == str else "",
+            "nrPartii": self.uwagi.split(",")[0].replace("nr_partii: ", ""),
+            "nrSamochodu": self.nr_samochodu
         }
 
 
