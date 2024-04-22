@@ -20,8 +20,31 @@ def index():
 
 @app.route("/reklamacja_email")
 def reklamacja_email():
+
+    uwagi_ogolne = ["""Dostawa nie przyjechała do nas w terminie. Po ustaleniach z Panem
+        Szymczykiem samochód miał się zjawić u nas 2024-04-15. Transport nie
+        znaszej winy został przesunięty o dwa dni.""", 
+        """Wszytkie fotele: KELLY, OVAL, GREY przyjechały spakowane po parę sztuk w
+        jedną paczkę. W dokumentacji jest jasno napisane jak nleży pakować
+        komplety foteli. Prosze o wytłumaczenie podjęcia decyzji o spakowaniu niezgodnie z dokumentacją"""]
+    uwagi_ogolne_do_pozycji_dostawie = []
+    uwagi_do_pianek = {"DIVA X2,5X 10szt": [["EC0337", "wymiar nie zgodny z dokumentacją"]],
+                        "DIVA 3X 5szt": [["EC0336", "wymiar nie zgodny z dokumentacją"]],
+                        "DIVA LA 20szt": [["AA2376", "wymiar nie zgodny z dokumentacją"],
+                                         ["AA2386", "skos ze złej strony"],
+                                         ["AA2387", "skos ze złej strony"],
+                                         ["FA0241", "wymiar nie zgodny z dokumentacją, skos ze złej strony"],
+                                     ],
+                        "DIVA X4X 5szt": [["AA2270", "wymiar nie zgodny z dokumentacją"],
+                                          ["DB0168", "wymiar nie zgodny z dokumentacją"],
+                                          ["EC0334", "wymiar nie zgodny z dokumentacją"],
+                                          ["FA0219", "wymiar nie zgodny z dokumentacją"],]}
+
   
-    return render_template("email_reklamacja.html")   
+    return render_template("email_reklamacja.html", nr_reklamacji="CIECH 13_2024", 
+                           uwagi_ogolne=uwagi_ogolne, 
+                           uwagi_ogolne_do_pozycji_dostawie=uwagi_ogolne_do_pozycji_dostawie,
+                           uwagi_do_pianek=uwagi_do_pianek)   
 
 
 
