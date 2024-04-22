@@ -18,6 +18,13 @@ def index():
   
     return render_template("index.html", title="Strona Główna")   
 
+@app.route("/reklamacja_email")
+def reklamacja_email():
+  
+    return render_template("email_reklamacja.html")   
+
+
+
 @app.route("/kalendarz_dostaw")
 def kalendarz_dostaw():
 
