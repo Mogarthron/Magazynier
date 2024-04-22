@@ -2,15 +2,17 @@ from flask import render_template, request, redirect, url_for
 from Modele_db.modele_db import session
 from sqlalchemy import text
 from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
+from Pianki.Analiza_pianek import Podsumowanie_analizy_pianek
 
 from ..analiza_pianek import analiza_pianek
 
 
 ard = {x.MODEL: x for x in izp}
+# pap = Podsumowanie_analizy_pianek(izp)
 
 @analiza_pianek.route("/")
 def index():
-    return render_template("index.html", title="Analiza pianek")
+    return render_template("analiza_pianek.html", title="Analiza pianek")
 
 @analiza_pianek.route("/dokumentacja_pianek/<numer>")
 def dokumentacja_pianek_numer(numer):
