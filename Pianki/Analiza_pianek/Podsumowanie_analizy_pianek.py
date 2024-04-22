@@ -32,10 +32,10 @@ class Podsumowanie_analizy_pianek():
 
     def __repr__(self):
         
-        saldo = analiza.SALDO_obj.sum()
-        wolne = analiza.WOLNE_obj.sum()
-        zamow = analiza.ZAMOWIONE_obj.sum()+analiza.CZEKA_NA_SPAKOWANIE_obj.sum()+analiza.CZESCIOWO_DOSTARCZONE_obj.sum()
-        maks = analiza.MAX_obj.sum()
+        # saldo = analiza.SALDO_obj.sum()
+        # wolne = analiza.WOLNE_obj.sum()
+        # zamow = analiza.ZAMOWIONE_obj.sum()+analiza.CZEKA_NA_SPAKOWANIE_obj.sum()+analiza.CZESCIOWO_DOSTARCZONE_obj.sum()
+        # maks = analiza.MAX_obj.sum()
 
         return self.Podsumowanie_obietosci_pianek.to_string()+"\n---------\n"#+\
             #   f"SALDO\tWOLNE\tMAX\n"+\
