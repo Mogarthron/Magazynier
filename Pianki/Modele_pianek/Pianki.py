@@ -4,7 +4,7 @@ import numpy as np
 
 class Pianki:
 
-  def __init__(self, MODEL:str, galanteria, siedziska_HR, leniwa, PIANPOL=False):
+  def __init__(self, MODEL:str, galanteria, siedziska_HR, leniwa):
 
     self.galanteria = galanteria
     self.siedziska_HR = siedziska_HR
