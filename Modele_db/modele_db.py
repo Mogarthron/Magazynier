@@ -1,8 +1,9 @@
 from Modele_db import *
+from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean, Float
 from datetime import datetime as dt
 from sqlalchemy import select
 
-Base = declarative_base()
+# Base = declarative_base()
 
 # class baza_PIANKI(Base):
 #   __tablename__ = "baza_PAINKI"
@@ -72,6 +73,8 @@ class KOMPLETY_PIANEK(Base):
   czy_bryla = Column("CZY_BRYLA", Boolean, default=0)
   bryla_gen = Column("BRYLA_GEN", String())
   obj = Column("obj", Float)
+  preferowany_czas_kj = Column("PREFEROWANY_CZAS_KJ", SmallInteger)
+  preferowany_czas_pakowania = Column("PREFEROWANY_CZAS_PAKOWANIA", SmallInteger)
 
 class PRZYJECIE_ZEWNETRZE(Base):
   __tablename__ = "PRZYJECIE_ZEWNETRZNE"
