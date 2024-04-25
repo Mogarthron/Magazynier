@@ -187,8 +187,9 @@ class ZAM_PIANKI(Base):
   nr_pw = Column("nr_PW", String)
   status_kompletacja = Column("STATUS_KOMPLETACJA", String(50))
   nr_samochodu = Column("nr_SAMOCHODU", String(50))
+  nr_partii = Column("nr_PARTII", String(5))
 
-  def __init__(self, tydzien=None, model=None, kod=None, opis=None, ile_zam=None, znacznik_dostawcy=None, galanteria=None, siedziska_HR=None, leniwa=None, nr_kompletacji=None, zam1=None, zam2=None, uwagi=None):
+  def __init__(self, tydzien=None, model=None, kod=None, opis=None, ile_zam=None, znacznik_dostawcy=None, galanteria=None, siedziska_HR=None, leniwa=None, nr_kompletacji=None, zam1=None, zam2=None, uwagi=None, nr_partii=None):
     self.tydzien = tydzien
     self.kod = kod
     self.model = model
@@ -202,6 +203,7 @@ class ZAM_PIANKI(Base):
     self.zam1 = zam1
     self.zam2 = zam2
     self.uwagi = uwagi
+    self.nr_partii = nr_partii
 
   def plan_pracy_to_json(self):
     return {
@@ -228,7 +230,7 @@ class ZAM_PIANKI(Base):
             "zamowione": int(self.ile_zam),
             "zam1": self.zam1 if type(self.zam1) == str else "",
             "zam2": self.zam2 if type(self.zam2) == str else "",
-            "nrPartii": self.uwagi.split(",")[0].replace("nr_partii: ", ""),
+            "nrPartii": self.nr_partii,
             "nrSamochodu": self.nr_samochodu
         }
 
