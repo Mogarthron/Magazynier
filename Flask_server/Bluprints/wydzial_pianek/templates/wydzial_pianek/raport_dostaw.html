@@ -1,6 +1,16 @@
 {% extends "layout_wp.html" %} {% block content %}
+<style>
+.dostawy {
+        display: flex; /* Use flexbox */
+        
+    }
 
-<div class="container">
+
+</style>
+<div class="container-fluid">
+
+  <div id='chart' class='chart'></div>
+
   <table class="table">
     <thead>
       <tr>
@@ -10,7 +20,7 @@
         <th>DATA POTWIERDZENIA</th>
         <th>NR_SAMOCHODU</th>
         <th>STATUS</th>
-        <th></th>
+   
         <th>OBIETOSC SAMOCHODU</th>
       </tr>
     </thead>
@@ -20,12 +30,19 @@
         <td>2415</td>
         <td>2024-03-05</td>
         <td>2024-03-10</td>
-        <td>POTWIERDZONY</td>
-        <td></td>
-        <td>80</td>
+        <td>PIANPOL 10_24</td>
+        <td>NIE POTWIERDZONY</td>
+       
+                <td>70</td>
       </tr>
     </tbody>
   </table>
 </div>
 
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script type='text/javascript'>
+      var graphs = {{graphJSON | safe}};
+      Plotly.plot('chart',graphs,{});
+    </script>
+    
 {% endblock %}
