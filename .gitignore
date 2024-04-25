@@ -164,5 +164,7 @@ OWATY/
 KOMPLETACJA/
 linki.json
 *.ipynb
+!Stolarnia/*.ipynb
+!GENERATORY_DOKUMENTACJI/*.ipynb
 *.db
 *RYSUNKI
