@@ -1,5 +1,6 @@
 import pandas as pd
-from Modele_pianek import engine, text
+from Modele_db import engine, text
+from ..Analiza_pianek import komplety_pianek
 
 from datetime import datetime as dt, timedelta
 import plotly.express as px
@@ -7,15 +8,15 @@ import plotly.express as px
 import warnings
 warnings.filterwarnings('ignore')
 
-import json
-with open("./linki.json") as f:
-  linki = json.load(f)
-  zam_pianki_link = linki["zam_pianki_link"]
+# import json
+# with open("./linki.json") as f:
+#   linki = json.load(f)
+#   zam_pianki_link = linki["zam_pianki_link"]
 
 
 with engine.begin() as conn:
       tab = pd.read_sql(text("SELECT * from baza_PIANKI"), conn)
-      zp_tab = pd.read_sql(text("SELECT * from ZAM_PIANKI"), conn)# WHERE STATUS_KOMPLETACJA <> '1'
+      zp_tab = pd.read_sql(text("SELECT * from ZAM_PIANKI WHERE STATUS_KOMPLETACJA IS NULL"), conn)# WHERE STATUS_KOMPLETACJA <> '1'
 zp_tab["KOMPLETACJA"] = zp_tab["MODEL"] + " " + zp_tab["NR_KOMPLETACJI"]
 zp_tab["nr_SAMOCHODU"].fillna("", inplace=True)
 zp_tab = zp_tab[zp_tab.STATUS_KOMPLETACJA !="1"]
@@ -75,4 +76,4 @@ fig.add_vline(x=60, line_dash="dash", annotation_text="60m3")
 fig.add_vline(x=90, line_dash="dash", annotation_text="90m3")
 fig.add_vline(x=100, line_color="red")
 # fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
-fig.show()
+# fig.show()
