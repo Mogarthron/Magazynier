@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for
 from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK 
 from sqlalchemy import or_
 
-from Pianki.Dostawy_pianek import obietosci_samochodow, zp_tab
+from Pianki.Dostawy_pianek import obietosci_samochodow, zp_tab, wykers_zapelnienia_samochodow
 import plotly.express as px
 import plotly
 
@@ -25,19 +25,13 @@ def raport_dostaw():
     obietosci_samochodow("PIANPOL", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index()
         ]).sort_values(by="SAMOCHOD").reset_index(drop=True)
 
-    fig = px.bar(df, x="OBJ", y="SAMOCHOD", color='KOMPLETACJA', orientation='h',
-                    text="KOMPLETACJA",
-                    hover_data=["KOMPLETACJA", "GAL_OBJ","SHR_OBJ","LEN_OBJ"],
-                    #  height=400,
-                    title='Zapełnienie samochodów 2024-02-22')
-    fig.update_yaxes(autorange="reversed")
-    fig.update_layout(showlegend=False)
-    fig.add_vline(x=30, line_dash="dash", annotation_text="30m3")
-    fig.add_vline(x=60, line_dash="dash", annotation_text="60m3")
-    fig.add_vline(x=90, line_dash="dash", annotation_text="90m3")
-    fig.add_vline(x=100, line_color="red")
+    fig = wykers_zapelnienia_samochodow(df)
     
-    return render_template("raport_dostaw.html", title="Raport dostaw", graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
+    print(zp_tab)
+    # dostawy = zp_tab
+
+
+    return render_template("raport_dostaw.html", title="Raport dostaw", graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
 
 
 @wydzial_pianek.route("/przyjecie_dostawy")

@@ -16,10 +16,13 @@ warnings.filterwarnings('ignore')
 
 with engine.begin() as conn:
       tab = pd.read_sql(text("SELECT * from baza_PIANKI"), conn)
-      zp_tab = pd.read_sql(text("SELECT * from ZAM_PIANKI WHERE STATUS_KOMPLETACJA IS NULL"), conn)# WHERE STATUS_KOMPLETACJA <> '1'
+      zp_tab = pd.read_sql(text("""SELECT LP, TYDZIEN, KOD, MODEL, NR_KOMPLETACJI, OPIS,
+                                          ILE_ZAMOWIONE, ZNACZNIK_DOSTAWCY, GALANTERIA, SIEDZISKA_HR,
+                                          LENIWA, ZAM1, ZAM2, UWAGI, POTW_DATA_DOS_1, POTW_DATA_DOS_2,
+                                          nr_SAMOCHODU, nr_PARTII 
+                                  FROM ZAM_PIANKI WHERE STATUS_KOMPLETACJA IS NULL AND NR_PARTII IS NOT NULL"""), conn)
 zp_tab["KOMPLETACJA"] = zp_tab["MODEL"] + " " + zp_tab["NR_KOMPLETACJI"]
 zp_tab["nr_SAMOCHODU"].fillna("", inplace=True)
-zp_tab = zp_tab[zp_tab.STATUS_KOMPLETACJA !="1"]
 
 tab["vol"] = tab.DLUG*tab.SZER*tab.WYS/1000_000_000
 tab["VOL"] = tab.vol*tab.ilosc
@@ -56,24 +59,19 @@ def obietosci_samochodow(dostawca, tabela):
   # return dostawy.groupby("SAMOCHOD").sum().OBJ, dostawy.groupby(["SAMOCHOD", "KOMPLETACJA"]).sum().OBJ
 
 
+def wykers_zapelnienia_samochodow(tabela_obietosci_samochodow):
+  fig = px.bar(tabela_obietosci_samochodow, x="OBJ", y="SAMOCHOD", color='KOMPLETACJA', orientation='h',
+              text="KOMPLETACJA",
+              hover_data=["KOMPLETACJA", "GAL_OBJ","SHR_OBJ","LEN_OBJ"],
+              #  height=400,
+              title=f'Zapełnienie samochodów {dt.now().strftime("%Y-%m-%d")}')
+  fig.update_yaxes(autorange="reversed")
+  fig.update_layout(showlegend=False)
+  fig.add_vline(x=30, line_dash="dash", annotation_text="30m3")
+  fig.add_vline(x=60, line_dash="dash", annotation_text="60m3")
+  fig.add_vline(x=90, line_dash="dash", annotation_text="90m3")
+  fig.add_vline(x=100, line_color="red")
 
-  
-df = pd.concat([
-    obietosci_samochodow("CIECH", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
-    obietosci_samochodow("VITA", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
-    obietosci_samochodow("PIANPOL", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index()
-]).sort_values(by="SAMOCHOD").reset_index(drop=True)
-
-fig = px.bar(df, x="OBJ", y="SAMOCHOD", color='KOMPLETACJA', orientation='h',
-             text="KOMPLETACJA",
-             hover_data=["KOMPLETACJA", "GAL_OBJ","SHR_OBJ","LEN_OBJ"],
-            #  height=400,
-             title='Zapełnienie samochodów 2024-02-22')
-fig.update_yaxes(autorange="reversed")
-fig.update_layout(showlegend=False)
-fig.add_vline(x=30, line_dash="dash", annotation_text="30m3")
-fig.add_vline(x=60, line_dash="dash", annotation_text="60m3")
-fig.add_vline(x=90, line_dash="dash", annotation_text="90m3")
-fig.add_vline(x=100, line_color="red")
+  return fig
 # fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
 # fig.show()

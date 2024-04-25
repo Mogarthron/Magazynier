@@ -1,17 +1,8 @@
 {% extends "layout_wp.html" %} {% block content %}
-<style>
-.dostawy {
-        display: flex; /* Use flexbox */
-        
-    }
-
-
-</style>
 <div class="container-fluid">
+  <div id="chart" class="chart"></div>
 
-  <div id='chart' class='chart'></div>
-
-  <table class="table">
+  <table class="table table-hover">
     <thead>
       <tr>
         <th>LP</th>
@@ -20,7 +11,7 @@
         <th>DATA POTWIERDZENIA</th>
         <th>NR_SAMOCHODU</th>
         <th>STATUS</th>
-   
+
         <th>OBIETOSC SAMOCHODU</th>
       </tr>
     </thead>
@@ -32,17 +23,25 @@
         <td>2024-03-10</td>
         <td>PIANPOL 10_24</td>
         <td>NIE POTWIERDZONY</td>
-       
-                <td>70</td>
+        <td>70</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>2413</td>
+        <td>2024-03-05</td>
+        <td>2024-03-10</td>
+        <td>VITA 8_24</td>
+        <td>NIE POTWIERDZONY</td>
+        <td>90</td>
       </tr>
     </tbody>
   </table>
 </div>
 
-<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
-    <script type='text/javascript'>
-      var graphs = {{graphJSON | safe}};
-      Plotly.plot('chart',graphs,{});
-    </script>
-    
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript">
+  var graphs = {{graphJSON | safe}};
+  Plotly.plot('chart',graphs,{});
+</script>
+
 {% endblock %}
