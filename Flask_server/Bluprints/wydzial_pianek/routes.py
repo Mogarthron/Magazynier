@@ -12,6 +12,10 @@ def index():
     return render_template("wydzial_pianek.html", title="Wydział pianek")
 
 
+@wydzial_pianek.route("/raport_dostaw")
+def raport_dostaw():
+    return render_template("raport_dostaw.html", title="Raport dostaw")
+
 
 @wydzial_pianek.route("/przyjecie_dostawy")
 def przyjecie_dostawy():
