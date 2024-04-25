@@ -65,3 +65,17 @@ analiza["DO_ZAM_SZT"] = analiza.apply(lambda x: do_zam_szt(x.MAX, x.WOLNE_SALDO,
 analiza["DO_ZAM_obj"] = (analiza.DO_ZAM_SZT * analiza.obj)
 
 
+def Zapis_danych_do_Archiwom(nr_tygodnia, analiza, _Tabela_podsumowania_analizy, url_do_bazy):
+  from Modele_db import create_engine 
+  zapis_analizy_engine = create_engine(url_do_bazy, echo=False)
+
+
+  zapis_analizy =analiza[["KOD","MAX","SALDO","SUMA_ZLEC","ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE",]]
+  zapis_analizy["TYDZIEN"] = nr_tygodnia
+  zapis_analizy[["MAX","SALDO","SUMA_ZLEC","ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE"]] = zapis_analizy[["MAX","SALDO","SUMA_ZLEC","ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE"]].astype("int16")
+
+  zapis_analizy.to_sql("ZAPIS_ANALIZY_PIANKI", zapis_analizy_engine, index=False, if_exists="append")
+
+  tpa = _Tabela_podsumowania_analizy
+  tpa["TYDZIEN"] = nr_tygodnia
+  tpa.to_sql("TABELA_PODSUMOWANIA_ANALIZY", zapis_analizy_engine, index=False, if_exists="append")
