@@ -53,3 +53,26 @@ def obietosci_samochodow(dostawca, tabela):
 
   return dostawy[["KOMPLETACJA", "OPIS", 'ILE_ZAMOWIONE', 'SAMOCHOD', "GAL_OBJ", "SHR_OBJ", "LEN_OBJ", "OBJ"]]
   # return dostawy.groupby("SAMOCHOD").sum().OBJ, dostawy.groupby(["SAMOCHOD", "KOMPLETACJA"]).sum().OBJ
+
+
+
+  
+df = pd.concat([
+    obietosci_samochodow("CIECH", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
+    obietosci_samochodow("VITA", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
+    obietosci_samochodow("PIANPOL", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index()
+]).sort_values(by="SAMOCHOD").reset_index(drop=True)
+
+fig = px.bar(df, x="OBJ", y="SAMOCHOD", color='KOMPLETACJA', orientation='h',
+             text="KOMPLETACJA",
+             hover_data=["KOMPLETACJA", "GAL_OBJ","SHR_OBJ","LEN_OBJ"],
+            #  height=400,
+             title='Zapełnienie samochodów 2024-02-22')
+fig.update_yaxes(autorange="reversed")
+fig.update_layout(showlegend=False)
+fig.add_vline(x=30, line_dash="dash", annotation_text="30m3")
+fig.add_vline(x=60, line_dash="dash", annotation_text="60m3")
+fig.add_vline(x=90, line_dash="dash", annotation_text="90m3")
+fig.add_vline(x=100, line_color="red")
+# fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+fig.show()
