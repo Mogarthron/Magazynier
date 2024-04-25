@@ -9,7 +9,12 @@ class Podsumowanie_analizy_pianek():
         
         ar_podsum = pd.DataFrame([x.Raport() for x in instrukcja_zamawiania])
 
-        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])
+        self._Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])
+        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
+                                                                                                                        'OBJ_VITA', 'OBJ_PIANPOL', '*WSPL_ZAP_WOLNE', '*WSPL_ZAP_ZAM']]
+        self.Tpa_Pianpol = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_PIANPOL", ascending=False)
+        self.Tpa_Vita = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_VITA", ascending=False)
+        self.Tpa_Ciech = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_CIECH", ascending=False)
 
         podsumowanie_VOL = ar_podsum[["OBJ_CIECH",	"OBJ_VITA",	"OBJ_PIANPOL"]].sum()
         podsumowanie_VOL["RAZEM"] = podsumowanie_VOL.sum()
@@ -37,7 +42,7 @@ class Podsumowanie_analizy_pianek():
         # zamow = analiza.ZAMOWIONE_obj.sum()+analiza.CZEKA_NA_SPAKOWANIE_obj.sum()+analiza.CZESCIOWO_DOSTARCZONE_obj.sum()
         # maks = analiza.MAX_obj.sum()
 
-        return self.Podsumowanie_obietosci_pianek.to_string()+"\n---------\n"#+\
+        return self.Podsumowanie_obietosci_pianek.to_string()#+"\n---------\n"#+\
             #   f"SALDO\tWOLNE\tMAX\n"+\
             #   f"{saldo:.0f}\t{wolne:.0f}\t{maks:.0f}\n"+\
             #   f"{saldo/maks*100:.0f}%\t{wolne/maks*100:.0f}%\t{(zamow+wolne)/maks*100:.0f}%"
