@@ -65,7 +65,7 @@ analiza["DO_ZAM_SZT"] = analiza.apply(lambda x: do_zam_szt(x.MAX, x.WOLNE_SALDO,
 analiza["DO_ZAM_obj"] = (analiza.DO_ZAM_SZT * analiza.obj)
 
 
-def Zapis_danych_do_Archiwom(nr_tygodnia, analiza, _Tabela_podsumowania_analizy, url_do_bazy):
+def Zapis_danych_do_Archiwum(nr_tygodnia, analiza, _Tabela_podsumowania_analizy, url_do_bazy):
   from Modele_db import create_engine 
   zapis_analizy_engine = create_engine(url_do_bazy, echo=False)
 
