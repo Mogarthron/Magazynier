@@ -27,11 +27,15 @@ def raport_dostaw():
 
     fig = wykers_zapelnienia_samochodow(df)
     
-    print(zp_tab)
+    # print(zp_tab)
     # dostawy = zp_tab
+    tabelka_raport_dostaw = [
+        #Data zamó[wienia], oczekiwnie na potwierdzenie, data potwierdzenia, data dostawy, nr_partii, nr_samochodu, status, obietosc
+        ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "NIE POTWIERDZONY", 70],
+        ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 8_24", "NIE POTWIERDZONY", 80],
+    ]
 
-
-    return render_template("raport_dostaw.html", title="Raport dostaw", graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
+    return render_template("raport_dostaw.html", title="Raport dostaw", tabelka_raport_dostaw=tabelka_raport_dostaw, graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
 
 
 @wydzial_pianek.route("/przyjecie_dostawy")
@@ -73,8 +77,8 @@ def raport_jakosciowy(id):
 
             session.commit()
 
-        print(opis)
-        print(pd.DataFrame(tabelka_kj))
+        # print(opis)
+        # print(pd.DataFrame(tabelka_kj))
         return render_template("raport_jakosciowy.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
     
     else:
@@ -121,4 +125,4 @@ def plan_pracy():
         # print("kj id", int(list(request.form.keys())[0].replace("kj_", "")))
         return redirect(url_for("wydzial_pianek.raport_jakosciowy", id=int(list(request.form.keys())[0].replace("kj_", ""))))
 
-    return render_template("plan_pracy.html", plan_pracy={"plan_pracy":json_plan_pracy})
+    return render_template("plan_pracy.html", title="PLAN PRACY", plan_pracy={"plan_pracy":json_plan_pracy})

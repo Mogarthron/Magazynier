@@ -6,34 +6,32 @@
     <thead>
       <tr>
         <th>LP</th>
-        <th>TYDZIEN</th>
         <th>DATA ZAMOWIENIA</th>
+        <th>CZAS OCZEKIWNIA NA POTWIERDZENIE</th>
         <th>DATA POTWIERDZENIA</th>
+        <th>DATA DOSTAWY</th>
+        <th>NR_PARTII</th>
         <th>NR_SAMOCHODU</th>
         <th>STATUS</th>
-
         <th>OBIETOSC SAMOCHODU</th>
       </tr>
     </thead>
     <tbody>
+      {% for d in tabelka_raport_dostaw %}
       <tr>
-        <td>1</td>
-        <td>2415</td>
-        <td>2024-03-05</td>
-        <td>2024-03-10</td>
-        <td>PIANPOL 10_24</td>
-        <td>NIE POTWIERDZONY</td>
-        <td>70</td>
+        <td>{{loop.index}}</td>
+        <td>{{d[0]}}</td>
+        <td>{{d[1]}}</td>
+        <td>{{d[2]}}</td>
+        <td>{{d[3]}}</td>
+        <td>{{d[4]}}</td>
+        <td>{{d[5]}}</td>
+        <td>{{d[6]}}</td>
+        <td>{{d[7]}}</td>
+        <td>{{d[8]}}</td>
+
       </tr>
-      <tr>
-        <td>2</td>
-        <td>2413</td>
-        <td>2024-03-05</td>
-        <td>2024-03-10</td>
-        <td>VITA 8_24</td>
-        <td>NIE POTWIERDZONY</td>
-        <td>90</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>

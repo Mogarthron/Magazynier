@@ -1,5 +1,5 @@
 <div class="modal fade" id="rysunekDok" tabindex="-1" aria-labelledby="rysunekDokumentacjaLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="rysunekDokumentacjaLabel">
@@ -8,7 +8,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <img src="{{url_for('wydzial_pianek.static', filename='RYSUNKI'+r[8])}}", alt="RYSUNEK {{r[4]}}">
+                <img id="rysunekImg", alt="RYSUNEK {{r[4]}}">
                 
             </div>
             <div class="modal-footer">
