@@ -14,10 +14,11 @@
         <th>NR_SAMOCHODU</th>
         <th>STATUS</th>
         <th>OBIETOSC SAMOCHODU</th>
+        <th>PRZEJDŹ DO DOSTAWY</th>
       </tr>
     </thead>
     <tbody>
-      {% for d in tabelka_raport_dostaw %}
+      {% for d in tabelka_dostawy_pianek %}
       <tr>
         <td>{{loop.index}}</td>
         <td>{{d[0]}}</td>
@@ -29,6 +30,9 @@
         <td>{{d[6]}}</td>
         <td>{{d[7]}}</td>
         <td>{{d[8]}}</td>
+        <td><button>
+          <a href="{{url_for('wydzial_pianek.przyjecie_dostawy', nr_samochodu=d[5])}}">CLICK!!</a>
+        </button></td>
 
       </tr>
       {% endfor %}

@@ -16,8 +16,8 @@ def index():
     return render_template("wydzial_pianek.html", title="Wydział pianek")
 
 
-@wydzial_pianek.route("/raport_dostaw")
-def raport_dostaw():
+@wydzial_pianek.route("/dostawy_pianek")
+def dostawy_pianek():
 
     df = pd.concat([
     obietosci_samochodow("CIECH", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
@@ -28,25 +28,30 @@ def raport_dostaw():
     fig = wykers_zapelnienia_samochodow(df)
     
     # print(zp_tab)
-    # dostawy = zp_tab
-    tabelka_raport_dostaw = [
+   
+    tabelka_dostawy_pianek = [
         #Data zamó[wienia], oczekiwnie na potwierdzenie, data potwierdzenia, data dostawy, nr_partii, nr_samochodu, status, obietosc
-        ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "NIE POTWIERDZONY", 70],
-        ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 8_24", "NIE POTWIERDZONY", 80],
+        ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "NIE POTWIERDZONY", f"{df[df.SAMOCHOD == 'PIANPOL 10_24'].OBJ.sum():.0f}"],
+        ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 8_24", "NIE POTWIERDZONY", f"{df[df.SAMOCHOD == 'VITA 8_24'].OBJ.sum():.0f}"],
     ]
 
-    return render_template("raport_dostaw.html", title="Raport dostaw", tabelka_raport_dostaw=tabelka_raport_dostaw, graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
+    return render_template("dostawy_pianek.html", title="Dostawy pianek", tabelka_dostawy_pianek=tabelka_dostawy_pianek, graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
 
 
-@wydzial_pianek.route("/przyjecie_dostawy")
-def przyjecie_dostawy():
+@wydzial_pianek.route("/przyjecie_dostawy/<nr_samochodu>", methods=["GET", "POST"])
+def przyjecie_dostawy(nr_samochodu):
     
-    pianki_w_drodze = session.query(ZAM_PIANKI).filter(ZAM_PIANKI.status_kompletacja == None).all()
+    pianki_w_drodze = session.query(ZAM_PIANKI).filter(ZAM_PIANKI.nr_samochodu.like(f"%{nr_samochodu}%")).all()
     
     json_pianki_w_drodze = list(map(lambda x: x.pianki_w_drodze_to_json(), pianki_w_drodze))
     
-    # print(json_pianki_w_drodze)
-    return render_template("przyjecie_dostawy.html", title="Przyjecie dostawy", pianki_w_drodze={"pianki_w_drodze":json_pianki_w_drodze})
+    print(json_pianki_w_drodze[0])
+
+    if request.method == "POST" and "kj" in list(request.form.keys())[0].split("_")[0]:
+        # print("kj id", int(list(request.form.keys())[0].replace("kj_", "")))
+        return redirect(url_for("wydzial_pianek.raport_jakosciowy", id=int(list(request.form.keys())[0].replace("kj_", ""))))
+
+    return render_template("przyjecie_dostawy.html", title=f"Przyjecie dostawy {nr_samochodu}", nr_samochodu=nr_samochodu, pianki_w_drodze={"pianki_w_drodze":json_pianki_w_drodze})
 
 
 

@@ -230,6 +230,9 @@ class ZAM_PIANKI(Base):
             "zamowione": int(self.ile_zam),
             "zam1": self.zam1 if type(self.zam1) == str else "",
             "zam2": self.zam2 if type(self.zam2) == str else "",
+            "gal": self.galanteria,
+            "hrs": self.siedziska_HR,
+            "mem": self.leniwa,
             "nrPartii": self.nr_partii,
             "nrSamochodu": self.nr_samochodu
         }

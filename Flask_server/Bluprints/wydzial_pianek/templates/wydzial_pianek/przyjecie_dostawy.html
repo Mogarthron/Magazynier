@@ -1,35 +1,188 @@
 {% extends "layout_wp.html" %} {% block content %}
-<h1>PRZYJECIE DOSTAWY</h1>
-<table class="table table-striped-columns table-hover">
-  <thead style="position: sticky; top: 0">
-    <tr>
-      <th>LP</th>
-      <th>ZNACZNIK DOSTAWCY</th>
-      <th>NR KOMPLETCJI</th>
-      <th>ZAMOWIONE</th>
-      <th>OPIS</th>
-      <th>ZAM1</th>
-      <th>ZAM2</th>
-      <th>NR PARTII</th>
-      <th>NR SAMOCHODU</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {%for r in pianki_w_drodze["pianki_w_drodze"]%}
-    <tr>
-      <td>{{r["lp"]}}</td>
-      <td>{{r["znacznikDostawcy"]}}</td>
-      <td>{{r["nrKompletacji"]}}</td>
-      <td>{{r["zamowione"]}}</td>
-      <td>{{r["opis"]}}</td>
-      <td>{{r["zam1"]}}</td>
-      <td>{{r["zam2"]}}</td>
-      <td>{{r["nrPartii"]}}</td>
-      <td>{{r["nrSamochodu"]}}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container-md">
+  <br>
+  <div class="row">
+    <div class="col">
 
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+
+            NR PARTII
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+
+            DATA DOSTAWY
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+
+            ILOSC BRAKOW
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col">
+
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+
+            OBIETOSC DOSTAWY
+          </p>
+        </div>
+      </div>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col">
+
+      <div class="card">
+        <div class="card-body">
+          SUMA CZASÓW W MINUTACH
+        </div>
+      </div>
+    </div>
+    <div class="col">
+
+      <div class="card">
+        <div class="card-body">
+          SUMA CZASÓW W GODZINACH
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <h3>RAPORT REALIZACJI DOSTAWY (w minutach)</h3>
+    <table class="table table-striped-columns">
+      <thead>
+        <tr>
+          <th>IMIE NAZWISKO</th>
+          <th>ROZŁADUNEK</th>
+          <th>KONTROLA JAKOŚCI</th>
+          <th>SKORYGOWANIE BŁĘDÓW W DOSTAWIE</th>
+          <th>KOMPLETACJA</th>
+          <th>RZŁŻENIE PACZEK NA MAGAZYNACH</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ADAM RZEPKO</td>
+          <td>57</td>
+          <td>190</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+        </tr>
+        <tr>
+          <td>PIOTR ŁUPIŃSKI</td>
+          <td>57</td>
+          <td>0</td>
+          <td>0</td>
+          <td>305</td>
+          <td>225</td>
+        </tr>
+        <tr>
+          <td>PAWEŁ MIŚKO</td>
+          <td>57</td>
+          <td>0</td>
+          <td>0</td>
+          <td>165</td>
+          <td>225</td>
+        </tr>
+        <tr>
+          <td>ALEKSANDER PIANKARZ</td>
+          <td>0</td>
+          <td>0</td>
+          <td>0</td>
+          <td>80</td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary">+DODAJ PRACOWNIKA</button>
+
+  </div>
+  <div class="row">
+    <h3>PRZYJECIE DOSTAWY</h3>
+    <table class="table table-striped-columns table-hover">
+      <thead>
+        <tr>
+          <th>LP</th>
+          <th>NR KOMPLETCJI</th>
+          <th>OPIS</th>
+          <th>ZAMOWIONE</th>
+          <th>PRZYJECHAŁO</th>
+          <th>GAL</th>
+          <th>HRS</th>
+          <th>MEM</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for r in pianki_w_drodze["pianki_w_drodze"]%}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td>{{r["nrKompletacji"]}}</td>
+          <td>{{r["opis"]}}</td>
+          <td>{{r["zamowione"]}}</td>
+          <td><input class="form-number" type="number" name="przyjechalo_{{r['lp']}}" value="{{r['zamowione']}}"
+              min="0"></td>
+          <td>
+            {% if nr_samochodu[0] == r["gal"] %}
+            <input class="form-check-input" type="checkbox" name="cb_gal_{{r['lp']}}" checked>
+            {% else %}
+            <input class="form-check-input" type="checkbox" name="cb_gal_{{r['lp']}}">
+            {% endif %}
+          </td>
+          <td>
+            {% if nr_samochodu[0] == r["hrs"] %}
+            <input class="form-check-input" type="checkbox" name="cb_hrs_{{r['lp']}}" checked>
+            {% else %}
+            <input class="form-check-input" type="checkbox" name="cb_hrs_{{r['lp']}}">
+            {% endif %}
+          </td>
+          <td>
+            {% if nr_samochodu[0] == r["mem"] %}
+            <input class="form-check-input" type="checkbox" name="cb_mem_{{r['lp']}}" checked>
+            {% else %}
+            <input class="form-check-input" type="checkbox" name="cb_mem_{{r['lp']}}">
+            {% endif %}
+          </td>
+
+          <td>
+            <button>
+              <form method="POST">
+                <label for="kj_{{r['lp']}}"></label>
+                <button type="submit" name="kj_{{r['lp']}}">KJ</button>
+              </form>
+            </button>
+          </td>
+
+
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<a href="{{url_for('wydzial_pianek.dostawy_pianek')}}">DOSTAWY PIANEK</a>
 {% endblock %}
