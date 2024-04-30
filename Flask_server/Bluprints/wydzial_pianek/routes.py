@@ -49,15 +49,15 @@ def przyjecie_dostawy(nr_samochodu):
 
     if request.method == "POST" and "kj" in list(request.form.keys())[0].split("_")[0]:
         # print("kj id", int(list(request.form.keys())[0].replace("kj_", "")))
-        return redirect(url_for("wydzial_pianek.raport_jakosciowy", id=int(list(request.form.keys())[0].replace("kj_", ""))))
+        return redirect(url_for("wydzial_pianek.raport_jakosciowy", nr_samochodu=nr_samochodu ,id=int(list(request.form.keys())[0].replace("kj_", ""))))
 
     return render_template("przyjecie_dostawy.html", title=f"Przyjecie dostawy {nr_samochodu}", nr_samochodu=nr_samochodu, pianki_w_drodze={"pianki_w_drodze":json_pianki_w_drodze})
 
 
 
-@wydzial_pianek.route("/raport_jakosciowy/", defaults={"id": None})
-@wydzial_pianek.route("/raport_jakosciowy/<id>", methods=["GET", "POST"])
-def raport_jakosciowy(id):
+@wydzial_pianek.route("/raport_jakosciowy/", defaults={"id": None, "nr_samochodu": None})
+@wydzial_pianek.route("/raport_jakosciowy/<nr_samochodu>/<id>", methods=["GET", "POST"])
+def raport_jakosciowy(nr_samochodu, id):
     
     if id:
                
@@ -84,7 +84,7 @@ def raport_jakosciowy(id):
 
         # print(opis)
         # print(pd.DataFrame(tabelka_kj))
-        return render_template("raport_jakosciowy.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj)
+        return render_template("raport_jakosciowy.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj, nr_samochodu=nr_samochodu)
     
     else:
         
