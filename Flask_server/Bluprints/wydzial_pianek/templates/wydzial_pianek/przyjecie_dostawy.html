@@ -1,74 +1,53 @@
 {% extends "layout_wp.html" %} {% block content %}
 <div class="container-md">
-  <br>
+  <br />
   <div class="row">
     <div class="col">
-
       <div class="card">
         <div class="card-body">
-          <p class="card-text">
-
-            NR PARTII
-          </p>
+          <p class="card-text">NR PARTII</p>
         </div>
       </div>
     </div>
     <div class="col">
-
       <div class="card">
         <div class="card-body">
-          <p class="card-text">
-
-            DATA DOSTAWY
-          </p>
+          <p class="card-text">DATA DOSTAWY</p>
         </div>
       </div>
     </div>
   </div>
-  <br>
+  <br />
   <div class="row">
     <div class="col">
-
       <div class="card">
         <div class="card-body">
-          <p class="card-text">
-
-            ILOSC BRAKOW
-          </p>
+          <p class="card-text">ILOSC BRAKOW</p>
         </div>
       </div>
     </div>
     <div class="col">
-
       <div class="card">
         <div class="card-body">
-          <p class="card-text">
-
-            OBIETOSC DOSTAWY
-          </p>
-        </div>
-      </div>
-    </div>
-  </div><br>
-  <div class="row">
-    <div class="col">
-
-      <div class="card">
-        <div class="card-body">
-          SUMA CZASÓW W MINUTACH
-        </div>
-      </div>
-    </div>
-    <div class="col">
-
-      <div class="card">
-        <div class="card-body">
-          SUMA CZASÓW W GODZINACH
+          <p class="card-text">OBIETOSC DOSTAWY</p>
         </div>
       </div>
     </div>
   </div>
-  <br>
+  <br />
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">SUMA CZASÓW W MINUTACH</div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="card">
+        <div class="card-body">SUMA CZASÓW W GODZINACH</div>
+      </div>
+    </div>
+  </div>
+  <br />
   <div class="row">
     <h3>RAPORT REALIZACJI DOSTAWY (w minutach)</h3>
     <table class="table table-striped-columns">
@@ -79,47 +58,24 @@
           <th>KONTROLA JAKOŚCI</th>
           <th>SKORYGOWANIE BŁĘDÓW W DOSTAWIE</th>
           <th>KOMPLETACJA</th>
-          <th>RZŁŻENIE PACZEK NA MAGAZYNACH</th>
+          <th>ROZŁOŻENIE PACZEK NA MAGAZYNACH</th>
         </tr>
       </thead>
       <tbody>
+        {% for p in raport_realizacji_dostawy %}
         <tr>
-          <td>ADAM RZEPKO</td>
-          <td>57</td>
-          <td>190</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
+          <td>{{p[0]}}</td>
+          <td>{{p[1]}}</td>
+          <td>{{p[2]}}</td>
+          <td>{{p[3]}}</td>
+          <td>{{p[4]}}</td>
+          <td>{{p[5]}}</td>
         </tr>
-        <tr>
-          <td>PIOTR ŁUPIŃSKI</td>
-          <td>57</td>
-          <td>0</td>
-          <td>0</td>
-          <td>305</td>
-          <td>225</td>
-        </tr>
-        <tr>
-          <td>PAWEŁ MIŚKO</td>
-          <td>57</td>
-          <td>0</td>
-          <td>0</td>
-          <td>165</td>
-          <td>225</td>
-        </tr>
-        <tr>
-          <td>ALEKSANDER PIANKARZ</td>
-          <td>0</td>
-          <td>0</td>
-          <td>0</td>
-          <td>80</td>
-          <td>0</td>
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
 
     <button type="button" class="btn btn-primary">+DODAJ PRACOWNIKA</button>
-
   </div>
   <div class="row">
     <h3>PRZYJECIE DOSTAWY</h3>
@@ -143,41 +99,70 @@
           <td>{{r["nrKompletacji"]}}</td>
           <td>{{r["opis"]}}</td>
           <td>{{r["zamowione"]}}</td>
-          <td><input class="form-number" type="number" name="przyjechalo_{{r['lp']}}" value="{{r['zamowione']}}"
-              min="0"></td>
+          <td>
+            <input
+              class="form-number"
+              type="number"
+              name="przyjechalo_{{r['lp']}}"
+              value="{{r['zamowione']}}"
+              min="0"
+            />
+          </td>
           <td>
             {% if nr_samochodu[0] == r["gal"] %}
-            <input class="form-check-input" type="checkbox" name="cb_gal_{{r['lp']}}" checked>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="cb_gal_{{r['lp']}}"
+              checked
+            />
             {% else %}
-            <input class="form-check-input" type="checkbox" name="cb_gal_{{r['lp']}}">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="cb_gal_{{r['lp']}}"
+            />
             {% endif %}
           </td>
           <td>
             {% if nr_samochodu[0] == r["hrs"] %}
-            <input class="form-check-input" type="checkbox" name="cb_hrs_{{r['lp']}}" checked>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="cb_hrs_{{r['lp']}}"
+              checked
+            />
             {% else %}
-            <input class="form-check-input" type="checkbox" name="cb_hrs_{{r['lp']}}">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="cb_hrs_{{r['lp']}}"
+            />
             {% endif %}
           </td>
           <td>
             {% if nr_samochodu[0] == r["mem"] %}
-            <input class="form-check-input" type="checkbox" name="cb_mem_{{r['lp']}}" checked>
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="cb_mem_{{r['lp']}}"
+              checked
+            />
             {% else %}
-            <input class="form-check-input" type="checkbox" name="cb_mem_{{r['lp']}}">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="cb_mem_{{r['lp']}}"
+            />
             {% endif %}
           </td>
 
           <td>
-            <button>
-              <form method="POST">
-                <label for="kj_{{r['lp']}}"></label>
-                <button type="submit" name="kj_{{r['lp']}}">KJ</button>
-              </form>
-            </button>
+            <form method="POST">
+              <label for="kj_{{r['lp']}}"></label>
+              <button type="submit" name="kj_{{r['lp']}}">KJ</button>
+            </form>
           </td>
-
-
-
         </tr>
         {% endfor %}
       </tbody>

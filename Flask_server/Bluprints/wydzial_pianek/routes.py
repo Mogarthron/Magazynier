@@ -34,8 +34,11 @@ def dostawy_pianek():
         ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "NIE POTWIERDZONY", f"{df[df.SAMOCHOD == 'PIANPOL 10_24'].OBJ.sum():.0f}"],
         ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 8_24", "NIE POTWIERDZONY", f"{df[df.SAMOCHOD == 'VITA 8_24'].OBJ.sum():.0f}"],
     ]
-
-    return render_template("dostawy_pianek.html", title="Dostawy pianek", tabelka_dostawy_pianek=tabelka_dostawy_pianek, graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
+    
+    
+    return render_template("dostawy_pianek.html", title="Dostawy pianek", 
+                                                  tabelka_dostawy_pianek=tabelka_dostawy_pianek,  
+                                                  graphJSON=json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder))
 
 
 @wydzial_pianek.route("/przyjecie_dostawy/<nr_samochodu>", methods=["GET", "POST"])
@@ -45,13 +48,20 @@ def przyjecie_dostawy(nr_samochodu):
     
     json_pianki_w_drodze = list(map(lambda x: x.pianki_w_drodze_to_json(), pianki_w_drodze))
     
-    print(json_pianki_w_drodze[0])
+    raport_realizacji_dostawy = [
+        ["ADAM RZEPKO", 57, 190, 0, 0, 0],
+        ["PIOTR ŁUPIŃSKI", 57, 0, 0, 305, 225],
+        ["PAWEŁ MIŚKO", 57, 0, 0, 165, 225],
+    ]
 
     if request.method == "POST" and "kj" in list(request.form.keys())[0].split("_")[0]:
         # print("kj id", int(list(request.form.keys())[0].replace("kj_", "")))
         return redirect(url_for("wydzial_pianek.raport_jakosciowy", nr_samochodu=nr_samochodu ,id=int(list(request.form.keys())[0].replace("kj_", ""))))
 
-    return render_template("przyjecie_dostawy.html", title=f"Przyjecie dostawy {nr_samochodu}", nr_samochodu=nr_samochodu, pianki_w_drodze={"pianki_w_drodze":json_pianki_w_drodze})
+    return render_template("przyjecie_dostawy.html", title=f"Przyjecie dostawy {nr_samochodu}", 
+                                                        nr_samochodu=nr_samochodu, 
+                                                        raport_realizacji_dostawy=raport_realizacji_dostawy,
+                                                        pianki_w_drodze={"pianki_w_drodze":json_pianki_w_drodze})
 
 
 
