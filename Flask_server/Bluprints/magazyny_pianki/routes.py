@@ -3,17 +3,19 @@ from ..magazyny_pianki import magazyny_pianki
 
 
 magazyny = {
-    "MAGAZYN 1 - ANTRESOLA 1": "",
-    "MAGAZYN 1 - ANTRESOLA 2": "",
-    "MAGAZYN 2": "",
-    "MAGAZYN 10": "",
-    "MAGAZYN 11": ""
+    "A": {"nazwa": "MAGAZYN 1 - ANTRESOLA 1"},
+    "B": {"nazwa": "MAGAZYN 1 - ANTRESOLA 2"},
+    # "MAGAZYN 2": {"skr":"C", },
+    # "MAGAZYN 10": {"skr":"D", },
+    # "MAGAZYN 11": {"skr":"E", }
             }
 
 @magazyny_pianki.route("/")
 def index():
 
-    magazyn_2 = list()
-
-
     return render_template("magazyny_pianki.html", title="MAGAZYNY PIANEK", magazyny=magazyny)
+
+@magazyny_pianki.route("/magazyn/<ozn_mag>")
+def magazyn(ozn_mag):
+
+    pass
