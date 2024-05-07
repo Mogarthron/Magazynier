@@ -108,14 +108,11 @@
       var numerPaczki = document.getElementById("numerPaczki");
       var zapiszUwage = document.getElementById("zapiszUwage");
       opisBledu.addEventListener("show.bs.modal", function (event) {
-        // Button that triggered the modal
+       
         var button = event.relatedTarget;
-        // Extract info from data-bs-* attributes
+        
         var nrPianki = button.getAttribute("data-bs-whatever");
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
+       
         var modalTitle = opisBledu.querySelector(".modal-title");
         var modalBodyInput = opisBledu.querySelector(".modal-body input");
 
@@ -127,29 +124,26 @@
         modalBodyInput.value = nrPianki;
         zapiszUwage.name =
           "numerPaczki_" + numerPaczki.value + "_nrPianki_" + nrPianki;
-        //console.log("numerPaczki_" + numerPaczki.value);
+       
       });
 
       var rysunekDok = document.getElementById("rysunekDok");
 
       rysunekDok.addEventListener("show.bs.modal", function (event) {
-        // Button that triggered the modal
+        
         var button = event.relatedTarget;
-        // Extract info from data-bs-* attributes
+        
         var nrPianki = button.getAttribute("data-bs-whatever");
-        // If necessary, you could initiate an AJAX request here
-        // and then do the updating in a callback.
-        //
-        // Update the modal's content.
+       
         var modalTitle = rysunekDok.querySelector(".modal-title");
-        // var modalBodyInput = rysunekDok.querySelector(".modal-body input");
+       
         modalTitle.textContent = "RYSUNEK PIANKI NR " + nrPianki;
-        // modalBodyInput.value = nrPianki;
+        
 
         var rysunekImg = document.getElementById("rysunekImg");
         rysunekImg.src =
-          "../static/RYSUNKI/" + nrPianki[0] + "/" + nrPianki + ".gif";
-        //console.log("../static/RYSUNKI/" + nrPianki[0] + "/" + nrPianki)
+          "../../static/RYSUNKI/" + nrPianki[0] + "/" + nrPianki + ".gif";
+    
         rysunekImg.alt = nrPianki;
       });
     </script>
