@@ -15,6 +15,9 @@ import pandas as pd
 def index():
     return render_template("wydzial_pianek.html", title="Wydział pianek")
 
+@wydzial_pianek.route("/naklejki")
+def naklejki():
+    return render_template("naklejki_na_paczki_pianek_zebra.html")
 
 @wydzial_pianek.route("/dostawy_pianek")
 def dostawy_pianek():
