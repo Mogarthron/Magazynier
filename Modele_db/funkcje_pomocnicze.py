@@ -42,7 +42,7 @@ def przyjecie_dostawy(model, nr_kompl, lista_dostarczonych_bryl=None, szybkie_uz
       session.commit()
 
 #ZAKOŃCZ POZYCJE W ZAM_PIANKI
-def Zakocz_pozycje_w_ZAM_PIANKI(nrpw):
+def Zakoncz_pozycje_w_ZAM_PIANKI(nrpw):
     """
     nrpw -> nr przyjmowanego pw
     """
