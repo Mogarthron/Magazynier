@@ -17,7 +17,9 @@ app.register_blueprint(magazyny_pianki, url_prefix="/magazyny_pianki")
 
 @app.route("/")
 def index():
-  
+    
+    linki = ["Wydział Pianek"]
+
     return render_template("index.html", title="Strona Główna")   
 
 @app.route("/reklamacja_email")
