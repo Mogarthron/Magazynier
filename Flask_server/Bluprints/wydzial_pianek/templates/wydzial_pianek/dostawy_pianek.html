@@ -6,12 +6,12 @@
     <thead>
       <tr>
         <th>LP</th>
+        <th>NR_SAMOCHODU</th>
         <th>DATA ZAMOWIENIA</th>
         <th>CZAS OCZEKIWNIA NA POTWIERDZENIE</th>
         <th>DATA POTWIERDZENIA</th>
         <th>DATA DOSTAWY</th>
-        <th>NR_PARTII</th>
-        <th>NR_SAMOCHODU</th>
+        <th>NR_PARTII</th>        
         <th>STATUS</th>
         <th>OBIETOSC SAMOCHODU</th>
         <th>PRZEJDŹ DO DOSTAWY</th>
@@ -21,12 +21,13 @@
       {% for d in tabelka_dostawy_pianek %}
       <tr>
         <td>{{loop.index}}</td>
+        <td>{{d[5]}}</td>
         <td>{{d[0]}}</td>
         <td>{{d[1]}}</td>
         <td>{{d[2]}}</td>
         <td>{{d[3]}}</td>
         <td>{{d[4]}}</td>
-        <td>{{d[5]}}</td>
+        
         <td>{{d[6]}}</td>
         <td>{{d[7]}}</td>
         <td>{{d[8]}}</td>
