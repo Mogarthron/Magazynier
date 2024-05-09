@@ -116,6 +116,7 @@ class AKTYWNE_DOSTAWY(Base):
   zamowienie_opis = Column("ZAMOWIENIE_OPIS", String)
   preferowana_data_dostawy = Column("PREFEROWANA_DATA_DOSTAWY", String(10))
   data_zamowienia = Column("DATA_ZAMOWIENIA", String(10))
+  data_potwierdzenia_zamowienia = Column("DATA_POTWIERDZENIA_ZAMOWIENIA", String(10))
   uwagi = Column("UWAGI", String)
   polaczona_z_dos = Column("POLACZONA_Z_DOS", String(30))
   aktywna = Column("AKTYWNA", Integer)
@@ -132,7 +133,7 @@ class AKTYWNE_DOSTAWY(Base):
     self.aktywna = True
 
   def __repr__(self):
-      return f"{self.nr_dos}, {self.dostawca}, {self.data_zamowienia}, {self.preferowana_data_dostawy}, {self.aktywna}"
+      return f"{self.nr_zam}, {self.dostawca}, {self.data_zamowienia}, {self.preferowana_data_dostawy}, {self.aktywna}"
 
 class BRAKI_PIANKI(Base):
   __tablename__ = "BRAKI_PIANKI"

@@ -13,10 +13,10 @@ engine = create_engine("sqlite:///"+gen_link, echo=False)
 
 Base = declarative_base()
 
-
-Base.metadata.create_all(bind=engine)
+#Ty był Base.metadata.create_all(bind=engine)
 
 from Modele_db import *
+Base.metadata.create_all(bind=engine)
 
 Session = sessionmaker(bind=engine)
 session = Session()
