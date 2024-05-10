@@ -17,8 +17,13 @@ from datetime import datetime as dt
 import json
 
 with open("linki.json", "r", encoding="UTF8") as f:
-  rozkroj_pianek = json.load(f)["rozkroj_pianek"]
+  # kompletacja_pianek = json.load(f)["kompletacja_pianek"]
+  # kompletacja_owat = json.load(f)["kompletacja_owat"]
+  kompletacja = json.load(f)
 
+
+kompletacja_pianek = kompletacja["kompletacja_pianek"]
+kompletacja_owat = kompletacja["kompletacja_owat"]
 
 #zlecenia na kopletacje pianek i owat
 def zlecenia_produkcyjne_pianki_owaty(model, nr_kompletacji, nr_partii):
@@ -63,6 +68,7 @@ def zlecenia_produkcyjne_pianki_owaty(model, nr_kompletacji, nr_partii):
 
     sheet["A18"] = "UWAGI:"
     sheet["H18"] = "PODPIS, DZIEN:"
+    sheet.oddHeader.left.text = f"160.10.20 ZLECENIE ROZKROJ OWAT/{model}"
 
     thin = Side(border_style="thin", color="000000")
     for row in sheet[f"E4:i{ow.shape[0]+4}"]:
@@ -71,7 +77,7 @@ def zlecenia_produkcyjne_pianki_owaty(model, nr_kompletacji, nr_partii):
     
     import os 
 
-    path_ = f'{rozkroj_pianek}{model}/{model} {nr_kompletacji}/OWATY/'
+    path_ = f'{kompletacja_owat}{model}/{model} {nr_kompletacji}/'
     _file = f"OWATY {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '').replace('/','_')}.xlsx"
     
     if not os.path.exists(path_):
@@ -92,7 +98,7 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
     wb = openpyxl.Workbook()
     sheet = wb.active
 
-    sheet["A1"] = "ZLECENIE PRODUKCYJNE: KOMPLETACJA PIANKI"
+    sheet["A1"] = "ZLECENIE PRODUKCYJNE: DOKLADANIE PIANEK I OWAT"
     sheet["A3"] = f"NR PARTII: {nr_partii}"
     sheet["A4"] = f"NR ZAMÓWIENIA: {model} {nr_kompletacji}"
     sheet["A5"] = f"MODEL: {model}"
@@ -106,10 +112,11 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
 
     sheet["A18"] = "UWAGI:"
     sheet["H18"] = "PODPIS, DZIEN:"
+    sheet.oddHeader.left.text = f"160.10.60 ZLECENIE DOKLADANIE OWAT I PIANEK/{model}"
 
     import os 
 
-    path_ = f'{rozkroj_pianek}{model}/{model} {nr_kompletacji}/KOMPLETACJA/'
+    path_ = f'{kompletacja_pianek}{model}/{model} {nr_kompletacji}/'
     _file = f"KOMPLETACJA {model} {nr_kompletacji} {zp.iloc[p].OPIS.replace(model, '').replace('/','_')}.xlsx"
   
     if not os.path.exists(path_):
@@ -192,9 +199,11 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
     # print(header)
     wb = openpyxl.Workbook()
     sheet = wb.active
-    sheet.oddHeader.left.text = header
-    sheet.oddHeader.left.size = 18
-    sheet.oddHeader.left.font = "Calibry,Bold"
+
+    sheet.oddHeader.left.text = "160.10.50 ZLECENIE KONTROLA JAKOSCI\nELEMENTOW PIANEK I PACZEK"
+    sheet.oddHeader.center.text = header
+    sheet.oddHeader.center.size = 18
+    sheet.oddHeader.center.font = "Calibry,Bold"
     sheet.oddHeader.right.text = f"Nr dostawy: {nr_dos}"
     sheet.append(["LP"]+list(_df.columns))
     rows = dataframe_to_rows(_df,header=False)
@@ -207,7 +216,7 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
       for cell in row:
         cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
 
-    path_ = f'Z:/160. ROZKRÓJ PIANEK/160.50 DOSTAWY PIANEK/{nr_dos.replace("/","_")}/'
+    path_ = f'Z:/160. ROZKRÓJ PIANEK/160.10 DOSTAWY PIANEK/160.10.50 ZLECENIE KONTROLA JAKOSCI ELEMENTOW PIANEK I PACZEK/{nr_dos.replace("/","_")}/'
     _file = f"{cls.MODEL[:3]} {zpdb_n[0].replace('/','_')}.xlsx"
 
     import os
