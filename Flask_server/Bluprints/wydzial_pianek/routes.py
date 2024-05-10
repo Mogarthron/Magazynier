@@ -1,5 +1,5 @@
 from flask import render_template, request, redirect, url_for
-from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK 
+from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK, AKTYWNE_DOSTAWY 
 from sqlalchemy import or_
 
 from Pianki.Dostawy_pianek import obietosci_samochodow, zp_tab, wykers_zapelnienia_samochodow
@@ -22,15 +22,17 @@ def naklejki():
 @wydzial_pianek.route("/dostawy_pianek")
 def dostawy_pianek():
 
+    akt_dos = session.query(AKTYWNE_DOSTAWY.nr_zam, AKTYWNE_DOSTAWY.dostawca, AKTYWNE_DOSTAWY.data_zamowienia, AKTYWNE_DOSTAWY.preferowana_data_dostawy).filter(AKTYWNE_DOSTAWY.aktywna != 11).all()
     df = pd.concat([
-    obietosci_samochodow("CIECH", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
-    obietosci_samochodow("VITA", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index(),
-    obietosci_samochodow("PIANPOL", zp_tab).groupby(["SAMOCHOD", "KOMPLETACJA"]).sum()[["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index()
-        ]).sort_values(by="SAMOCHOD").reset_index(drop=True)
-
+            obietosci_samochodow(x, zp_tab).groupby(
+                ["SAMOCHOD", "KOMPLETACJA"]).sum()[
+                    ["OBJ","GAL_OBJ","SHR_OBJ","LEN_OBJ"]].reset_index() for x in {x[1] for x in akt_dos}    
+        ]
+        ).sort_values(by="SAMOCHOD").reset_index(drop=True)
+   
     fig = wykers_zapelnienia_samochodow(df)
     
-    # print(zp_tab)
+    
    
     tabelka_dostawy_pianek = [
         #Data zamó[wienia], oczekiwnie na potwierdzenie, data potwierdzenia, data dostawy, nr_partii, nr_samochodu, status, obietosc

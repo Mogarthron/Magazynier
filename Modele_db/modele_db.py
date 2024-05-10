@@ -130,7 +130,7 @@ class AKTYWNE_DOSTAWY(Base):
     self.data_zamowienia = None
     self.uwagi = None
     self.polaczona_z_dos = None
-    self.aktywna = True
+    self.aktywna = 0
 
   def __repr__(self):
       return f"{self.nr_zam}, {self.dostawca}, {self.data_zamowienia}, {self.preferowana_data_dostawy}, {self.aktywna}"
