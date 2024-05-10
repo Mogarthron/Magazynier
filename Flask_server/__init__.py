@@ -7,12 +7,14 @@ from Flask_server.kalendarz_dostaw import kal_dos
 from Flask_server.Bluprints.wydzial_pianek import wydzial_pianek
 from Flask_server.Bluprints.analiza_pianek import analiza_pianek
 from Flask_server.Bluprints.magazyny_pianki import magazyny_pianki
+from Flask_server.Bluprints.poduszki import poduszki
 
 
 app = Flask(__name__)
 app.register_blueprint(wydzial_pianek, url_prefix="/wydzial_pianek")
 app.register_blueprint(analiza_pianek, url_prefix="/analiza_pianek")
 app.register_blueprint(magazyny_pianki, url_prefix="/magazyny_pianki")
+app.register_blueprint(poduszki, url_prefix="/poduszki")
 
 
 @app.route("/")
