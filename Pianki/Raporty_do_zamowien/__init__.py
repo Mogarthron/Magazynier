@@ -292,7 +292,7 @@ def Dodaj_pozycje_do_ZAM_PIANKI(tydzien, zancznik_dostawcy, nr_kompletacji, mode
   if DODAJ_DO_BAZY:
 
     for r in modele.iterrows():
-      session.add(ZAM_PIANKI(tydzien, model, r[1].KOD, r[1].OPIS, r[1].DO_ZAMOWIENIA, zancznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji, zam1, zam2, "nr_partii: " + nr_partii))
+      session.add(ZAM_PIANKI(tydzien, model, r[1].KOD, r[1].OPIS, r[1].DO_ZAMOWIENIA, zancznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji, zam1, zam2, None, nr_partii))
 
     session.commit()
 
@@ -301,7 +301,7 @@ def Dodaj_pozycje_do_ZAM_PIANKI(tydzien, zancznik_dostawcy, nr_kompletacji, mode
 
     for r in modele.iterrows():
       # tydzien, model, kod, opis, ile_zam, znacznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji=None, zam1=None, zam2=None, nr_partii=None
-      pozycje.append([tydzien, model, r[1].KOD, r[1].OPIS, r[1].DO_ZAMOWIENIA, zancznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji, zam1, zam2, "nr_partii: " + nr_partii])
+      pozycje.append([tydzien, model, r[1].KOD, r[1].OPIS, r[1].DO_ZAMOWIENIA, zancznik_dostawcy, galanteria, siedziska_HR, leniwa, nr_kompletacji, zam1, zam2, nr_partii])
     
     return pd.DataFrame(pozycje)
 
