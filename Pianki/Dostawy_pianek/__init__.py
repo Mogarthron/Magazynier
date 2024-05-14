@@ -20,7 +20,7 @@ with engine.begin() as conn:
                                           ILE_ZAMOWIONE, ZNACZNIK_DOSTAWCY, GALANTERIA, SIEDZISKA_HR,
                                           LENIWA, ZAM1, ZAM2, UWAGI, POTW_DATA_DOS_1, POTW_DATA_DOS_2,
                                           nr_SAMOCHODU, nr_PARTII 
-                                  FROM ZAM_PIANKI WHERE STATUS_KOMPLETACJA IS NULL AND NR_PARTII IS NOT NULL"""), conn)
+                                  FROM ZAM_PIANKI WHERE STATUS_KOMPLETACJA NOT LIKE '%ZAKO%' AND NR_PARTII IS NOT NULL"""), conn)
 zp_tab["KOMPLETACJA"] = zp_tab["MODEL"] + " " + zp_tab["NR_KOMPLETACJI"]
 zp_tab["nr_SAMOCHODU"].fillna("", inplace=True)
 
