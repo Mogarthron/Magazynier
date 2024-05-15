@@ -217,6 +217,31 @@ class DIVA_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class SAMOA_P(MODEL6):
+  MODEL = "SAMOA"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class HUDSON_P(MODEL6):
+  MODEL = "HUDSON"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class CALYPSO_P(MODEL6):
+  MODEL = "CALYPSO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class LENOX_P(MODEL6):
+  MODEL = "LENOX"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class COCO_P(MODEL6):
+  MODEL = "COCO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 from Pianki.Modele_pianek.Model7 import MODEL7
 
 class HORIZON_PV(MODEL7):
