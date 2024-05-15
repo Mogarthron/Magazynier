@@ -37,8 +37,11 @@ class Analiza_Rodziny():
   def Bryly_do_zamowienia(self, wszystkie_bryly=False, zerowe_zam=False, lista_zagrozonych=False, lista_korekty_zam = False, korekta_zam:dict=None):
     """
     wszytkie_bryly -> zwraca tabele z wszystkimi bryłami w analize
+
     zerowe_zam -> ustawia kolumne z zerowymi ilościami zamówienia dal wszytkich brył w analizie
+
     lista_korekty_zam -> zwraca dict z bryłami ustawionymi do zamówienia
+    
     karekta_zam -> dict z poporawionymi ilościami zamówień brył, funkcja zwróci DF z bryłami z analizy oraz podsymowanie pianek do VITA
     """
 
