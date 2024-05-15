@@ -160,7 +160,7 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
    return zagr
 
 
-def Podsumowanie_paczek_i_Pw(nr_pw) -> None:
+def Podsumowanie_paczek_i_Pw(nr_pw, json=False) -> json:
   """
   Drukuje informacje o obiętosci paczek z owatami i obietosci spakowanych pianek dla podanych pw
 
@@ -186,6 +186,11 @@ def Podsumowanie_paczek_i_Pw(nr_pw) -> None:
   print(f"WST: {(analiza.WST*analiza.obj).sum():.0f}m3")
   print(f"Objetość wszystkich paczek: {sum_obj + (analiza.WST*analiza.obj).sum():.0f}m3")
   print(f"PW {nr_pw} spakowano: {pw.SPAKOWANE_M3.sum():.0f}M3")
+
+  if json:
+    return {"ILE_PACZEK": len(pda),
+            "OBIETOSC_WSZYSKIECH ANALIZOWANYCH PACZEK": sum_obj+(analiza.WST*analiza.obj).sum(),
+            "SPAKOWANYCH_M3": pw.SPAKOWANE_M3.sum()}
 
 
 def Wykres_propozycji_zamowien():
