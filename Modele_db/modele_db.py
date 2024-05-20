@@ -82,13 +82,15 @@ class PRZYJECIE_ZEWNETRZE(Base):
   nr_zam = Column("NR_ZAM", String(7))
   data = Column("DATA", String(10))
   dostawca = Column("DOSTAWCA", String(50))
+  nr_samochodu = Column("NR_SAMOCHODU", String(25))
 
-  def __init__(self, nr_pz, nr_zam, data, dostawca):
+  def __init__(self, nr_pz, nr_zam, data, dostawca, nr_samochodu):
 
     self.nr_pz = nr_pz
     self.nr_zam = nr_zam
     self.data = data
     self.dostawca = dostawca
+    self.nr_samochodu = nr_samochodu
 
 class PRZYJECIE_ZEWNETRZE_POZYCJE(Base):
   __tablename__ = "PRZYJECIE_ZEWNETRZE_POZYCJE"
@@ -96,9 +98,11 @@ class PRZYJECIE_ZEWNETRZE_POZYCJE(Base):
   lp = Column("LP", Integer, primary_key=True, autoincrement=True)
   nr_pz = Column("NR_PZ", String(7))
   kod = Column("KOD", String(20))
-  opis = Column("OPIS", String())
+  opis = Column("OPIS", String)
   ilosc = Column("ILOSC", Integer)
   nr_kompletacji = Column("NR_KOMPLETACJI", String(5))
+  uwagi_do_pozycji = Column("UWAGI_DO_POZYCJI", String)
+  reklamacja = Column("REKLAMACJA", Boolean)
 
   def __init__(self, nr_pz, kod, opis, ilosc, nr_kompletacji):
 
