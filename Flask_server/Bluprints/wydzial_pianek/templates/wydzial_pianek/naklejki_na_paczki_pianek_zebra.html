@@ -54,16 +54,17 @@
         }
     </style>
     <div class="wraper">
+        {% for wiersz in wiersze %}
         <div class="sticker">
             <div class="row">
-                <p>NR PARTII: 13/01</p>
-                <p>NR KOMPL: 4_24</p>
-                <p>NR PACZKI: 14/70</p>
+                <p>NR PARTII: {{wiersz[0]}}</p>
+                <p>NR KOMPL: {{wiersz[1]}}</p>
+                <p>NR PACZKI: {{wiersz[2]}}</p>
             </div>
             <div class="row main">
                 <div class="model">
-                    <span>HORIZON</span>
-                    <span>1z</span>
+                    <span>{{wiersz[3]}}</span>
+                    <span>{{wiersz[4]}}</span>
                 </div>
 
                 <img src="#" alt="qr-code">
@@ -74,6 +75,8 @@
                 <p>NR PAKUJACEGO</p>
             </div>
         </div>
+
+        {% endfor %}
         <div class="sticker">
             <div class="row">
                 <p>NR PARTII: 13/01</p>

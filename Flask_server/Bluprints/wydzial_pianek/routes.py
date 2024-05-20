@@ -1,8 +1,9 @@
 from flask import render_template, request, redirect, url_for
 from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK, AKTYWNE_DOSTAWY 
-from sqlalchemy import or_
+from Modele_db import engine
+from sqlalchemy import or_, text
 
-from Pianki.Dostawy_pianek import obietosci_samochodow, zp_tab, wykers_zapelnienia_samochodow
+from Pianki.Dostawy_pianek import obietosci_samochodow, wykers_zapelnienia_samochodow
 import plotly.express as px
 import plotly
 
@@ -12,17 +13,65 @@ from ..wydzial_pianek.funkcje_pomocnicze import *
 import pandas as pd
 
 @wydzial_pianek.route("/")
-def index():
+def index():   
+
+
     return render_template("wydzial_pianek.html", title="Wydział pianek")
 
 @wydzial_pianek.route("/naklejki")
 def naklejki():
-    return render_template("naklejki_na_paczki_pianek_zebra.html")
+
+    with engine.begin() as conn:
+        zp = conn.execute(text(f"""SELECT MODEL, NR_KOMPLETACJI, OPIS, ILE_ZAMOWIONE,
+                        NR_PARTII from ZAM_PIANKI WHERE ZAM1 in('24/0486') --AND OPIS NOT LIKE '%AVANT%'"""))
+    
+    zam_pianki = zp.fetchall()
+
+    wiersze = list()
+
+    for row in zam_pianki:
+        
+        for i in range(row[3]):
+            
+            wiersze.append([row[4], row[1], f"{i+1}/{row[3]}", row[0], row[2].replace(row[0], "").strip()])
+          
+
+    return render_template("naklejki_na_paczki_pianek_zebra.html", wiersze=wiersze)
 
 @wydzial_pianek.route("/dostawy_pianek")
 def dostawy_pianek():
 
     akt_dos = session.query(AKTYWNE_DOSTAWY.nr_zam, AKTYWNE_DOSTAWY.dostawca, AKTYWNE_DOSTAWY.data_zamowienia, AKTYWNE_DOSTAWY.preferowana_data_dostawy).filter(AKTYWNE_DOSTAWY.aktywna != 11).all()
+
+    tabelka_dostawy_pianek = [
+        #Data zamó[wienia], oczekiwnie na potwierdzenie, data potwierdzenia, data dostawy, nr_partii, nr_samochodu, status, obietosc
+        ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "DOSTARCZONY CAŁKOWICIE"],
+        ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 8_24", "DOSTARCZONY CAŁKOWICIE"],
+        ["2024-05-08", "", "", "2024-06-07", "19/01", "PIANPOL 11_24", "NIE POTWIERDZONY"],
+        ["2024-05-08", "", "", "2024-06-07", "19/02", "PIANPOL 12_24", "NIE POTWIERDZONY"],
+        ["2024-05-17", "", "", "2024-06-21", "20/02", "PIANPOL 13_24", "NIE POTWIERDZONY"],
+    ]
+
+    zp_tab = []
+    for i in tabelka_dostawy_pianek:
+        with engine.begin() as conn:
+                
+            _zp_tab = conn.execute(text(f"""SELECT LP, TYDZIEN, KOD, MODEL, NR_KOMPLETACJI, OPIS,
+                                                ILE_ZAMOWIONE, ZNACZNIK_DOSTAWCY, GALANTERIA, SIEDZISKA_HR,
+                                                LENIWA, ZAM1, ZAM2, UWAGI, POTW_DATA_DOS_1, POTW_DATA_DOS_2,
+                                                nr_SAMOCHODU, nr_PARTII 
+                                        FROM ZAM_PIANKI WHERE NR_SAMOCHODU LIKE '%{i[-2]}%' AND NR_PARTII IS NOT NULL""")).all()
+            
+        zp_tab += _zp_tab
+
+    zp_tab = pd.DataFrame(zp_tab, columns="LP,TYDZIEN,KOD,MODEL,NR_KOMPLETACJI,OPIS,ILE_ZAMOWIONE,ZNACZNIK_DOSTAWCY,GALANTERIA,SIEDZISKA_HR,LENIWA,ZAM1,ZAM2,UWAGI,POTW_DATA_DOS_1,POTW_DATA_DOS_2,nr_SAMOCHODU,nr_PARTII".split(",")) 
+
+    zp_tab["KOMPLETACJA"] = zp_tab["MODEL"] + " " + zp_tab["NR_KOMPLETACJI"]
+    zp_tab["nr_SAMOCHODU"].fillna("", inplace=True)
+    zp_tab.drop_duplicates(inplace=True)
+
+    
+
     df = pd.concat([
             obietosci_samochodow(x, zp_tab).groupby(
                 ["SAMOCHOD", "KOMPLETACJA"]).sum()[
@@ -32,15 +81,9 @@ def dostawy_pianek():
    
     fig = wykers_zapelnienia_samochodow(df)
     
-    
-   
-    tabelka_dostawy_pianek = [
-        #Data zamó[wienia], oczekiwnie na potwierdzenie, data potwierdzenia, data dostawy, nr_partii, nr_samochodu, status, obietosc
-        ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "POTWIERDZONY", f"{df[df.SAMOCHOD == 'PIANPOL 10_24'].OBJ.sum():.0f}"],
-        ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 8_24", "POTWIERDZONY", f"{df[df.SAMOCHOD == 'VITA 8_24'].OBJ.sum():.0f}"],
-        ["2024-05-08", "", "", "2024-06-07", "19/01", "PIANPOL 11_24", "NIE POTWIERDZONY", f"{df[df.SAMOCHOD == 'PIANPOL 11_24'].OBJ.sum():.0f}"],
-        ["2024-05-08", "", "", "2024-06-07", "19/02", "PIANPOL 12_24", "NIE POTWIERDZONY", f"{df[df.SAMOCHOD == 'PIANPOL 12_24'].OBJ.sum():.0f}"],
-    ]
+
+    for t in tabelka_dostawy_pianek: 
+        t.append(f"{df[df.SAMOCHOD == t[-2]].OBJ.sum():.0f}") 
     
     
     return render_template("dostawy_pianek.html", title="Dostawy pianek", 
