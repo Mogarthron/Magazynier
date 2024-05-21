@@ -10,6 +10,7 @@ from ..analiza_pianek import analiza_pianek
 ard = {x.MODEL: x for x in izp}
 pap = Podsumowanie_analizy_pianek(izp)
 
+
 zam_pianki = dict()
 
 @analiza_pianek.route("/")
@@ -55,12 +56,14 @@ def dodaj_pianki_bryla(model):
 def dodaj_pianki_model():
 
     if request.method == "POST" and "przejdz_do_bryly" in request.form.keys():
-    
+        
         return redirect(url_for("analiza_pianek.dodaj_pianki_bryla", model=request.form["model"]))
     
     if request.method == "POST" and "wyczysc_bryly" in request.form.keys():
-    
-        zam_pianki = {}
 
+        global zam_pianki
+        zam_pianki = zam_pianki.clear()
+
+       
     return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp])) 
 
