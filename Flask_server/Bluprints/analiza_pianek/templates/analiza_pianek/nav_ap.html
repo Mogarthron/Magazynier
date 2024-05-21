@@ -14,13 +14,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="{{url_for('index')}}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Analiza Pianek</a>
+          <a class="nav-link" href="{{url_for('analiza_pianek.index')}}">Analiza Pianek</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Dodaj Bryly</a>
+          <a class="nav-link" href="{{url_for('analiza_pianek.dodaj_pianki_model')}}">Dodaj Bryly</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Dokumentacja</a>
