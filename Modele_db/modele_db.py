@@ -93,7 +93,7 @@ class PRZYJECIE_ZEWNETRZE(Base):
     self.nr_samochodu = nr_samochodu
 
 class PRZYJECIE_ZEWNETRZE_POZYCJE(Base):
-  __tablename__ = "PRZYJECIE_ZEWNETRZE_POZYCJE"
+  __tablename__ = "PRZYJECIE_ZEWNETRZNE_POZYCJE"
 
   lp = Column("LP", Integer, primary_key=True, autoincrement=True)
   nr_pz = Column("NR_PZ", String(7))
