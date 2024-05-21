@@ -54,8 +54,11 @@ class Analiza_Rodziny():
       bdz["zero_zam"] = 0
       return bdz[["KOD", "OPIS", "BRYLA_GEN", "zero_zam"]]
 
-    if lista_korekty_zam:
+    if lista_korekty_zam and type(lista_korekty_zam) != dict:
       return {i[1].BRYLA_GEN: i[1].DO_ZAM_SZT for i in bdz[["BRYLA_GEN", "DO_ZAM_SZT"]].iterrows()}
+    
+    if lista_korekty_zam and type(lista_korekty_zam) == dict:
+      return lista_korekty_zam
     
     if lista_zagrozonych:
       li_zagr = self.zagrozone.merge(bdz.copy(), on="OPIS", how="left")[["BRYLA_GEN", "DO_ZAM_SZT"]]
