@@ -21,29 +21,29 @@
           </tr>
         </thead>
         <tbody>
-          {% for b in zam_pianki%}
+          {% for z_model in z_pianki %}
+          {% for b in z_pianki[z_model] %}
           <tr>
-            <td>{{b[1][0]}}</td>
-            <td>{{b[1][1]}}</td>
-            <td>{{b[1][2]}}</td>
-            <!-- <td>
-              <input type="number" class="form-control" name="ile" min="0" step="1" value="{{b[1][2]}}">
-            </td> -->
+            <td>{{z_model}}</td>
+            <td>{{b}}</td>
+            <td>{{z_pianki[z_model][b]}}</td>
+            
             <td>
               <label
-                for="del_{{b[1][0]}}_{{b[1][1]}}"
+                for="del_{{z_model}}_{{b}}"
                 class="visually-hidden"
               ></label>
               <button
                 type="submit"
-                name="del_{{b[1][0]}}_{{b[1][1]}}"
+                name="del_{{z_model}}_{{b}}"
                 class="btn btn-danger"
               >
                 USUŃ
               </button>
             </td>
           </tr>
-          {% endfor%}
+          {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
     </form>

@@ -35,13 +35,39 @@
                 </h2>
                 <div id="flush-collapse{{r[0]}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{r[0]}}"
                     data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">zagrozone {{pap[r[1].MODEL].zagrozone}}</div>
+                    <div class="accordion-body">
+                        <table class="table table-hover align-middle">
+                          <thead>
+                            <tr>
+                              {% for ch in ['OPIS', 'ZAMOWIONE', 'CZESIOWO_DOSTARCZONE', 'CZEKA_NA_SPAKOWANIE',
+                              'SALDO', 'SALDO_Z_NIE_SPAK', 'MIN', 'SUMA_ZLEC', 'WOLNE_SALDO',
+                              'WOLNE_NIE_SPAK'] %}
+                              <th>{{ch}}</th>
+                              {% endfor %}
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for row in pap[r[1].MODEL].ar_skr.iterrows() %}
+                          
+                              <tr>
+                                {% for data in row[1] %}
+                                <td>
+                                  {{data}}
+                                </td>
+                                {% endfor %}
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>                   
+                    </div>
+                    
                 </div>
             </div>
             {% endfor %}
             
         </div>
-    </div>
-
+        
+      </div>
  
 {% endblock %}
