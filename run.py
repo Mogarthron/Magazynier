@@ -10,4 +10,3 @@ if __name__ == "__main__":
     else:
         app.run(debug=False, host=sys.argv[1], port=sys.argv[2])
 
-    input()
