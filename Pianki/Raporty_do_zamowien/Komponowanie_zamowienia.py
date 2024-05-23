@@ -26,11 +26,11 @@ def zapotrzebowanie_na_owaty(zam_owaty, wyjatki:list):
   print(f"O1 zielona: {(zap['O1']/50).round(0):.0f} rolek")
   print(f"O2 niebieska: {(zap['O2']/40).round(0):.0f} rolek")
   print(f"O3 czerwona: {(zap['O3']/40).round(0):.0f} rolek")
-  # return zap
+  return [(zap['O1']/50).round(0), (zap['O2']/40).round(0), (zap['O3']/40).round(0)]
 
 
 def Raport_zamowionych_pianek_i_owat(tabele_zamowien=list, nazwa_pliku_xlsx=None):
-  zapotrzebowanie_na_owaty(oblicz_owaty_do_zamowienia(tabele_zamowien),[])
+  zno = zapotrzebowanie_na_owaty(oblicz_owaty_do_zamowienia(tabele_zamowien),[])
 
   if nazwa_pliku_xlsx:
     pd.concat(tabele_zamowien).merge(
@@ -41,7 +41,7 @@ def Raport_zamowionych_pianek_i_owat(tabele_zamowien=list, nazwa_pliku_xlsx=None
     return  pd.concat(tabele_zamowien).merge(
         oblicz_owaty_do_zamowienia(tabele_zamowien)[["KOD", "O1", "O2", "O3", "L1","W3"]].fillna(0),
         how="left",
-        on="KOD").rename(columns={"O1":"ZIELONA", "O2":"NIEBIESKA", "O3":"CZERWONA", "L1":"ŻÓŁTA"})
+        on="KOD").rename(columns={"O1":"ZIELONA", "O2":"NIEBIESKA", "O3":"CZERWONA", "L1":"ŻÓŁTA"}), zno
 
 
 
