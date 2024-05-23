@@ -1,0 +1,90 @@
+{% extends 'layout_ap.html' %}
+
+{% block content %}
+<div class="container" id="printableArea">
+    <div class="row">
+        <div class="col">160.10.10 ZLECENIE CZY JEST MIEJSCE NA MAGAZYNIE</div>
+        <div class="col text-center">
+            <p>ZAMOWIENIE PIANPOL 2024-05-15</p>
+            <p>NR_PARTII 20/01</p>
+        </div>
+        <div class="col text-end">
+            <p>NR_ZAM 24/0516 </p>
+            <p>PREFEROWANA DATA DOSTAWY 2024-06-21</p>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <table class="table">
+            <thead>
+                <th class="text-end">LP</th>
+                <th class="text-center">KOD</th>
+                <th class="text-center">OPIS</th>
+                <th class="text-center">DO ZAMOWINIENIA</th>
+                <th class="text-center">ZIELONA</th>
+                <th class="text-center">NIEBIESKA</th>
+                <th class="text-center">CZERWONA</th>
+                <th class="text-center">ŻÓŁTA</th>
+                <th class="text-center">W3</th>
+            </thead>
+            <tbody>
+                {% for r in tabelka %}
+                <tr>
+                    <td class="text-end">{{loop.index}}</td>
+                    <td>{{r[0]}}</td>
+                    <td>{{r[1]}}</td>
+                    <td class="text-center">{{r[2]}}</td>
+                    <td class="text-center">{{r[3]}}</td>
+                    <td class="text-center">{{r[4]}}</td>
+                    <td class="text-center">{{r[5]}}</td>
+                    <td class="text-center">{{r[6]}}</td>
+                    <td class="text-center">{{r[7]}}</td>
+                </tr>
+                {% endfor %}
+                
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-end" style="border-top: solid;">mb</td>
+                    <td class="text-center" style="border-top: solid;">142</td>
+                    <td class="text-center" style="border-top: solid;">218</td>
+                    <td class="text-center" style="border-top: solid;"> 600</td>
+                    <td class="text-center" style="border-top: solid;">0</td>
+                    <td class="text-center" style="border-top: solid;">55</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-end">rolek</td>
+                    <td class="text-center" >3</td>
+                    <td class="text-center">5</td>
+                    <td class="text-center">15</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-4 text-end">
+            OBIETOSC ZAMOWIENIA: 81M3
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+    </div>
+</div>
+<a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')">DRUKUJ</a>
+<script>
+
+    function printPageArea(areaID){
+        var printContent = document.getElementById(areaID).innerHTML;
+        var originalContent = document.body.innerHTML;
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+</script>
+
+
+{% endblock %}
