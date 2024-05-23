@@ -2,4 +2,4 @@ from flask import Blueprint
 
 analiza_pianek = Blueprint("analiza_pianek", __name__, template_folder="templates/analiza_pianek")
 
-from ..analiza_pianek.routes import routes, dokumentacja_pianek
+from ..analiza_pianek.routes import routes, dokumentacja_pianek, raport_zamowionych_pianek_i_owat

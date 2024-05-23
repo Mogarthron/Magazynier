@@ -16,33 +16,44 @@
       {% include 'zestawienie_dodanych_modeli.html' %}
     </div>
     <div class="col">
-      <div class="card">
-        <table class="table">
-          <thead>
-            <th>MODEL</th>
-            <th>PIANPOL</th>
-            <th>CIECH</th>
-            <th>VITA</th>
-          </thead>
-          <tbody>
-            {% for r in tabela_obietosci %}
-              <tr>
-                <td>{{r[0]}}</td>
-                <td>{{r[1]}}</td>
-                <td>{{r[2]}}</td>
-                <td>{{r[3]}}</td>
-              </tr>
-            {% endfor %}
-              <tr>
-                <td>{{podsumowanie_tabeli_obietosci[0]}}</td>
-                <td>{{podsumowanie_tabeli_obietosci[1]}}</td>
-                <td>{{podsumowanie_tabeli_obietosci[2]}}</td>
-                <td>{{podsumowanie_tabeli_obietosci[3]}}</td>
-              
-              </tr>
-          </tbody>
-        </table>
-        <form action=""></form>
+      <div class="row">
+
+        <div class="card">
+          <table class="table">
+            <thead>
+              <th>MODEL</th>
+              <th>PIANPOL</th>
+              <th>CIECH</th>
+              <th>VITA</th>
+            </thead>
+            <tbody>
+              {% for r in tabela_obietosci %}
+                <tr>
+                  <td>{{r[0]}}</td>
+                  <td>{{r[1]}}</td>
+                  <td>{{r[2]}}</td>
+                  <td>{{r[3]}}</td>
+                </tr>
+              {% endfor %}
+                <tr>
+                  <td>{{podsumowanie_tabeli_obietosci[0]}}</td>
+                  <td>{{podsumowanie_tabeli_obietosci[1]}}</td>
+                  <td>{{podsumowanie_tabeli_obietosci[2]}}</td>
+                  <td>{{podsumowanie_tabeli_obietosci[3]}}</td>
+                
+                </tr>
+            </tbody>
+          </table>
+          
+      </div>
+      
+      </div>
+
+      <div class="row">
+        <form method=POST>
+          <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT ZAMÓWIONYCH PIANEK I OWAT</button>
+        </form >
+        <br>
       </div>
 
     </div>

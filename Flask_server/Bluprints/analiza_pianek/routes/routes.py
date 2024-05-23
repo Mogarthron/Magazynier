@@ -12,6 +12,8 @@
 
 
 # z_pianki = dict()
+import json
+import os
 
 from ..routes import *
 
@@ -59,26 +61,29 @@ def dodaj_pianki_bryla(model):
 def dodaj_pianki_model():
 
     if request.method == "POST" and "del" in list(request.form.keys())[0].split("_")[0]:
-        # print(list(request.form.keys()))
+        
         if len(list(request.form.keys())[0].split("_")[1:]) > 0:
-            _model, _bryla = list(request.form.keys())[0].split("_")[1:]
-            # print(_model, _bryla)
+            _model, _bryla = list(request.form.keys())[0].split("_")[1:]           
 
             global z_pianki
             z_pianki[_model].pop(_bryla)
 
-            # return redirect(url_for("analiza_pianek.dodaj_pianki_model"))
-
+           
     if request.method == "POST" and "przejdz_do_bryly" in request.form.keys():
         
         return redirect(url_for("analiza_pianek.dodaj_pianki_bryla", model=request.form["model"]))
     
-    if request.method == "POST" and "wyczysc_bryly" in request.form.keys():
+    if request.method == "POST" and "wyczysc_bryly" in request.form.keys() and len(z_pianki) > 0:
 
-    
-        if len(z_pianki) > 0:
-            
-            z_pianki = {}
+        # if len(z_pianki) > 0:            
+        #     z_pianki = {}
+        z_pianki = {}
+
+    if request.method == "POST" and "generuj_raport_zamowionych_pianek" in request.form.keys() and len(z_pianki) > 0: 
+        
+        print(z_pianki)  
+        print(os.listdir(""))
+
 
     tabela_obietosci = []
     podsumowanie_tabeli_obietosci = ["SUMA","","",""]
@@ -91,27 +96,3 @@ def dodaj_pianki_model():
 
     return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp]), z_pianki=z_pianki, tabela_obietosci=tabela_obietosci, podsumowanie_tabeli_obietosci=podsumowanie_tabeli_obietosci) 
 
-@analiza_pianek.route("/raport_zamowionych_pianek_i_owat")
-def raport_zamowionych_pianek_i_owat():
-
-    nr_partii = "20/01"
-    data_zamowienia = "2024-05-15"
-    nr_zamowienia = "24/0516"
-    preferowana_data_dostawy = "2024-06-21"
-
-    tabelka = [
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0],
-        ["16.077.15200.60", "SAMOA 1,5z", 70, 131, 122, 0, 0 ,0]
-    ]
-
-
-    
-    return render_template("raport_zamowionych_pianek_i_owat.html", tabelka=tabelka)
