@@ -1,9 +1,9 @@
 from flask import render_template, request, redirect, url_for
-from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK, AKTYWNE_DOSTAWY 
+from Modele_db.modele_db import session, ZAM_PIANKI, RAPORT_KJ_DO_DOSTAWY_PIANEK#, AKTYWNE_DOSTAWY 
 from Modele_db import engine
 from sqlalchemy import or_, text
 
-from Pianki.Dostawy_pianek import obietosci_samochodow, wykers_zapelnienia_samochodow
+from Pianki.Dostawy_pianek import wykers_zapelnienia_samochodow#, obietosci_samochodow
 import plotly.express as px
 import plotly
 

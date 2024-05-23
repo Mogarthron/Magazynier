@@ -8,9 +8,6 @@ import pandas as pd
 
 nr_zam = [nzam[0] for nzam in session.query(AKTYWNE_DOSTAWY.nr_zam).filter(AKTYWNE_DOSTAWY.aktywna != 11).all()]
 
-
-
-
 _akt_zam1 = session.query(ZAM_PIANKI.zam1, ZAM_PIANKI.nr_partii, ZAM_PIANKI.nr_samochodu, ZAM_PIANKI.potw_dos1).filter(ZAM_PIANKI.zam1.in_(nr_zam)).all()
 _akt_zam2 = session.query(ZAM_PIANKI.zam2, ZAM_PIANKI.nr_partii, ZAM_PIANKI.nr_samochodu, ZAM_PIANKI.potw_dos2).filter(ZAM_PIANKI.zam2.in_(nr_zam)).all()
 
@@ -35,7 +32,6 @@ akt_zam1["NR_PARTII"] = akt_zam1.nr_samochodu.apply(lambda x: ", ".join(akt_zam1
 akt_zam2["NR_PARTII"] = akt_zam2.nr_samochodu.apply(lambda x: ", ".join(akt_zam2[akt_zam2.nr_samochodu == x]["nr_partii"].values.tolist()))
 
 
-
 akt_zam1["DATA_ZAMOWIENIA"] = akt_zam1.nr_zam.apply(lambda x: session.query(AKTYWNE_DOSTAWY.data_zamowienia).filter(AKTYWNE_DOSTAWY.nr_zam == x).all()[0][0])
 akt_zam1["DATA_POTWIERDZENIA"] = akt_zam1.nr_zam.apply(lambda x: session.query(AKTYWNE_DOSTAWY.data_potwierdzenia_zamowienia).filter(AKTYWNE_DOSTAWY.nr_zam == x).all()[0][0])
 akt_zam1["DATA_DOSTAWY"] = akt_zam1.nr_zam.apply(lambda x: session.query(AKTYWNE_DOSTAWY.preferowana_data_dostawy).filter(AKTYWNE_DOSTAWY.nr_zam == x).all()[0][0])
@@ -52,16 +48,7 @@ akt_zam1_zam2 = pd.concat([akt_zam1, akt_zam2])[["DATA_ZAMOWIENIA", "OCZEKIWANIE
 
 
 tabelka_dostawy_pianek = [[y for y in x[1:]] for x in akt_zam1_zam2.drop_duplicates("nr_samochodu").itertuples()]
-# tabelka_dostawy_pianek = [
-#         #Data zamó[wienia], oczekiwnie na potwierdzenie, data potwierdzenia, data dostawy, nr_partii, nr_samochodu, status, obietosc
-#         ["2024-04-05", "", "", "2024-05-10", "13/01, 14/01", "PIANPOL 10_24", "DOSTARCZONY CAŁKOWICIE"],
-#         ["2024-03-27", "", "", "2024-05-17", "13/01", "VITA 08_24", "DOSTARCZONY CAŁKOWICIE"],
-#         ["2024-05-08", "", "", "2024-06-07", "19/01", "PIANPOL 11_24", "POTWIERDZONY"],
-#         ["2024-05-08", "", "", "2024-06-07", "19/02", "PIANPOL 12_24", "POTWIERDZONY"],
-#         ["2024-05-17", "", "", "2024-06-21", "20/01", "PIANPOL 13_24", "NIE POTWIERDZONY"],
-#     ]
 
-# akt_dos = session.query(AKTYWNE_DOSTAWY.nr_zam, AKTYWNE_DOSTAWY.dostawca, AKTYWNE_DOSTAWY.data_zamowienia, AKTYWNE_DOSTAWY.preferowana_data_dostawy).filter(AKTYWNE_DOSTAWY.aktywna != 11).all()
 zp_tab = []
 
 for i in tabelka_dostawy_pianek:

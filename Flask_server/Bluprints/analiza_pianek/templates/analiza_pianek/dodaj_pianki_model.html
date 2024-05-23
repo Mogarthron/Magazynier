@@ -1,58 +1,51 @@
 {% extends "layout_ap.html" %} {% block content %}
-<form method="POST">
-  <label for="model">MODEL: </label>
-  <select name="model" id="lista_modeli">
-    {% for m in lista_modeli %}
-    <option value="{{m}}">{{m}}</option>
-    {% endfor %}
-  </select>
-  <button type="submit" class="btn btn-primary btn-sm" name="przejdz_do_bryly">PRZEJDZ DO BRYŁ</button>
-</form>
 <div class="container">
-  <div calss="card">
+  <div class="row">
     <form method="POST">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">MODEL</th>
-            <th scope="col">BRYLA</th>
-            <th scope="col">ILOŚĆ</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for z_model in z_pianki %}
-          {% for b in z_pianki[z_model] %}
-          <tr>
-            <td>{{z_model}}</td>
-            <td>{{b}}</td>
-            <td>{{z_pianki[z_model][b]}}</td>
-            
-            <td>
-              <label
-                for="del_{{z_model}}_{{b}}"
-                class="visually-hidden"
-              ></label>
-              <button
-                type="submit"
-                name="del_{{z_model}}_{{b}}"
-                class="btn btn-danger"
-              >
-                USUŃ
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-          {% endfor %}
-        </tbody>
-      </table>
+      <label for="model">MODEL: </label>
+      <select name="model" id="lista_modeli">
+        {% for m in lista_modeli %}
+        <option value="{{m}}">{{m}}</option>
+        {% endfor %}
+      </select>
+      <button type="submit" class="btn btn-primary btn-sm" name="przejdz_do_bryly">PRZEJDZ DO BRYŁ</button>
     </form>
   </div>
-  <form method="post">
-    <label for="wyczysc_bryly" class="visually-hidden"></label>
-    <button type="submit" class="btn btn-primary" name="wyczysc_bryly">
-      Wyczyść Bryły
-    </button>
-  </form>
+  <div class="row">
+    <div class="col">
+      {% include 'zestawienie_dodanych_modeli.html' %}
+    </div>
+    <div class="col">
+      <div class="card">
+        <table class="table">
+          <thead>
+            <th>MODEL</th>
+            <th>PIANPOL</th>
+            <th>CIECH</th>
+            <th>VITA</th>
+          </thead>
+          <tbody>
+            {% for r in tabela_obietosci %}
+              <tr>
+                <td>{{r[0]}}</td>
+                <td>{{r[1]}}</td>
+                <td>{{r[2]}}</td>
+                <td>{{r[3]}}</td>
+              </tr>
+            {% endfor %}
+              <tr>
+                <td>{{podsumowanie_tabeli_obietosci[0]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[1]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[2]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[3]}}</td>
+              
+              </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+  
 </div>
 {% endblock %}

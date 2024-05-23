@@ -1,28 +1,25 @@
-from flask import render_template, request, redirect, url_for
-from Modele_db.modele_db import session
-from sqlalchemy import text
-from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
-from Pianki.Analiza_pianek.Podsumowanie_analizy_pianek import Podsumowanie_analizy_pianek
+# from flask import render_template, request, redirect, url_for
+# from Modele_db.modele_db import session
+# from sqlalchemy import text
+# from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
+# from Pianki.Analiza_pianek.Podsumowanie_analizy_pianek import Podsumowanie_analizy_pianek
 
-from ..analiza_pianek import analiza_pianek
-
-
-ard = {x.MODEL: x for x in izp}
-pap = Podsumowanie_analizy_pianek(izp)
+# from analiza_pianek import analiza_pianek
 
 
-z_pianki = dict()
+# ard = {x.MODEL: x for x in izp}
+# pap = Podsumowanie_analizy_pianek(izp)
+
+
+# z_pianki = dict()
+
+from ..routes import *
+
+import numpy as np
 
 @analiza_pianek.route("/")
 def index():
     return render_template("analiza_pianek.html", title="Analiza pianek", pap=pap)
-
-@analiza_pianek.route("/dokumentacja_pianek/<numer>")
-def dokumentacja_pianek_numer(numer):
-    dokumentacja = [list(x) for x in session.execute(text(f"SELECT MODEL, BRYLA, TYP, PRZEZ, OZN, PROFIL, NUMER, WYMIAR, TOLERANCJA, ilosc FROM baza_PIANKI where NUMER = '{numer}'")).fetchall()]
-
-    return [list(x) for x in dokumentacja]
-
 
 @analiza_pianek.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
@@ -56,6 +53,8 @@ def dodaj_pianki_bryla(model):
     else:
         return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True))
 
+
+
 @analiza_pianek.route("/dodaj_pianki_model", methods=["GET", "POST"])
 def dodaj_pianki_model():
 
@@ -81,6 +80,14 @@ def dodaj_pianki_model():
             
             z_pianki = {}
 
-       
-    return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp]), z_pianki=z_pianki) 
+    tabela_obietosci = []
+    podsumowanie_tabeli_obietosci = ["SUMA","","",""]
+    if len(z_pianki) > 0:
+        for k in z_pianki:
+            cls = ard[k].Bryly_do_zamowienia(wszystkie_bryly=True, korekta_zam=z_pianki[k])[1]
+            tabela_obietosci.append([k, np.round(cls.pianpol_VOL, 0), np.round(cls.ciech_VOL, 0), np.round(cls.vita_VOL, 0)])
+
+        podsumowanie_tabeli_obietosci = ["SUMA", f"{sum([x[1] for x in tabela_obietosci]):.0f}",  f"{sum([x[2] for x in tabela_obietosci]):.0f}",  f"{sum([x[3] for x in tabela_obietosci]):.0f}"]
+
+    return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp]), z_pianki=z_pianki, tabela_obietosci=tabela_obietosci, podsumowanie_tabeli_obietosci=podsumowanie_tabeli_obietosci) 
 
