@@ -34,7 +34,7 @@ def dodaj_pianki_model():
         
         # print(z_pianki)
         if request.form["nr_partii"] and request.form["nr_zamowienia"] and request.form["dostawca"] and request.form["data_dostawy"]:
-            propozycja_zam = {request.form["nr_partii"]: {"NR_ZAM":request.form["nr_zamowienia"], "DOSTAWCA":request.form["dostawca"].upper(), "DATA_DOS": request.form["data_dostawy"], "PROP_ZAM": z_pianki}}
+      
             if os.path.exists("./propozycja_zamowionych_pianek.json"):
 
                 with open("./propozycja_zamowionych_pianek.json",'r+') as f:
@@ -48,8 +48,9 @@ def dodaj_pianki_model():
                     json.dump(file_data, f)
                     
             else:         
-                with open("propozycja_zamowionych_pianek.json", "a") as f:
-                    json.dump(propozycja_zam, f)
+                with open("propozycja_zamowionych_pianek.json", "r") as f:
+                    json.dump({request.form["nr_partii"]: {"NR_ZAM":request.form["nr_zamowienia"], "DOSTAWCA":request.form["dostawca"].upper(), "DATA_DOS": request.form["data_dostawy"], "PROP_ZAM": z_pianki}}
+                              ,f)
 
             return redirect(url_for('analiza_pianek.raport_zamowionych_pianek_i_owat', nr_partii=request.form["nr_partii"].replace("/", "_")))
         
