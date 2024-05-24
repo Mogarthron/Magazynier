@@ -25,6 +25,7 @@
               <th>PIANPOL</th>
               <th>CIECH</th>
               <th>VITA</th>
+              <th>OLTA</th>
             </thead>
             <tbody>
               {% for r in tabela_obietosci %}
@@ -33,6 +34,7 @@
                   <td>{{r[1]}}</td>
                   <td>{{r[2]}}</td>
                   <td>{{r[3]}}</td>
+                  <td>{{r[4]}}</td>
                 </tr>
               {% endfor %}
                 <tr>
@@ -40,6 +42,7 @@
                   <td>{{podsumowanie_tabeli_obietosci[1]}}</td>
                   <td>{{podsumowanie_tabeli_obietosci[2]}}</td>
                   <td>{{podsumowanie_tabeli_obietosci[3]}}</td>
+                  <td>{{podsumowanie_tabeli_obietosci[4]}}</td>
                 
                 </tr>
             </tbody>
@@ -47,10 +50,19 @@
           
       </div>
       
+    
+      <div class="row">
+        <p></p>
       </div>
 
       <div class="row">
         <form method=POST>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Nr partii" aria-label="nr_partii", name="nr_partii">
+            <!-- <span class="input-group-text">@</span> -->
+            <input type="text" class="form-control" placeholder="Nr Zamówienia" aria-label="nr_zamowienia", name="nr_zamowienia">
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT ZAMÓWIONYCH PIANEK I OWAT</button>
           <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT ZAMÓWIONYCH PIANEK I OWAT</button>
         </form >
         <br>

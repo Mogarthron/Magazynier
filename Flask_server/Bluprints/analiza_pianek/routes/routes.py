@@ -1,17 +1,3 @@
-# from flask import render_template, request, redirect, url_for
-# from Modele_db.modele_db import session
-# from sqlalchemy import text
-# from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
-# from Pianki.Analiza_pianek.Podsumowanie_analizy_pianek import Podsumowanie_analizy_pianek
-
-# from analiza_pianek import analiza_pianek
-
-
-# ard = {x.MODEL: x for x in izp}
-# pap = Podsumowanie_analizy_pianek(izp)
-
-
-# z_pianki = dict()
 import json
 import os
 
@@ -67,6 +53,8 @@ def dodaj_pianki_model():
 
             global z_pianki
             z_pianki[_model].pop(_bryla)
+            if len(z_pianki[_model]) == 0:
+                z_pianki.pop(_model)
 
            
     if request.method == "POST" and "przejdz_do_bryly" in request.form.keys():
@@ -81,18 +69,29 @@ def dodaj_pianki_model():
 
     if request.method == "POST" and "generuj_raport_zamowionych_pianek" in request.form.keys() and len(z_pianki) > 0: 
         
-        print(z_pianki)  
-        print(os.listdir(""))
+        # print(z_pianki)
+        # if len(z_pianki) > 0:
+        #     with open("propozycja_zamowionych_pianek.json", "a") as f:
+        #         json.dump(z_pianki, f)
 
+        return redirect(url_for('analiza_pianek.raport_zamowionych_pianek_i_owat'))
+        
 
     tabela_obietosci = []
-    podsumowanie_tabeli_obietosci = ["SUMA","","",""]
+    podsumowanie_tabeli_obietosci = ["SUMA","","","",""]
     if len(z_pianki) > 0:
+
+        print(z_pianki)
+
         for k in z_pianki:
             cls = ard[k].Bryly_do_zamowienia(wszystkie_bryly=True, korekta_zam=z_pianki[k])[1]
-            tabela_obietosci.append([k, np.round(cls.pianpol_VOL, 0), np.round(cls.ciech_VOL, 0), np.round(cls.vita_VOL, 0)])
+            tabela_obietosci.append([k, np.round(cls.pianpol_VOL, 0), np.round(cls.ciech_VOL, 0), np.round(cls.vita_VOL, 0), np.round(cls.olta_VOL, 0)])
 
-        podsumowanie_tabeli_obietosci = ["SUMA", f"{sum([x[1] for x in tabela_obietosci]):.0f}",  f"{sum([x[2] for x in tabela_obietosci]):.0f}",  f"{sum([x[3] for x in tabela_obietosci]):.0f}"]
-
-    return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp]), z_pianki=z_pianki, tabela_obietosci=tabela_obietosci, podsumowanie_tabeli_obietosci=podsumowanie_tabeli_obietosci) 
+        podsumowanie_tabeli_obietosci = ["SUMA", f"{sum([x[1] for x in tabela_obietosci]):.0f}",  f"{sum([x[2] for x in tabela_obietosci]):.0f}",  f"{sum([x[3] for x in tabela_obietosci]):.0f}", f"{sum([x[4] for x in tabela_obietosci]):.0f}"]
+        
+        return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp]), z_pianki=z_pianki, tabela_obietosci=tabela_obietosci, podsumowanie_tabeli_obietosci=podsumowanie_tabeli_obietosci) 
+    
+    else:      
+        print(z_pianki)
+        return render_template("dodaj_pianki_model.html", title="Dodaj Pianki", lista_modeli = list([x.MODEL for x in izp]), z_pianki=z_pianki, tabela_obietosci=tabela_obietosci, podsumowanie_tabeli_obietosci=podsumowanie_tabeli_obietosci) 
 
