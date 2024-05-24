@@ -12,3 +12,7 @@ ard = {x.MODEL: x for x in izp}
 pap = Podsumowanie_analizy_pianek(izp)
 
 z_pianki = dict()
+
+@analiza_pianek.route("/")
+def index():
+    return render_template("analiza_pianek.html", title="Analiza pianek", pap=pap)

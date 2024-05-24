@@ -11,6 +11,9 @@ from Flask_server.Bluprints.poduszki import poduszki
 
 
 app = Flask(__name__)
+
+app.secret_key = "Super secret key"
+
 app.register_blueprint(wydzial_pianek, url_prefix="/wydzial_pianek")
 app.register_blueprint(analiza_pianek, url_prefix="/analiza_pianek")
 app.register_blueprint(magazyny_pianki, url_prefix="/magazyny_pianki")

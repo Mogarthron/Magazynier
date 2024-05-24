@@ -1,16 +1,18 @@
 {% extends 'layout_ap.html' %}
 
 {% block content %}
+
+{% if tabelka %}
 <div class="container" id="printableArea">
     <div class="row">
         <div class="col">160.10.10 ZLECENIE CZY JEST MIEJSCE NA MAGAZYNIE</div>
         <div class="col text-center">
-            <p>ZAMOWIENIE PIANPOL 2024-05-15</p>
-            <p>NR_PARTII 20/01</p>
+            <p>ZAMOWIENIE {{dostawca}} {{data_zamowienia}}</p>
+            <p>NR_PARTII {{nr_partii}}</p>
         </div>
         <div class="col text-end">
-            <p>NR_ZAM 24/0516 </p>
-            <p>PREFEROWANA DATA DOSTAWY 2024-06-21</p>
+            <p>NR_ZAM {{nr_zamowienia}} </p>
+            <p>PREFEROWANA DATA DOSTAWY {{preferowana_data_dostawy}}</p>
         </div>
     </div>
     <div class="row align-items-center">
@@ -74,9 +76,14 @@
         <div class="col-4"></div>
     </div>
 </div>
-<a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')">DRUKUJ</a>
-<script>
+<div class="container">
+    <a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')">DRUKUJ</a>
+</div>
 
+{% else %}
+    PUSTO!!
+{% endif %}
+<script>
     function printPageArea(areaID){
         var printContent = document.getElementById(areaID).innerHTML;
         var originalContent = document.body.innerHTML;

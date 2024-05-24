@@ -17,8 +17,8 @@
     </div>
     <div class="col">
       <div class="row">
-
         <div class="card">
+          <h5 class="card-title">OBIETOSCI PIANEK</h5>
           <table class="table">
             <thead>
               <th>MODEL</th>
@@ -29,47 +29,71 @@
             </thead>
             <tbody>
               {% for r in tabela_obietosci %}
-                <tr>
-                  <td>{{r[0]}}</td>
-                  <td>{{r[1]}}</td>
-                  <td>{{r[2]}}</td>
-                  <td>{{r[3]}}</td>
-                  <td>{{r[4]}}</td>
-                </tr>
+              <tr>
+                <td>{{r[0]}}</td>
+                <td>{{r[1]}}</td>
+                <td>{{r[2]}}</td>
+                <td>{{r[3]}}</td>
+                <td>{{r[4]}}</td>
+              </tr>
               {% endfor %}
-                <tr>
-                  <td>{{podsumowanie_tabeli_obietosci[0]}}</td>
-                  <td>{{podsumowanie_tabeli_obietosci[1]}}</td>
-                  <td>{{podsumowanie_tabeli_obietosci[2]}}</td>
-                  <td>{{podsumowanie_tabeli_obietosci[3]}}</td>
-                  <td>{{podsumowanie_tabeli_obietosci[4]}}</td>
-                
-                </tr>
+              <tr>
+                <td>{{podsumowanie_tabeli_obietosci[0]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[1]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[2]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[3]}}</td>
+                <td>{{podsumowanie_tabeli_obietosci[4]}}</td>
+
+              </tr>
             </tbody>
           </table>
-          
-      </div>
-      
-    
-      <div class="row">
+        </div>
         <p></p>
-      </div>
+        <div class="card">
+          <h5 class="card-title">ROLKI OWAT</h5>
+          <table class="table">
+            <thead>
+              <th>ZIELONA</th>
+              <th>NIEBIESKA</th>
+              <th>CZERWONA</th>
+            </thead>
+            <thead>
+              <tr>
+                <td>{{rolki_owat[0]}}</td>
+                <td>{{rolki_owat[1]}}</td>
+                <td>{{rolki_owat[2]}}</td>
+              </tr>
+            </thead>
+          </table>
 
-      <div class="row">
-        <form method=POST>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Nr partii" aria-label="nr_partii", name="nr_partii">
-            <!-- <span class="input-group-text">@</span> -->
-            <input type="text" class="form-control" placeholder="Nr Zamówienia" aria-label="nr_zamowienia", name="nr_zamowienia">
-          </div>
-          <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT ZAMÓWIONYCH PIANEK I OWAT</button>
-          <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT ZAMÓWIONYCH PIANEK I OWAT</button>
-        </form >
-        <br>
-      </div>
+        </div>
 
+
+        <div class="row">
+          <p></p>
+        </div>
+
+        <div class="row">
+          <form method=POST>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Nr partii" aria-label="nr_partii" , name="nr_partii">
+              <input type="text" class="form-control" placeholder="Dostawca" aria-label="dostawca" , name="dostawca">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Nr Zamówienia" aria-label="nr_zamowienia" ,
+                name="nr_zamowienia">
+              <!-- <input type="text" class="form-control" placeholder="Data dostawy" aria-label="data_dostawy", name="data_dostawy"> -->
+              <input type="date" class="form-control" aria-label="data_dostawy" , name="data_dostawy">
+            </div>
+            <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT
+              ZAMÓWIONYCH PIANEK I OWAT</button>
+            <!-- <button type="submit" class="btn btn-primary btn-sm" name="generuj_raport_zamowionych_pianek">RAPORT ZAMÓWIONYCH PIANEK I OWAT</button> -->
+          </form>
+          <br>
+        </div>
+
+      </div>
     </div>
+
   </div>
-  
-</div>
-{% endblock %}
+  {% endblock %}
