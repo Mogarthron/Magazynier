@@ -14,6 +14,7 @@ class Pianki:
     self.vita_VOL = 0
     self.ciech_VOL = 0
     self.pianpol_VOL = 0
+    self.olta_VOL = 0
 
     with engine.begin() as conn:
       query = text(f"SELECT * from baza_PIANKI WHERE MODEL = '{MODEL}'")
