@@ -48,7 +48,7 @@ def dodaj_pianki_model():
                     json.dump(file_data, f)
                     
             else:         
-                with open("propozycja_zamowionych_pianek.json", "r") as f:
+                with open("propozycja_zamowionych_pianek.json", "w") as f:
                     json.dump({request.form["nr_partii"]: {"NR_ZAM":request.form["nr_zamowienia"], "DOSTAWCA":request.form["dostawca"].upper(), "DATA_DOS": request.form["data_dostawy"], "PROP_ZAM": z_pianki}}
                               ,f)
 

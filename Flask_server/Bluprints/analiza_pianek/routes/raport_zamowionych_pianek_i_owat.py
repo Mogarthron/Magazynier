@@ -41,9 +41,17 @@ def raport_zamowionych_pianek_i_owat(nr_partii):
 
         mb = [f"{df.ZIELONA.sum():.0f}", f"{df.NIEBIESKA.sum():.0f}", f"{df.CZERWONA.sum():.0f}", f"{df['ŻÓŁTA'].sum():.0f}", f"{df.W3.sum():.0f}"]
         
+        obietosc_zam = {"VITA": 0,
+                        "CIECH": 0,
+                        "PIANPOL": 0,
+                        "OLTA": 0}
+        for cls in cls_list:
+            obietosc_zam += cls
+
         return render_template("raport_zamowionych_pianek_i_owat.html", title=f"ZAM PIANPOL {data_zamowienia}", 
                                                                         dostawca=dostawca, data_zamowienia=data_zamowienia,                                                                        
                                                                         tabelka=tabelka, nr_partii=nr_partii, nr_zamowienia=nr_zamowienia, 
-                                                                        preferowana_data_dostawy=preferowana_data_dostawy, mb=mb, rolki_owaty=rolki_owaty)
+                                                                        preferowana_data_dostawy=preferowana_data_dostawy, mb=mb, rolki_owaty=rolki_owaty, 
+                                                                        obietosc_zam = obietosc_zam)
     
     return render_template("raport_zamowionych_pianek_i_owat.html", title=f"PROPOZYCJA ZAMOWIENIA", tabelka=None)

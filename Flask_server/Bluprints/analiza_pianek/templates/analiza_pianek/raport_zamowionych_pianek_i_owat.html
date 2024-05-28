@@ -59,7 +59,7 @@
                     <td></td>
                     <td></td>
                     <td class="text-end">rolek</td>
-                    <td class="text-center" >{{rolki_owaty[0]}}</td>
+                    <td class="text-center">{{rolki_owaty[0]}}</td>
                     <td class="text-center">{{rolki_owaty[1]}}</td>
                     <td class="text-center">{{rolki_owaty[2]}}</td>
                     <td></td>
@@ -69,8 +69,13 @@
         </table>
     </div>
     <div class="row">
-        <div class="col-4 text-end">
-            OBIETOSC ZAMOWIENIA: XXXXXM3
+        <div class="col-4 text-end">         
+            {% for ob in obietosc_zam %}
+                {% if obietosc_zam[ob] > 0 %}
+                <p>OBIETOSC ZAMOWIENIA {{ob}} : {{"%.0f"|format(obietosc_zam[ob])}}M3</p>
+                {% endif %}
+            {% endfor %}
+         
         </div>
         <div class="col-4"></div>
         <div class="col-4"></div>
