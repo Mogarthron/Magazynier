@@ -8,7 +8,7 @@ class MODEL7(Pianki):
   MODEL7 rozdział pianek Memory PIANPOL reszta VITA
   """
   mod_VOL_pianpol = 1
-  mod_VOL_vita = .9
+  mod_VOL_vita = 1
 
   MODEL = ""
 
