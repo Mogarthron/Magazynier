@@ -25,7 +25,7 @@ def raport_zamowionych_pianek_i_owat(nr_partii):
         cls_list = list()
         zestawienie_list = list()
         for k in propozecje_zam["PROP_ZAM"]:
-            zmod, cls = ard[k].Bryly_do_zamowienia(korekta_zam=propozecje_zam["PROP_ZAM"][k])
+            zmod, cls = ard[k].Bryly_do_zamowienia(wszystkie_bryly=True, korekta_zam=propozecje_zam["PROP_ZAM"][k])
 
             cls_list.append(cls)
             zestawienie_list.append(zmod)
