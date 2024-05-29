@@ -5,11 +5,11 @@ import json
 import os
 from datetime import datetime as dt
 
-@analiza_pianek.route("/raport_zamowionych_pianek_i_owat", defaults={"nr_partii": None})
-@analiza_pianek.route("/raport_zamowionych_pianek_i_owat/<nr_partii>")
+@analiza_pianek.route("/raport_zamowionych_pianek_i_owat", methods=["GET", "POST"], defaults={"nr_partii": None})
+@analiza_pianek.route("/raport_zamowionych_pianek_i_owat/<nr_partii>", methods=["GET", "POST"])
 def raport_zamowionych_pianek_i_owat(nr_partii):
     
-    
+        
     if os.path.exists("./propozycja_zamowionych_pianek.json") and nr_partii:
         nr_partii = nr_partii.replace("_", "/")
 
@@ -45,8 +45,13 @@ def raport_zamowionych_pianek_i_owat(nr_partii):
                         "CIECH": 0,
                         "PIANPOL": 0,
                         "OLTA": 0}
+        
         for cls in cls_list:
             obietosc_zam += cls
+
+        if request.method == "POST" and "akceptacja_zamowienia" in request.form.keys():
+
+            return redirect(url_for('analiza_pianek.zapis_do_bazy', nr_partii=nr_partii))
 
         return render_template("raport_zamowionych_pianek_i_owat.html", title=f"ZAM PIANPOL {data_zamowienia}", 
                                                                         dostawca=dostawca, data_zamowienia=data_zamowienia,                                                                        
