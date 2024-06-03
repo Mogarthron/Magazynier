@@ -1,6 +1,22 @@
 {% extends 'layout_ap.html' %}
 
 {% block content %}
+{% if numery_partii %}
+<br>
+        <form method="POST" style="width: 600px;">
+            <div class="d-flex justify-content-start">
+                <label for="wybor_nr_partii" style="width: 300;">NR PARTII</label>
+                <select name="wybor_nr_partii" class="form-select">
+                    {% for nr in numery_partii %}
+                    <option value="{{nr}}">{{nr}}</option>
+                
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-primary">WYBIERZ</button>
+            </div>
+        </form>
+ <br>
+{% endif %}
 
 {% if tabelka %}
 <div class="container" id="printableArea">
@@ -48,11 +64,11 @@
                     <td></td>
                     <td></td>
                     <td class="text-end" style="border-top: solid;">mb</td>
-                    <td class="text-center" style="border-top: solid;">{{mb[0]}}</td>
-                    <td class="text-center" style="border-top: solid;">{{mb[1]}}</td>
-                    <td class="text-center" style="border-top: solid;">{{mb[2]}}</td>
-                    <td class="text-center" style="border-top: solid;">{{mb[3]}}</td>
-                    <td class="text-center" style="border-top: solid;">{{mb[4]}}</td>
+                    <td class="text-center" style="border-top: solid;">{{metry_bierzace[0]}}</td>
+                    <td class="text-center" style="border-top: solid;">{{metry_bierzace[1]}}</td>
+                    <td class="text-center" style="border-top: solid;">{{metry_bierzace[2]}}</td>
+                    <td class="text-center" style="border-top: solid;">{{metry_bierzace[3]}}</td>
+                    <td class="text-center" style="border-top: solid;">{{metry_bierzace[4]}}</td>
                 </tr>
                 <tr>
                     <td></td>
@@ -84,7 +100,7 @@
 <div class="container">
     <a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')">DRUKUJ</a>
     <form method="POST">
-        <button type="submit" class="btn btn-primary btn-sm" name="akceptacja_zamowienia">AKCEPTACJA ZAMOWIENIA</button>
+        <button type="submit" class="btn btn-primary" name="akceptacja_zamowienia">AKCEPTACJA ZAMOWIENIA</button>
     </form>
 </div>
 

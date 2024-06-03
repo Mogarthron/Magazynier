@@ -10,7 +10,7 @@ def dodaj_pianki_bryla(model):
             if float(bryly_do_zamowienia['ile'][i]) > 0:
                 z_pianki[model][f"{bryly_do_zamowienia['bryla'][i]}"] = float(bryly_do_zamowienia['ile'][i])
 
-        # print(z_pianki)
+        print("dodaj_pianki_bryla", z_pianki)
         return redirect(url_for('analiza_pianek.dodaj_pianki_model'))
 
     elif request.method == "POST" and "sprawdzObj" in request.form.keys():

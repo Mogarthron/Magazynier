@@ -2,6 +2,71 @@
 
 {% block content %}
 
-ZAPIS DO BAZY {{nr_partii}}
+<div class="container">
+    <div class="row">
+
+        <p>DOSTAWCA: {{dostawca}}</p>
+        <p>NR ZMAOWIENIA: {{nr_zamowienia}}</p>
+    </div>
+    <hr>
+    {% for pdz in pozycje_do_zapisu["PROP_ZAM"] %}
+    <form method="post">
+
+        <h3>{{pdz}}</h3>
+
+        <div class="row">
+
+            <div class="col">
+                <div class="input-group mb-3">    
+                    <span class="input-group-text" for="tydzien">NUMER TYGODNIA</span>
+                    <input class="form-control" type="text" name="tydzien" value="{{tydzien}}">
+                </div>    
+    
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="{{pdz}} nr_partii">NR PARTII</span>
+                    <input aria-describedby="{{pdz}} nr_partii" class="form-control" type="text" name="{{pdz}} nr_partii"
+                        value="{{nr_partii}}">
+                </div>
+    
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="{{pdz}} znacznik_dostawcy">ZNACZNIK DOSTAWCY</span>
+                    <input aria-describedby="{{pdz}} znacznik_dostawcy" class="form-control" type="text"
+                        name="{{pdz}} znacznik_dostawcy" , value="{{informacje_model[pdz]['ZNACZNIK_DOSTAWCY']}}">
+                </div>
+
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+    
+                    <span class="input-group-text" id="{{pdz}} nr_kompletacji">NR_KOMPLETACJI</span>
+                    <input aria-describedby="{{pdz}} nr_kompletacji" class="form-control" type="text"
+                        name="{{pdz}} nr_kompletacji" value="{{informacje_model[pdz]['NR_KOMPLETACJI']}}">
+                </div>
+    
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="{{pdz}} zam1">NR ZAMOWIENIA 1</span>
+                    <input aria-describedby="{{pdz}} zam1" class="form-control" type="text" name="{{pdz}} zam1"
+                        placeholder="NR ZAMOWIENIA 1">
+    
+                </div>
+    
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="{{pdz}} zam2">NR ZAMOWIENIA 2</span>
+                    <input aria-describedby="{{pdz}} zam2" class="form-control" type="text" name="{{pdz}} zam2"
+                        placeholder="NR ZAMOWIENIA 2">
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">DODAJ DO BAZY {{pdz}}</button>
+    </form>
+    <hr>
+    {% endfor %}
+</div>
+
 
 {% endblock %}

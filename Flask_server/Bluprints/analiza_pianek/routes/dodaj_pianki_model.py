@@ -37,11 +37,15 @@ def dodaj_pianki_model():
       
             if os.path.exists("./propozycja_zamowionych_pianek.json"):
 
-                with open("./propozycja_zamowionych_pianek.json",'r+') as f:
+                with open("./propozycja_zamowionych_pianek.json",'r') as f:
                     # First we load existing data into a dict.
                     file_data = json.load(f)
+                
+                with open("./propozycja_zamowionych_pianek.json",'w') as f:
                     # Join new_data with file_data inside emp_details
-                    file_data[request.form["nr_partii"]] = {"NR_ZAM":request.form["nr_zamowienia"], "DOSTAWCA":request.form["dostawca"].upper(), "DATA_DOS": request.form["data_dostawy"], "PROP_ZAM": z_pianki}
+                    if len(z_pianki)>0:
+
+                        file_data[request.form["nr_partii"]] = {"NR_ZAM":request.form["nr_zamowienia"], "DOSTAWCA":request.form["dostawca"].upper(), "DATA_DOS": request.form["data_dostawy"], "PROP_ZAM": z_pianki}
                     # Sets file's current position at offset.
                     f.seek(0)
                     # convert back to json.
