@@ -1,0 +1,30 @@
+.strona {
+    background-color: #fff;
+    width: 297mm;
+    height: 210mm;
+    border: 3px solid #000;
+    font-family: Calibry, sans-serif;
+    
+}
+
+.strona .naglowek {
+    border: 3px solid #000;
+    height: 30mm;
+}
+.strona .naglowek .dir {
+    /* position: relative; */
+    top: 0;
+    left: 0;
+}
+
+.strona .naglowek .zlec_prod {
+    /* position: relative; */
+    top: 1;
+    left: 0;
+}
+
+.strona .naglowek .data {
+    /* position: relative; */
+    top: 1;
+    left: 1;
+}

@@ -7,7 +7,7 @@ from Modele_db.modele_db import ZAM_PIANKI
 
 import json
 from datetime import datetime as dt
-
+import os
 
 
 @analiza_pianek.route("/zapis_do_bazy/<nr_partii>", methods=["GET", "POST"])
@@ -39,7 +39,7 @@ def zapis_do_bazy(nr_partii):
 
     tydzien = (dt.now().isocalendar().year - 2000)*100 + dt.now().isocalendar().week
     
-    if request.method == "POST":
+    if os.path.exists("./propozycja_zamowionych_pianek.json") and request.method == "POST":
        
         lista_danych_do_zamowienia = {
                                     "nr_partii": None,                                   
@@ -59,20 +59,40 @@ def zapis_do_bazy(nr_partii):
         # print(modele, klasa)
 
         from Pianki.Raporty_do_zamowien import Dodaj_pozycje_do_ZAM_PIANKI
-        print(Dodaj_pozycje_do_ZAM_PIANKI(tydzien=int(list(request.form.lists())[0][1][0]),
+
+        Dodaj_pozycje_do_ZAM_PIANKI(tydzien=int(list(request.form.lists())[0][1][0]),
                                     zancznik_dostawcy=lista_danych_do_zamowienia["znacznik_dostawcy"],
                                     nr_kompletacji=lista_danych_do_zamowienia["nr_kompletacji"],
                                     modele=modele,
                                     klasa=klasa,
                                     zam1=lista_danych_do_zamowienia["zam1"],
                                     zam2=lista_danych_do_zamowienia["zam2"],
-                                    nr_partii=lista_danych_do_zamowienia["nr_partii"]
-                                    ))
+                                    nr_partii=lista_danych_do_zamowienia["nr_partii"],
+                                    DODAJ_DO_BAZY=True
+                                    )
+        
+        with open("propozycja_zamowionych_pianek.json", "r") as f:
+            _pozycje_do_zapisu = json.load(f)
 
-            
+        
+        
 
+        if len(_pozycje_do_zapisu[nr_partii]["PROP_ZAM"]) > 0:
+            with open("./propozycja_zamowionych_pianek.json",'w') as f:
+                    # Join new_data with file_data inside emp_details
+                    _pozycje_do_zapisu[nr_partii]["PROP_ZAM"].pop(model)
+                    # Sets file's current position at offset.
+                    f.seek(0)
+                    # convert back to json.
+                    json.dump(_pozycje_do_zapisu, f)
+        
+            if len(_pozycje_do_zapisu[nr_partii]["PROP_ZAM"]) == 0:      
+                os.remove("propozycja_zamowionych_pianek.json")
 
+                return redirect(url_for('analiza_pianek.index'))
 
+            else:
+                return render_template("zapis_do_bazy.html", nr_partii=nr_partii, dostawca=dostawca, tydzien=str(tydzien), nr_zamowienia=nr_zamowienia, pozycje_do_zapisu=_pozycje_do_zapisu, informacje_model=informacje_model)
 
 
     return render_template("zapis_do_bazy.html", nr_partii=nr_partii, dostawca=dostawca, tydzien=str(tydzien), nr_zamowienia=nr_zamowienia, pozycje_do_zapisu=pozycje_do_zapisu, informacje_model=informacje_model)

@@ -15,6 +15,5 @@ z_pianki = dict()
 
 @analiza_pianek.route("/")
 def index():
-
     
     return render_template("analiza_pianek.html", title="Analiza pianek", pap=pap)
