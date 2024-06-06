@@ -1,28 +1,153 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'layout_ap.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raporty</title>
-    <link rel="stylesheet" href="{{url_for('.static', filename='zlecenia_owat_pianek.css')}}">
-</head>
-
-<body style="background-color: darkgray;">
-    Raporty
-    <form method="post">
-               
-    </form>
-
-    <!-- <br>
-    <div class="strona">
-        <div class="naglowek">
-            <div class="dir">160.10.20 ZLECENIE ROZKROJ OWAT/AMALFI</div>
-            <div class="zlec_prod">ZLECENIE PRODUKCYJNE: WYDZIAŁ ROZKRÓJ OWAT</div>
-            <div class="data">DZIEN WYDRUKU: 2024-05-14</div>
+{% block content %}
+<a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')">DRUKUJ</a>
+<div class="container" id="printableArea">
+    <div class="row">
+        <div class="col">160.10.20 ZLECENIE NA ROZKROJ OWAT/AMALFI</div>
+    </div>
+    <div class="row">
+        <div class="col text-start">
+            <p>ZLECENIE PRODUKCYJNE: WYDZIAŁ ROZKRÓJ OWAT</p>
         </div>
-    </div> -->
+        <div class="col text-end">
+            <p>DZIEŃ WYDRUKU 2024-05-15</p>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <p style="font-weight: bold; font-size: 1.5em;">NR PARTII: 19/01</p>
+            <p style="font-weight: bold; font-size: 1.5em;">NR ZAMOWIENIA: AMALFI 2_24</p>
+            <p style="font-weight: bold; font-size: 1.5em;">MODEL: AMALFI</p>
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr style="border-bottom: medium;">
+                        <th>TYP</th>
+                        <th>MB</th>
+                        <th>R/K</th>
+                        <th>KATER_UKL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: medium;">
+                        <td>O3</td>
+                        <td>88</td>
+                        <td>K</td>
+                        <td>O3-AMA-3-SP</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+    <hr>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>BRYLA</th>
+                        <th>ILOŚĆ PACZEK</th>
+                        <th>CZAS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AMALFI 3</td>
+                        <td>20</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+               </table>
+        </div>        
+        <div class="col"></div>
 
-</body>
+    </div>
+   <br>
+    <div class="row">
+        <div class="col text-start">UWAGI:</div>
+        <div class="col text-end">PODPIS, DZIEŃ</div>
+    </div>
+</div>
 
-</html>
+<div class="container">
+    <div class="row">
+        <div class="col">160.10.20 ZLECENIE NA ROZKROJ OWAT/AMALFI</div>
+    </div>
+    <div class="row">
+        <div class="col text-start">
+            <p>ZLECENIE PRODUKCYJNE: WYDZIAŁ ROZKRÓJ OWAT</p>
+        </div>
+        <div class="col text-end">
+            <p>DZIEŃ WYDRUKU 2024-05-15</p>
+        </div>
+    </div>
+    <div class="row align-items-center">
+        <div class="col">
+            <p style="font-weight: bold; font-size: 1.5em;">NR PARTII: 19/01</p>
+            <p style="font-weight: bold; font-size: 1.5em;">NR ZAMOWIENIA: AMALFI 2_24</p>
+            <p style="font-weight: bold; font-size: 1.5em;">MODEL: AMALFI</p>
+        </div>
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr style="border-bottom: medium;">
+                        <th>TYP</th>
+                        <th>MB</th>
+                        <th>R/K</th>
+                        <th>KATER_UKL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: medium;">
+                        <td>O3</td>
+                        <td>88</td>
+                        <td>K</td>
+                        <td>O3-AMA-3-SP</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>    
+    <hr>
+    <div class="row">
+        <div class="col">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>BRYLA</th>
+                        <th>ILOŚĆ PACZEK</th>
+                        <th>CZAS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>AMALFI 3</td>
+                        <td>20</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+               </table>
+        </div>        
+        <div class="col"></div>
+
+    </div>
+   <br>
+    <div class="row">
+        <div class="col text-start">UWAGI:</div>
+        <div class="col text-end">PODPIS, DZIEŃ</div>
+    </div>
+</div>
+
+<script>
+    function printPageArea(areaID){
+        var printContent = document.getElementById(areaID).innerHTML;
+        var originalContent = document.body.innerHTML;
+        document.ge
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+    }
+</script>
+    {% endblock %}
