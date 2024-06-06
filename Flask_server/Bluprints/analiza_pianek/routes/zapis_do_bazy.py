@@ -29,10 +29,15 @@ def zapis_do_bazy(nr_partii):
         kompl = []
         for i in session.query(ZAM_PIANKI.nr_kompletacji).filter(ZAM_PIANKI.model == pdz).distinct().all():
             kompl.append([i[0].split("_")[1], i[0].split("_")[0]])
-        kompl.sort(key=lambda x: x[0])
-        kompl = kompl[-1][::-1]
-        kompl[0] = str(int(kompl[0]) + 1)
-            
+
+        if len(kompl) > 0:
+            kompl.sort(key=lambda x: x[0])
+            kompl = kompl[-1][::-1]
+            kompl[0] = str(int(kompl[0]) + 1)
+        else:
+            kompl = ["XX", "YY"]
+
+
         informacje_model[pdz] = {"ZNACZNIK_DOSTAWCY": dizp[pdz].klasa.__name__.split("_")[1],
                                  "NR_KOMPLETACJI": "_".join(kompl) }
 
