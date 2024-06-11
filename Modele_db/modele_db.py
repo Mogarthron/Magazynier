@@ -187,7 +187,9 @@ class ZAM_PIANKI(Base):
 
   status_leniwa = Column("STATUS_LENIWA", String(50))
   status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
-  status_owaty = Column("STATUS_OWATY", String(50))
+  owaty_wydano = Column("OWATY_WYDANO", String(50))
+  owaty_wycieto = Column("OWATY_WYCIETO", String(50))
+  owaty_kompletacja = Column("OWATY_KOMPLETACJA", String(50))
   nr_pz = Column("nr_PZ", String)
   nr_pw = Column("nr_PW", String)
   status_kompletacja = Column("STATUS_KOMPLETACJA", String(50))
@@ -222,7 +224,9 @@ class ZAM_PIANKI(Base):
             "zamowione": int(self.ile_zam),
             "leniwa": self.status_leniwa if "AVANT" in self.opis else "ND",
             "leniwaSkos": self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
-            "owaty": self.status_owaty.split(",") if self.status_owaty else ["","",""],
+            "owatyWydano": self.owaty_wydano,
+            "owatyWycieto": self.owaty_wycieto,
+            "owatyKompletacja": self.owaty_kompletacja,
             "statusKompletacja": self.status_kompletacja if type(self.status_kompletacja) == str else ""
         }
   
