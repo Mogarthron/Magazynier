@@ -11,7 +11,9 @@
         <th>ZAMOWIONE</th>
         <th>LENIWA</th>
         <th>LENIWA SKOS</th>
-        <th>OWATY</th>
+        <th>OWATY WYDANO</th>
+        <th>OWATY WYCIETO</th>
+        <th>OWATY KOMPLETACJA</th>
         <th>STATUS KOMPLETACJA</th>
         <th></th>
         <th></th>
@@ -53,41 +55,11 @@
         </td>
         {% endif %}
         <!-- owaty -->
-        {% if r["owaty"] == 'ND' %}
-        <td>{{r["owaty"]}}</td>
-        {% else %}
-        <td>
-          <ul class="list-group list-group-horizontal">
-            <li class="list-group-item">{% if r["owaty"][0] != "" %}
-              WYDANE: {{r["owaty"][0]}}
-              {% else %}
-              <form method="POST">
-                <label for="owatyWydane_{{r['lp']}}"></label>
-                <button type="submit" name="owatyWydane_{{r['lp']}}">WYDANO</button>
-              </form>
-              {% endif%}
-            </li>
-            <li class="list-group-item">{% if r["owaty"][1] != "" %}
-              WYCIETE: {{r["owaty"][1]}}
-              {% else %}
-              <form method="POST">
-                <label for="owatyWyciete_{{r['lp']}}"></label>
-                <button type="submit" name="owatyWyciete_{{r['lp']}}">WYCIETO</button>
-              </form>
-              {% endif%}
-            </li>
-            <li class="list-group-item">{% if r["owaty"][2] != "" %}
-              SKOMPLETOWANO: {{r["owaty"][2]}}
-              {% else %}
-              <form method="POST">
-                <label for="owatyKompletacja_{{r['lp']}}"></label>
-                <button type="submit" name="owatyKompletacja_{{r['lp']}}">ZAKONCZONO</button>
-              </form>
-              {% endif%}
-            </li>
-          </ul>
-        </td>
-        {% endif %}
+        <td>{{r["owatyWydano"]}}</td>
+        <td>{{r["owatyWycieto"]}}</td>
+        <td>{{r["owatyKompletacja"]}}</td>
+        
+        <!-- kompletacja -->
         <td>{{r["statusKompletacja"]}}</td>
         <td>
           <form method="POST">

@@ -20,16 +20,16 @@
     <tbody>
       {% for d in tabelka_dostawy_pianek %}
       <tr>
-        <td>{{loop.index}}</td>
-        <td>{{d[5]}}</td>
-        <td>{{d[0]}}</td>
-        <td>{{d[1]}}</td>
-        <td>{{d[2]}}</td>
-        <td>{{d[3]}}</td>
-        <td>{{d[4]}}</td>
+        <td>{{loop.index}}</td> <!--lp-->
+        <td>{{d[5]}}</td> <!--nr sam-->
+        <td>{{d[0]}}</td> <!--data zamowienia-->
+        <td>{{d[1]}}</td> <!--oczekiwanie-->
+        <td>{{d[2]}}</td> <!--data potw-->
+        <td>{{d[3]}}</td> <!--data dostawy-->
+        <td>{{d[4]}}</td> <!--nr partii-->
         
-        <td>{{d[6]}}</td>
-        <td>{{d[7]}}</td>
+        <td>{{d[6]}}</td> <!--status-->
+        <td>{{d[7]}}</td> <!--obietosc-->
         <td>{{d[8]}}</td>
         <td><button>
           <a href="{{url_for('wydzial_pianek.przyjecie_dostawy', nr_samochodu=d[5])}}">CLICK!!</a>
