@@ -130,6 +130,20 @@ class Analiza_Rodziny():
 
     fig.show()
 
+  def Zestawienie_na_rozkroj_pianek(self):
+    
+    return {
+        "GRUPA":self.grupa_sprzedarzy,
+        "MODEL": self.MODEL,
+        "ZAMOWIONE_SIEDZISKA": self.analiza_obj.ZAMOWIONE_obj.sum(),
+        "SALDO_STAN_OBECNY": self.analiza_obj.SALDO_obj.sum(),
+        "SALDO_STAN_WOLNY": self.analiza_obj.WOLNE_obj.sum(),
+        "SALDO_STAN_MAX": self.analiza_obj.MAX_obj.sum(),
+        "WSPL_ZAP_SALDO": np.round(self.ana.SALDO_obj.sum() / self.ana.MAX_obj.sum(), 2)*100,
+        "WSPL_ZAP_WOLNE": np.round(self.ana.WOLNE_obj.sum() / self.ana.MAX_obj.sum(), 2)*100,
+        "WSPL_ZAP_ZAM": np.round((self.ana.WOLNE_obj.sum()+self.ana.ZAMOWIONE_obj.sum()+self.ana.CZEKA_NA_SPAKOWANIE_obj.sum()) / self.ana.MAX_obj.sum(), 2)*100
+    }
+
   def Raport(self, prt=None):
     """
     prt = prtWs -> drukuje raport z wykresami obietosci salda
