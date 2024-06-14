@@ -18,6 +18,7 @@ class Analiza_Rodziny():
     self.MODEL = cls.MODEL
     self.klasa = cls
     self.grupa_sprzedarzy = grupa_sprzedarzy
+    self.magazyn_skladowania = magazyn_skladowania
 
     if cls2:
       self.ana = analiza[analiza.RODZINA_NAZWA.str.contains(f"{cls.MODEL[:3]}|{cls2.MODEL[:3]}")]
