@@ -5,11 +5,9 @@ from Modele_db.modele_db import ZAM_PIANKI, KOMPLETY_PIANEK
 komp_pianek= pd.DataFrame(session.query(KOMPLETY_PIANEK.kod, KOMPLETY_PIANEK.magazyn_skladowania).all(), columns=["KOD_ART", "MAGAZYN"]).fillna("BRAK")
 
 
-naliczone = pd.read_excel("Z:/450. PLANISTA - ZAOPATRZENIE/DANE_PIANKI_2423.xlsx", sheet_name="NALICZONE", usecols="C,F,Y,Z,AK")
+naliczone = pd.read_excel("Z:/450. PLANISTA - ZAOPATRZENIE/DANE_PIANKI_2424.xlsx", sheet_name="NALICZONE", usecols="C,F,Y,Z,AK")
 naliczone["RODZINA"] = naliczone.OPIS_ART.apply(lambda x: x[:3])
 
-kompletacja = naliczone[naliczone.LIMIT_NAZWA.str.contains("24/16/01")]#.groupby(["OPIS_ART"])["ZAPOTRZ"].sum().reset_index()
-kompletacja = kompletacja.merge(komp_pianek, on="KOD_ART", how="left").drop_duplicates().groupby(["MAGAZYN"])["ZAPOTRZ"].sum().reset_index()
 
 
 
@@ -61,5 +59,19 @@ def kj_paczki(paczki):
 kontrola_jakosci = {x[1]: kj_paczki(x[2])*CZASY["KONTROLA_JAKOSCI"] for x in _kj}
 
 
-def czas_kompletacji():
-    pass
+def czas_kompletacji(mag,ilosc):
+    #czasy zależne od magazynu MAG1:1.4, MAG2:0.9, MAG10:1.1
+    if mag == "M1A1" or mag == "M1A2":
+        return ilosc * 1.4
+    elif mag == "M2":
+        return ilosc * 0.9
+    elif mag == "M10":
+        return ilosc * 1.1
+    elif mag == "M11":
+        return ilosc * 1
+    else:
+        return ilosc * 1.1
+    
+kompletacja = naliczone[naliczone.LIMIT_NAZWA.str.contains("24/18/01")]#.groupby(["OPIS_ART"])["ZAPOTRZ"].sum().reset_index()
+kompletacja = kompletacja.merge(komp_pianek, on="KOD_ART", how="left")
+kompletacja["CZAS_KOMP"] = kompletacja.apply(lambda x: czas_kompletacji(x.MAGAZYN, x.ZAPOTRZ), axis=1)
