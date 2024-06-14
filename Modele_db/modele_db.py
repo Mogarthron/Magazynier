@@ -74,6 +74,7 @@ class KOMPLETY_PIANEK(Base):
   obj = Column("obj", Float)
   preferowany_czas_kj = Column("PREFEROWANY_CZAS_KJ", SmallInteger)
   preferowany_czas_pakowania = Column("PREFEROWANY_CZAS_PAKOWANIA", SmallInteger)
+  magazyn_skladowania = Column("MAGAZYN_SKLADOWANIA", String(10))
 
 class PRZYJECIE_ZEWNETRZE(Base):
   __tablename__ = "PRZYJECIE_ZEWNETRZNE"
