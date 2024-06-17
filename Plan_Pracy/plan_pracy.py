@@ -9,8 +9,6 @@ naliczone = pd.read_excel("Z:/450. PLANISTA - ZAOPATRZENIE/DANE_PIANKI_2424.xlsx
 naliczone["RODZINA"] = naliczone.OPIS_ART.apply(lambda x: x[:3])
 
 
-
-
 CZASY = {
     "ROZLADUNEK_DOSTAWY": ['paczki', 1],
     "ROZLADUNEK_OWATY": ['rolka', 9],
