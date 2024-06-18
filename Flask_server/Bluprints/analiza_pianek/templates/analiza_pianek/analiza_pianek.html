@@ -36,7 +36,7 @@
                 <div id="flush-collapse{{r[0]}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{r[0]}}"
                     data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <table class="table table-hover align-middle">
+                        <table class="table table-hover align-middle podsum">
                           <thead>
                             <tr>
                               {% for ch in ['OPIS', 'ZAMOWIONE', 'CZESIOWO_DOSTARCZONE', 'CZEKA_NA_SPAKOWANIE',
@@ -69,5 +69,42 @@
         </div>
         
       </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+        const tables = document.getElementsByClassName('podsum');
+        // console.log(tables)
+
+        for (let table of tables){
+          const rows = table.getElementsByTagName('tr');
+          for (let row of rows) {
+            const cells = row.getElementsByTagName('td');
+            const wolne = parseInt(cells[8].textContent);
+            const stan_min = parseInt(cells[6].textContent);
+            if (wolne < stan_min) {
+                // const ageCell = cells[1];
+                // const age = parseInt(ageCell.textContent, 10);
+              console.log("mnijesze");
+            }
+
+          }
+        }
+        // const rows = table.getElementsByTagName('tr');
+
+        // for (let row of rows) {
+            // const cells = row.getElementsByTagName('td');
+            // console.log(cells)
+            // if (cells.length > 1) {
+            //     const ageCell = cells[1];
+            //     const age = parseInt(ageCell.textContent, 10);
+
+            //     if (age > 25) {
+            //         ageCell.style.backgroundColor = 'red';
+            //     } else {
+            //         ageCell.style.backgroundColor = 'green';
+            //     }
+            // }
+        // }
+        });
+      </script>
  
 {% endblock %}
