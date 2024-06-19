@@ -78,32 +78,27 @@
           const rows = table.getElementsByTagName('tr');
           for (let row of rows) {
             const cells = row.getElementsByTagName('td');
-            const wolne = parseInt(cells[8].textContent);
-            const stan_min = parseInt(cells[6].textContent);
-            if (wolne < stan_min) {
-                // const ageCell = cells[1];
-                // const age = parseInt(ageCell.textContent, 10);
-              console.log("mnijesze");
-            }
+            
+            if (cells.length > 8) {
+              const wolne = parseInt(cells[8].textContent);
+              const stan_min = parseInt(cells[6].textContent);
+              
+              if ((stan_min > wolne) && (wolne > 0)) {
+                cells[4].style.backgroundColor = 'yellow';
+                //nsole.log(cells[0], stan_min, wolne)
+              }
+              else if ((wolne < 0)){
+                cells[4].style.backgroundColor = 'red';
+              }
+              else{
+                cells[4].style.backgroundColor = 'green';
+              }
+            } 
+            
 
           }
         }
-        // const rows = table.getElementsByTagName('tr');
-
-        // for (let row of rows) {
-            // const cells = row.getElementsByTagName('td');
-            // console.log(cells)
-            // if (cells.length > 1) {
-            //     const ageCell = cells[1];
-            //     const age = parseInt(ageCell.textContent, 10);
-
-            //     if (age > 25) {
-            //         ageCell.style.backgroundColor = 'red';
-            //     } else {
-            //         ageCell.style.backgroundColor = 'green';
-            //     }
-            // }
-        // }
+        
         });
       </script>
  
