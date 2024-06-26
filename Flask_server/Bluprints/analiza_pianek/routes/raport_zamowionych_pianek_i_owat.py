@@ -65,14 +65,14 @@ def raport_zamowionych_pianek_i_owat(nr_partii):
                                                                         preferowana_data_dostawy=preferowana_data_dostawy, metry_bierzace=metry_bierzace, rolki_owaty=rolki_owaty, 
                                                                         obietosc_zam=obietosc_zam, numery_partii=numery_partii)
     
-    elif os.path.exists("./propozycja_zamowionych_pianek.json") and (nr_partii == None):
+    elif os.path.exists("./propozycja_zamowionych_pianek.json"):# and (nr_partii == None):
         with open("./propozycja_zamowionych_pianek.json", "r") as f:
             numery_partii = list(json.load(f).keys())
 
 
         if request.method == "POST" and "wybor_nr_partii" in request.form.keys():
-            # print("KLIKNIETO WYBIERZ")
-            # print(request.form["wybor_nr_partii"])
+            print("KLIKNIETO WYBIERZ")
+            print(request.form["wybor_nr_partii"])
             return redirect(url_for('analiza_pianek.raport_zamowionych_pianek_i_owat', nr_partii=request.form["wybor_nr_partii"].replace("/", "_")))
                             
             

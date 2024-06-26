@@ -2,7 +2,7 @@ from ..routes import *
 
 @analiza_pianek.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
-
+    ile_bryl_z_analizy = ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True)
     if request.method == "POST" and "dodajBryly" in request.form.keys():
         bryly_do_zamowienia = {k:v for k,v in request.form.lists()}
         z_pianki[model] = {}
@@ -24,12 +24,12 @@ def dodaj_pianki_bryla(model):
 
         _model = model + f" PIANPOL:{cls.pianpol_VOL:.0f}, VITA:{cls.vita_VOL:.0f}, CIECH:{cls.ciech_VOL:.0f}"
         
-        return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=_model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=lista_korekty_zam))
+        return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=_model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=lista_korekty_zam), ile_bryl_z_analizy=ile_bryl_z_analizy)
     
 
     if model in z_pianki.keys():
-        return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=z_pianki[model]))
+        return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=z_pianki[model]), ile_bryl_z_analizy=ile_bryl_z_analizy)
     else:
-        return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True))
+        return render_template("dodaj_pianki_bryla.html", title="Dodaj Bryły - " + model, model=model, bryla=ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True), ile_bryl_z_analizy=ile_bryl_z_analizy)
 
 

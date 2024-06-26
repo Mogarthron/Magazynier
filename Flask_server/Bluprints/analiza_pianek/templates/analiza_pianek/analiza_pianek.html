@@ -83,7 +83,7 @@
               const wolne = parseInt(cells[8].textContent);
               const stan_min = parseInt(cells[6].textContent);
               
-              if ((stan_min > wolne) && (wolne > 0)) {
+              if ((stan_min > wolne) && (wolne >= 0)) {
                 cells[4].style.backgroundColor = 'yellow';
                 //nsole.log(cells[0], stan_min, wolne)
               }
