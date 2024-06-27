@@ -29,9 +29,10 @@ def raport_jakosciowy_dane(id):
         gif_dir = rysunki_dir + r[4][0] + "/"
         # gif_dir = "/" + r[4][0] + "/"
         # gif_dir = r[4][0] + "/"
-
+        # print(gif_dir)
         try:
             gif_dir = "/" + r[4][0] + "/"+[x for x in os.listdir(gif_dir) if r[4] in x][0]
+            
         except:
             gif_dir = "BRAK"
 

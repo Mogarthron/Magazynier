@@ -32,6 +32,7 @@ def raport_jakosciowy(nr_samochodu, id):
 
         # print(opis)
         # print(pd.DataFrame(tabelka_kj))
+        # print(tabelka_kj)
         return render_template("raport_jakosciowy.html", opis=opis, ile_zam=ile_zam, tabelka_kj=tabelka_kj, nr_samochodu=nr_samochodu)
     
     else:
