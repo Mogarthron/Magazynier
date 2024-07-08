@@ -253,3 +253,38 @@ class ZAM_PIANKI(Base):
 
 
 
+class DOSTAWY(Base):
+  __tablename__ = "DOSTAWY"
+
+  lp = Column("LP", Integer, autoincrement=True,  primary_key=True)
+  nr_samochodu = Column("NR_SAMOCHODU", String(20), nullable=False)
+  nr_zam = Column("NR_ZAM", String(7))
+  nr_partii = Column("nr_PARTII", String(5))
+  obj_dostawy = Column("OBJ_DOSTAWY", SmallInteger, default=0)
+  na_czas = Column("NA_CZAS", Boolean, default=None)
+  zgodna_z_zam = Column("ZGODNA_Z_ZAM", Boolean, default=None)
+  raport_bledow = Column("RAPORT_BLEDOW", String(8))
+
+  def __init__(self, nr_samochodu, nr_zam, nr_partii):
+    self.nr_samochodu = nr_samochodu
+    self.nr_partii = nr_partii
+    self.nr_zam = nr_zam
+
+  def __repr__(self):
+    return f"{self.lp}, {self.nr_samochodu}, {self.nr_zam}"
+  
+
+class DOSTAWY_POZYCJE(Base):
+ __tablename__ = "DOSTAWY_POZYCJE"
+
+ lp = Column("LP", Integer, autoincrement=True,  primary_key=True)
+ nr_samochodu = Column("NR_SAMOCHODU", String(20))
+ zam_pianki_id = Column("ZAM_PIANKI_ID", String(20))
+ ile_kompletow = Column("ILE_KOMPLETOW", Integer)
+ przyjechalo_kompletow = Column("PRZYJECHALO_KOMPLETOW", Integer)
+ galanteria = Column("GALANTERIA", String(1))
+ siedziska_HR = Column("SIEDZISKA_HR", String(1))
+ leniwa = Column("LENIWA", String(1))
+ uwagi_do_pozycji = Column("UWAGI_DO_POZYCJI", String(512))
+
+
