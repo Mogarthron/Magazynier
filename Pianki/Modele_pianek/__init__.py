@@ -247,6 +247,11 @@ class GOYA_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class KELLY_P(MODEL6):
+  MODEL = "KELLY"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 from Pianki.Modele_pianek.Model7 import MODEL7
 
 class HORIZON_PV(MODEL7):
