@@ -16,9 +16,9 @@ with engine.begin() as conn:
 #w zamowieniu podajemy ilosc belek, na FV dostajemy całkwitą ilosc metrów kwadratowych dla danego typu
 
 ozn_owat = {                  #g/m2, szer, mb
-    "O1": ["B/16/150 (1.6x50)", 150, 1.6, 50, "zielona"],
-    "O2": ["B/16/200 (1.2x40)", 200, 1.2, 40, "niebieska"],
-    "O3": ["B/16/200 (1.6x40)", 200, 1.6, 40, "czerwona"],
+    "O1": ["B/16/150 (1.6x50)", 150, 1.6, 50, "zielona", "73.115.00001"],
+    "O2": ["B/16/200 (1.2x40)", 200, 1.2, 40, "niebieska", "73.120.00001"],
+    "O3": ["B/16/200 (1.6x40)", 200, 1.6, 40, "czerwona", "73.120.00002"],
 }
 # wyjatki
 # ama 3,5 uważać!!
