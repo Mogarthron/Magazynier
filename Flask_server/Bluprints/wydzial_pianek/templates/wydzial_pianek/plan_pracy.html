@@ -17,7 +17,6 @@
         <th>STATUS KOMPLETACJA</th>
         <th></th>
         <th></th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -60,13 +59,8 @@
         <td>{{r["owatyKompletacja"]}}</td>
         
         <!-- kompletacja -->
-        <td>{{r["statusKompletacja"]}}</td>
-        <td>
-          <form method="POST">
-            <label for="kj_{{r['lp']}}"></label>
-            <button type="submit" name="kj_{{r['lp']}}">KJ</button>
-          </form>
-        </td>
+        <td>{{r["statusKompletacja"]}} </td>
+       
         <td>
           <form method="POST">
             <label for="edytuj_{{r['lp']}}"></label>
@@ -75,10 +69,15 @@
         </td>
         </td>
         <td>
+          {% if r["statusKompletacja"]|length>0 %}
           <form method="POST">
             <label for="zakonczono_{{r['lp']}}"></label>
             <button type="submit" name="zakonczono_{{r['lp']}}">ZAKONCZONO</button>
           </form>
+          {% else %}
+          <button name="zakonczono_{{r['lp']}}" disabled>ZAKONCZONO</button>
+
+          {% endif %}
         </td>
       </tr>
       {% endfor %}
