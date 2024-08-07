@@ -242,6 +242,11 @@ class COCO_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class GREY_P(MODEL6):
+  MODEL = "GREY"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 class GOYA_P(MODEL6):
   MODEL = "GOYA"
   def __init__(self,b:dict):

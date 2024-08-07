@@ -23,11 +23,11 @@ instrukcja_zamawiania_pianpol=[
     Analiza_Rodziny(SAMOA_P,3,2),
     Analiza_Rodziny(SPECTRA_C,3,2),
     Analiza_Rodziny(COCO_P,4,100),
-    Analiza_Rodziny(GREY_C,4,100),
     Analiza_Rodziny(OVAL_P,4,100),
     Analiza_Rodziny(LENOX_P,4,100),
     Analiza_Rodziny(UNO_P,4,100),
     Analiza_Rodziny(KELLY_P,4,100),
+    Analiza_Rodziny(GREY_P,4),
     # Analiza_Rodziny(EXTREME,3), #ZROBIC KLASE
     # Analiza_Rodziny(MYSTIC,3), #NIE/ZROBIC KLASE?
 ]
