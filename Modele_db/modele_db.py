@@ -8,6 +8,10 @@ from sqlalchemy import select
 # class baza_PIANKI(Base):
 #   __tablename__ = "baza_PAINKI"
 
+
+# class WSPRZYMANE(Base):
+#   __tablename__ = "WSTRZYMANE"
+
 class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
   __tablename__ = "RAPORT_KJ_DO_DOSTAWY_PIANEK"
 
