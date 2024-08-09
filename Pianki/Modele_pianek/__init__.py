@@ -89,10 +89,7 @@ class CUPIDO_V(MODEL3):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
-class UNO_V(MODEL3):
-  MODEL = "UNO"
-  def __init__(self,b:dict):
-    super().__init__(b=b)
+
 
 
 from Pianki.Modele_pianek.Model4 import MODEL4
@@ -276,5 +273,27 @@ class ELIXIR_PV(MODEL7):
 
 class COCO_PV(MODEL7):
   MODEL = "COCO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class REVERSO_PV(MODEL7):
+  MODEL = "REVERSO"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+from Pianki.Modele_pianek.Model8 import MODEL8
+
+class UNO_V(MODEL8):
+ MODEL = "UNO"
+ def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class OVAL_V(MODEL8):
+  MODEL = "OVAL"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class LENOX_V(MODEL8):
+  MODEL = "LENOX"
   def __init__(self,b:dict):
     super().__init__(b=b)
