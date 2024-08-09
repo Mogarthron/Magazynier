@@ -21,7 +21,7 @@ instrukcja_zamawiania_pianpol=[
     Analiza_Rodziny(ONYX_P,3,2),
     Analiza_Rodziny(RITZ_C,3,10),
     Analiza_Rodziny(SAMOA_P,3,2),
-    Analiza_Rodziny(SPECTRA_C,3,2),
+    Analiza_Rodziny(SPECTRA_P,3,2),
     Analiza_Rodziny(COCO_P,4,100),
     Analiza_Rodziny(OVAL_P,4,100),
     Analiza_Rodziny(LENOX_P,4,100),

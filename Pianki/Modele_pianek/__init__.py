@@ -222,6 +222,11 @@ class SAMOA_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class SPECTRA_P(MODEL6):
+  MODEL = "SPECTRA"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 class HUDSON_P(MODEL6):
   MODEL = "HUDSON"
   def __init__(self,b:dict):
