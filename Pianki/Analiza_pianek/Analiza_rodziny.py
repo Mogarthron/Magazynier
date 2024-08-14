@@ -96,7 +96,7 @@ class Analiza_Rodziny():
 
     fig.show()
 
-  def Wykres_obj(self, nazwa_modelu=True, saldo=True,):
+  def Wykres_obj(self, nazwa_modelu=True, saldo=True, show_fig=True):
     analiza_obj = analiza[analiza.RODZINA_NAZWA == self.MODEL[:3]][["OPIS"]+[x for x in analiza.columns if "obj" in x][1:-1]]
 
     bryly = analiza_obj["OPIS"].to_list()
@@ -129,7 +129,10 @@ class Analiza_Rodziny():
           xaxis_title="NAZAWA BRYLY",
           yaxis_title="OBIETOSC M3")
 
-    fig.show()
+    if show_fig:
+      fig.show()
+    else:
+      return fig
 
   def Zestawienie_na_rozkroj_pianek(self):
     

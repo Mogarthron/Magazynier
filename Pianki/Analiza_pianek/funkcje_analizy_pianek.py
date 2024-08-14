@@ -35,6 +35,7 @@ def Ogolna_analiza_objetosci(widok = None):
   wnsm = (podsum.WOLNE_NIE_SPAK_obj / podsum.MAX_obj)
   wzm = ((podsum.WOLNE_obj + podsum.ZAMOWIONE_obj+podsum.CZEKA_NA_SPAKOWANIE_obj) / podsum.MAX_obj)
 
+ 
   if widok == "tabelka":
     return oao[[x for x in oao if "obj" in x]]
   elif widok == "podsum":
@@ -44,6 +45,19 @@ def Ogolna_analiza_objetosci(widok = None):
     print(f"WOLNE / MAX: {wm*100:.1f}%")
     print(f"WOLNE_NIE_SPAK / MAX: {wnsm*100:.1f}%")
     print(f"ZAPEŁNIENIE MAG PO ZDJECIU {len(pda)} PACZEK RAZEM Z ZAMOWIENIAMI: {wzm*100:.1f}%")
+
+  elif widok == "json":
+
+    ret = dict()
+    for i in podsum.index:
+      ret[f"{i}"] = podsum[i]
+
+    ret[f"SALDO / MAX"] = sm*100
+    ret[f"WOLNE / MAX"] = wm*100
+    ret[f"WOLNE_NIE_SPAK / MAX"] = wnsm*100
+    ret[f"ZAPEŁNIENIE MAG PO ZDJECIU {len(pda)} PACZEK RAZEM Z ZAMOWIENIAMI"] = wzm*100
+
+    return ret
   else:
 
     max_key_length = max(len(key) for key in podsum.index)
@@ -52,8 +66,6 @@ def Ogolna_analiza_objetosci(widok = None):
       if len(i) < max_key_length:
         space = max_key_length - len(i)
         print(f"{i}: {''.join([' ' for x in range(space)])} {podsum[i]:.0f}")
-
-
 
 def Braki(prt=True, WOLNE="SALDO"):
   """
@@ -158,7 +170,6 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
     print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
   else:
    return zagr
-
 
 def Podsumowanie_paczek_i_Pw(nr_pw, json=False) -> json:
   """
