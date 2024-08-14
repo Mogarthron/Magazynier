@@ -45,7 +45,8 @@ def pobierz_dane_do_kompletacji_stelarzy(nr_paczki):
 
     con.close()
 
-    glowna_paczka = zam_spec[(~zam_spec.PP.str.contains("MAG"))&(~zam_spec.ARTYKUL_OPIS.str.contains(" PD |POKROWIEC|PODUSZKA|STOLIK|ARTYKU|MATERIA|ŁĄCZNIK|SAMPLER|0/"))].copy()
+    glowna_paczka = zam_spec[(~zam_spec.PP.str.contains("MAG"))&
+                             (~zam_spec.ARTYKUL_OPIS.str.contains(" PD |POKROWIEC|PODUSZKA|STOLIK|ARTYKU|MATERIA|ŁĄCZNIK|SAMPLER|0/"))].copy()
 
 
     glowna_paczka["RODZINA"] = glowna_paczka.ARTYKUL_KOD.str[2:7].map({
