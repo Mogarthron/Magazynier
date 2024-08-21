@@ -105,29 +105,53 @@ class Analiza_Rodziny():
     fig.add_trace(go.Bar(
         x=bryly,
         y=analiza_obj.SALDO_obj.to_list() if saldo else analiza_obj.WOLNE_obj,
-        name="SALDO_obj" if saldo else "WOLNE_obj"
+        name="SALDO_obj" if saldo else "WOLNE_obj",
+        # offsetgroup=0
     ))
     fig.add_trace(go.Bar(
         x=bryly,
         y=analiza_obj.ZAMOWIONE_obj.to_list(),
-        name="ZAMOWIONE_obj"
+        name="ZAMOWIONE_obj",
+        # offsetgroup=0
     ))
     fig.add_trace(go.Bar(
-        x=bryly,
+        x=[f"{bryla}_MAX" for bryla in bryly],
         y=analiza_obj.MAX_obj.to_list(),
-        name="MAX_obj"
+        name="MAX_obj",
+        # offsetgroup=1,
+        # offset=-0.5
     ))
+
+    x_list = list()
+    for x in bryly:
+        x_list.append(x)
+        x_list.append(f"{x}_MAX")
+
+
 
     if nazwa_modelu:
       fig.update_layout(
           title=f"{self.MODEL}: OBJETOSC ZAMOWIONA I OBJETOSC SALDA DO OBJETOSCI MAX" if saldo else f"{self.MODEL}: OBJETOSC ZAMOWIONA I OBJETOSC WOLNA DO OBJETOSCI MAX",
           xaxis_title="NAZAWA BRYLY",
-          yaxis_title="OBIETOSC M3")
+          yaxis_title="OBIETOSC M3",
+          barmode='stack',
+          xaxis=dict(
+              categoryorder="array",
+              categoryarray=x_list  # Ręcznie ustawiona kolejność słupków na osi X
+           ),
+          bargap=0.15
+          )
     else:
       fig.update_layout(
           title=f"OBJETOSC ZAMOWIONA I OBJETOSC SALDA DO OBJETOSCI MAX" if saldo else f"OBJETOSC ZAMOWIONA I OBJETOSC WOLNA DO OBJETOSCI MAX",
           xaxis_title="NAZAWA BRYLY",
-          yaxis_title="OBIETOSC M3")
+          yaxis_title="OBIETOSC M3",
+          barmode='stack',
+          xaxis=dict(
+              categoryorder="array",
+              categoryarray=x_list  # Ręcznie ustawiona kolejność słupków na osi X
+           ),
+          bargap=0.15)
 
     if show_fig:
       fig.show()
