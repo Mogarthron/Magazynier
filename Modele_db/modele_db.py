@@ -1,5 +1,5 @@
 from Modele_db import *
-from sqlalchemy import Column, String, Integer, Numeric, SmallInteger, Boolean, Float
+from sqlalchemy import Column, String, Integer, Float, SmallInteger, Boolean, Float, Date
 from datetime import datetime as dt
 from sqlalchemy import select
 
@@ -11,6 +11,40 @@ from sqlalchemy import select
 
 # class WSPRZYMANE(Base):
 #   __tablename__ = "WSTRZYMANE"
+
+class TRANSPORTY(Base):
+  __tablename__ = "TRANSPORTY"
+
+  tlp = Column(Integer, primary_key=True, autoincrement=True)
+  nr_transportu = Column(String(25), nullable=False)
+  data_dostawy = Column(Date, nullable=False)  
+  obietosc_planowana = Column(Float)
+  obietosc_dostarczona = Column(Float)
+  uwagi = Column(String(255), nullable=True)
+  czas_rozladunku = Column(Integer)
+  ppid = Column(Integer)
+  
+
+  def __init__(self, nr_transportu, data_dostawy):
+    self.nr_transportu = nr_transportu
+    self.data_dostawy = data_dostawy
+
+class TRANSPORTY_POZYCJE(Base):
+  __tablename__ = "TRANSPORTY_POZYCJE"
+
+  tplp = Column(Integer, primary_key=True, autoincrement=True)
+  tlp = Column(Integer, nullable=False)
+  zam_pianki_lp = Column(Integer, nullable=False)
+  ile_przyjechalo = Column(Integer, nullable=False, default=0)
+  przesuniete_na_transport = Column(String(25), nullable=True)
+  uwagi = Column(String(255), nullable=True)
+
+
+  def __init__(self, tlp, zam_pianki_lp):
+    self.tlp = tlp
+    self.zam_pianki_lp = zam_pianki_lp
+
+
 
 class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
   __tablename__ = "RAPORT_KJ_DO_DOSTAWY_PIANEK"
