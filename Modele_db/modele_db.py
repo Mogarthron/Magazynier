@@ -221,8 +221,8 @@ class ZAM_PIANKI(Base):
 
   potw_dos1 = Column("POTW_DATA_DOS_1", String)
   potw_dos2 = Column("POTW_DATA_DOS_2", String)
-  data_dos1 = Column("DATA_DOSTARCZENIA_1", String(10))
-  data_dos2 = Column("DATA_DOSTARCZENIA_2", String(10))
+  data_dos1 = Column("DATA_DOSTARCZENIA_1", Date)
+  data_dos2 = Column("DATA_DOSTARCZENIA_2", Date)
 
   status_leniwa = Column("STATUS_LENIWA", String(50))
   status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
