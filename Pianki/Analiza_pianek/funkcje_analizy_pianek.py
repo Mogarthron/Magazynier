@@ -197,6 +197,8 @@ def Podsumowanie_paczek_i_Pw(nr_pw, json=False) -> json:
   print(f"WST: {(analiza.WST*analiza.obj).sum():.0f}m3")
   print(f"Objetość wszystkich paczek: {sum_obj + (analiza.WST*analiza.obj).sum():.0f}m3")
   print(f"PW {nr_pw} spakowano: {pw.SPAKOWANE_M3.sum():.0f}M3")
+  print("----")
+  print(pw)
 
   if json:
     return {"ILE_PACZEK": len(pda),
