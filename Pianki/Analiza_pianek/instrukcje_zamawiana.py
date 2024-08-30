@@ -19,7 +19,7 @@ instrukcja_zamawiania_pianpol=[
     Analiza_Rodziny(HUDSON_P,3,2),
     Analiza_Rodziny(CALYPSO_P,3,2),
     Analiza_Rodziny(ONYX_P,3,2),
-    Analiza_Rodziny(RITZ_C,3,10),
+    Analiza_Rodziny(RITZ_P,3,10),
     Analiza_Rodziny(SAMOA_P,3,2),
     Analiza_Rodziny(SPECTRA_P,3,2),
     Analiza_Rodziny(COCO_P,4,100),
