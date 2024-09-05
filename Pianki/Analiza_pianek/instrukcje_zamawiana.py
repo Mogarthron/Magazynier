@@ -25,7 +25,7 @@ instrukcja_zamawiania_pianpol=[
     Analiza_Rodziny(COCO_P,4,100),
     Analiza_Rodziny(OVAL_V,4,100),
     Analiza_Rodziny(LENOX_V,4,100),
-    Analiza_Rodziny(UNO_V,4,100),
+    Analiza_Rodziny(UNO_P,4,100),
     Analiza_Rodziny(KELLY_P,4,100),
     Analiza_Rodziny(GREY_P,4),
     # Analiza_Rodziny(EXTREME,3), #ZROBIC KLASE

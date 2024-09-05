@@ -115,6 +115,18 @@ class Analiza_Rodziny():
         # offsetgroup=0
     ))
     fig.add_trace(go.Bar(
+        x=bryly,
+        y=analiza_obj.CZEKA_NA_SPAKOWANIE_obj.to_list(),
+        name="CZEKA_NA_SPAKOWANIE_obj",
+        # offsetgroup=0
+    ))
+    fig.add_trace(go.Bar(
+        x=bryly,
+        y=analiza_obj.CZESCIOWO_DOSTARCZONE_obj.to_list(),
+        name="CZESCIOWO_DOSTARCZONE_obj",
+        # offsetgroup=0
+    ))
+    fig.add_trace(go.Bar(
         x=[f"{bryla}_MAX" for bryla in bryly],
         y=analiza_obj.MAX_obj.to_list(),
         name="MAX_obj",
