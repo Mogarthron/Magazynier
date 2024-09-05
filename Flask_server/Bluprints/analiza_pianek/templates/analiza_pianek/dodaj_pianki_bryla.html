@@ -23,6 +23,7 @@
             <div class="col-auto">
               <!-- <label for="ile" class="col-form-label"></label> -->
               <input
+                
                 type="number"
                 class="form-control"
                 name="ile"
@@ -42,11 +43,27 @@
     </div>
 
     <!-- </div> -->
-
-    <input type="submit" name="dodajBryly" value="Dadaj Bryły" />
-    <input type="submit" name="sprawdzObj" value="Sprawdź objetość" />
+    <br>
+    <input type="submit" class="btn btn-success" name="dodajBryly" value="Dadaj Bryły" />
+    <input type="submit" class="btn btn-info" name="sprawdzObj" value="Sprawdź objetość" />
+    <button type="button" id="resetBtn" class="btn btn-secondary">Zeruj ilosci</button>
+    
   </form>
   
 </div>
+<script>
+  // Funkcja zerująca inputy
+  function resetInputs() {
+            // Pobieramy wszystkie elementy input z atrybutem name="ile"
+            const inputs = document.querySelectorAll('input[name="ile"]');
+            
+            // Iterujemy przez wszystkie znalezione inputy i ustawiamy ich wartość na 0
+            inputs.forEach(function(input) {
+                input.value = 0;
+            });
+        }
 
+        // Dodajemy event listener do przycisku
+        document.getElementById("resetBtn").addEventListener("click", resetInputs);
+</script>
 {% endblock %}

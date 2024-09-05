@@ -1,82 +1,36 @@
 {% extends "layout_ap.html" %}
 {% block content %}
     <div class="container">
-        <div class="accordion accordion-flush" id="accordionFlushExample">
-            {% for r in pap.Tabela_podsumowania_analizy.iterrows()%}
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="flush-heading{{r[0]}}">
-                    <div class="card">
-                      <div class="card-body">
-
-                        <div class="row">
-                          <div class="col-2"> <h3>{{r[1].MODEL}}</h3></div>
-                          <div class="col-2"><a href="{{url_for('analiza_pianek.analiza_modelu', model=r[1].MODEL)}}" class="btn btn-primary">ANALIZA MODELU</a></div>
-                        </div>
-                      </div>
-                   
-                   
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapse{{r[0]}}" aria-expanded="false" aria-controls="flush-collapse{{r[0]}}">
-                        
-                        <table class="table table-hover align-middle">
-                            <thead>
-                              <tr>                                
-                                <th scope="col">GRUPA</th>                                
-                                <th scope="col">WSP ZAM %</th>
-                                <th scope="col">OBJ CIECH</th>
-                                <th scope="col">OBJ VITA</th>
-                                <th scope="col">OBJ PIANPOL</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>{{ r[1].GRUPA }}</td>                                
-                                <td>{{ r[1].WSPL_DO_ZAM }}%</td>
-                                <td>{{ r[1].OBJ_CIECH }}</td>
-                                <td>{{ r[1].OBJ_VITA }}</td>
-                                <td>{{ r[1].OBJ_PIANPOL }}</td>                               
-                              </tr>                              
-                            </tbody>
-                          </table>
-                    </button>
-                </div>
-                </h2>
-                <div id="flush-collapse{{r[0]}}" class="accordion-collapse collapse" aria-labelledby="flush-heading{{r[0]}}"
-                    data-bs-parent="#accordionFlushExample">
-                    <div class="accordion-body">
-                        <table class="table table-hover align-middle podsum">
-                          <thead>
-                            <tr>
-                              {% for ch in ['OPIS', 'ZAMOWIONE', 'CZESIOWO_DOSTARCZONE', 'CZEKA_NA_SPAKOWANIE',
-                              'SALDO', 'SALDO_Z_NIE_SPAK', 'MIN', 'SUMA_ZLEC', 'WOLNE_SALDO',
-                              'WOLNE_NIE_SPAK'] %}
-                              <th>{{ch}}</th>
-                              {% endfor %}
-                            </tr>
-                          </thead>
-                          <tbody>
-
-                            {% for row in pap[r[1].MODEL].ar_skr.iterrows() %}
-                          
-                              <tr>
-                                {% for data in row[1] %}
-                                <td>
-                                  {{data}}
-                                </td>
-                                {% endfor %}
-                              </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>                   
-                    </div>
-                    
-                </div>
-            </div>
-            {% endfor %}
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>   
+            <th scope="col">MODEL</th>                                
+            <th scope="col">GRUPA</th>                                
+            <th scope="col">WSP ZAM %</th>
+            <th scope="col">OBJ CIECH</th>
+            <th scope="col">OBJ VITA</th>
+            <th scope="col">OBJ PIANPOL</th>
+            <th scope="col">#</th>
             
-        </div>
-        
-      </div>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in pap.Tabela_podsumowania_analizy.iterrows()%}
+          <tr>
+
+            <td>{{ r[1].MODEL }}</td>                                
+            <td>{{ r[1].GRUPA }}</td>                                
+            <td>{{ r[1].WSPL_DO_ZAM }}%</td>
+            <td>{{ r[1].OBJ_CIECH }}</td>
+            <td>{{ r[1].OBJ_VITA }}</td>
+            <td>{{ r[1].OBJ_PIANPOL }}</td>                               
+            <td><a href="{{url_for('analiza_pianek.analiza_modelu', model=r[1].MODEL)}}" class="btn btn-primary">ANALIZA MODELU</a></td>                               
+          </tr>                              
+          {% endfor %}
+        </tbody>
+      </table>
+               
+    </div>
       <script>
         document.addEventListener('DOMContentLoaded', (event) => {
         const tables = document.getElementsByClassName('podsum');
