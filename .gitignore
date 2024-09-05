@@ -169,3 +169,5 @@ linki.json
 *.db
 *RYSUNKI
 propozycja_zamowionych_pianek.json
+alembic
+*.ini
