@@ -113,6 +113,7 @@ class KOMPLETY_PIANEK(Base):
   obj = Column("obj", Float)
   preferowany_czas_kj = Column("PREFEROWANY_CZAS_KJ", SmallInteger)
   preferowany_czas_pakowania = Column("PREFEROWANY_CZAS_PAKOWANIA", SmallInteger)
+  preferowany_czas_pakowania_memory = Column("PREFEROWANY_CZAS_PAKOWANIA_MEMORY", SmallInteger)
   magazyn_skladowania = Column("MAGAZYN_SKLADOWANIA", String(10))
 
 class PRZYJECIE_ZEWNETRZE(Base):
@@ -183,7 +184,7 @@ class BRAKI_PIANKI(Base):
   __tablename__ = "BRAKI_PIANKI"
 
   lpid = Column("LPID", Integer, autoincrement=True,  primary_key=True)
-  lp = Column("LP", SmallInteger)
+  lp = Column("LP", Integer)
   pozycja = Column("POZYCJA", String)
   ilosc_brakow = Column("ILOSC_BRAKOW", SmallInteger)
   paczka = Column("PACZKA", String(5))
