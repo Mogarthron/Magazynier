@@ -74,6 +74,8 @@ def pobierz_dane_do_kompletacji_stelarzy(nr_paczki):
                                         ".125.": "STO",
                                         ".137.": "CUP",
                                         ".130.": "WIL",
+                                        ".142.": "MIS",
+                                        ".143.": "RAY",
                                         #  ".040.": "OVL",
                                         #  ".121.": "LEN",
                                         #  ".126.": "GRE",
@@ -81,7 +83,8 @@ def pobierz_dane_do_kompletacji_stelarzy(nr_paczki):
                                         # #  ".135.": "UNO",
                                         # #  ".134.": "UNO",
                                         #".140.": "COC",
-                                        ".141.": "GOY"})
+                                        ".141.": "GOY"
+                                        })
 
 
     def unikalne_komisje(kom):
@@ -96,6 +99,7 @@ def pobierz_dane_do_kompletacji_stelarzy(nr_paczki):
         ["DIV",	"MAG 17",	"MAG 10",	3.8],
         ["DUO",	"MAG 16",	"MAG 02",	3.2],
         ["ELI",	"MAG 11",	"MAG 01",	3.6],
+        ["MIS",	"MAG 11",	"MAG 01",	3.6],
         ["GRE",	"MAG 01",	"MAG 02",	0],
         ["HOR",	"MAG 11",	"MAG 01",	4.25],
         ["HUD",	"MAG 11",	"MAG 02",	3.2],
@@ -111,6 +115,7 @@ def pobierz_dane_do_kompletacji_stelarzy(nr_paczki):
         ["REV",	"MAG 10",	"MAG 02",	4.4],
         ["UNO",	"MAG 01",	"MAG 01",	0],
         ["KEL",	"MAG 01",	"MAG 01",	0],
+        ["RAY",	"MAG 01",	"MAG 01",	0],
         ["AMA",	"MAG 15",	"MAG 01",	4.4],
         ["TOB",	"MAG 17",	"MAG 10",	3.8],
         ["CUP",	"MAG 15",	"MAG 01",	4.25],
