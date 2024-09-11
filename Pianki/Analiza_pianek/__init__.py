@@ -29,7 +29,8 @@ from ..Analiza_pianek.przygotowanie_danych import *
 
 analiza = komplety_pianek.merge(
     right=saldo[["KOD","SALDO"]], how="left", on="KOD").merge(
-    right=naliczone.groupby("KOD_ART").sum().reset_index(), how="left", left_on="KOD", right_on="KOD_ART").merge(
+    # right=naliczone.groupby("KOD_ART").sum().reset_index(), how="left", left_on="KOD", right_on="KOD_ART").merge(
+    right=naliczone.groupby("KOD").ZAPOT_ZLEC.sum().reset_index(), how="left", on="KOD").merge(
     right=wstrzymane, how="left", on="KOD").merge(
     right=zam_nie_spakowane.groupby("KOD").sum()["CZEKA_NA_SPAKOWANIE"].reset_index(), how="left", on="KOD").merge(
     right=pianki_w_drodze.groupby("KOD").sum()["ZAMOWIONE"].reset_index(), how="left", on="KOD").merge(
@@ -38,7 +39,7 @@ analiza = komplety_pianek.merge(
 for nal_paczka in nal_paczki:
   analiza = analiza.merge(nal_paczka, how="left", on="KOD")
 
-analiza.rename(columns={"ILOSC": "WST", "ZAPOTRZ":"ZLECENIA", "ILE_ZAMOWIONE": "ZAM"}, inplace=True)
+analiza.rename(columns={"ILOSC": "WST", "ZAPOT_ZLEC":"ZLECENIA", "ILE_ZAMOWIONE": "ZAM"}, inplace=True)
 
 def do_zam_szt(m,w,zam,czek_na_spak, czesiowo_dos):
   s = m-w-zam - czek_na_spak - czesiowo_dos
@@ -46,7 +47,7 @@ def do_zam_szt(m,w,zam,czek_na_spak, czesiowo_dos):
     return s
   return 0
 
-analiza.drop("KOD_ART", axis=1, inplace=True)
+# analiza.drop("KOD_ART", axis=1, inplace=True)
 analiza.fillna(0, axis=1, inplace=True)
 analiza[["MAX", "obj", "SALDO", "ZLECENIA", "WST", "CZEKA_NA_SPAKOWANIE", "ZAMOWIONE"]] = analiza[["MAX", "obj", "SALDO", "ZLECENIA", "WST", "CZEKA_NA_SPAKOWANIE", "ZAMOWIONE"]].astype(float)
 analiza["MIN"] = (analiza.MAX/2).round(0).astype(int)

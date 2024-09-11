@@ -6,7 +6,7 @@ from Pianki.Modele_pianek import *
 instrukcja_zamawiania_pianpol=[
     Analiza_Rodziny(AVANT_P,1,11),
     Analiza_Rodziny(ELIXIR_P,1,2),
-    Analiza_Rodziny(STONE_P,1,1),
+    Analiza_Rodziny(STONE_PV,1,1),
     Analiza_Rodziny(HORIZON_PV,1,1),
     Analiza_Rodziny(AMALFI_P,2,1),
     Analiza_Rodziny(DIVA_P,2,10),

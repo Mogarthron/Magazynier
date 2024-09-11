@@ -271,6 +271,11 @@ class HORIZON_PV(MODEL7):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class STONE_PV(MODEL7):
+  MODEL = "STONE"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 class ELIXIR_PV(MODEL7):
   MODEL = "ELIXIR"
   def __init__(self,b:dict):
