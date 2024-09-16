@@ -6,12 +6,12 @@ import pandas as pd
 
 lista_bryl = dict()
 with engine.begin() as conn:
-      lb = conn.execute(text(f"SELECT * from lista_bryl_pianki"))
+      # lb = conn.execute(text(f"SELECT * from lista_bryl_pianki"))
       tab = pd.read_sql(text("SELECT * from baza_PIANKI"), conn)
 
-for i in lb:
-  # print(i[0], i[1].split("_"))
-  lista_bryl[i[0]] = [x for x in i[1].split("_")]
+# for i in lb:
+#   # print(i[0], i[1].split("_"))
+#   lista_bryl[i[0]] = [x for x in i[1].split("_")]
 
 
 from Pianki.Modele_pianek.Model1 import MODEL1
