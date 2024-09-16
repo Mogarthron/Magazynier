@@ -105,11 +105,11 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
 class KOMPLETY_PIANEK(Base):
   __tablename__ = "KOMPLETY_PIANEK"
 
-  kod = Column("KOD", String(), primary_key=True)
-  opis = Column("OPIS", String())
+  kod = Column("KOD", String(15), primary_key=True)
+  opis = Column("OPIS", String(128))
   stan_max = Column("MAX", Integer)
   czy_bryla = Column("CZY_BRYLA", Boolean, default=0)
-  bryla_gen = Column("BRYLA_GEN", String())
+  bryla_gen = Column("BRYLA_GEN", String(32))
   obj = Column("obj", Float)
   preferowany_czas_kj = Column("PREFEROWANY_CZAS_KJ", SmallInteger)
   preferowany_czas_pakowania = Column("PREFEROWANY_CZAS_PAKOWANIA", SmallInteger)
@@ -185,18 +185,18 @@ class BRAKI_PIANKI(Base):
 
   lpid = Column("LPID", Integer, autoincrement=True,  primary_key=True)
   lp = Column("LP", Integer)
-  pozycja = Column("POZYCJA", String)
-  ilosc_brakow = Column("ILOSC_BRAKOW", SmallInteger)
+  pozycja = Column("POZYCJA", String(128))
+  ilosc_brakow = Column("ILOSC_BRAKOW", Integer)
   paczka = Column("PACZKA", String(5))
   data_kompletacji = Column("DATA_KOMPLETACJI", String(10))
   zamowione = Column("ZAMOWIONE", Integer)
-  uwagi = Column("UWAGI", String)
+  uwagi = Column("UWAGI", String(128))
   grupa = Column("GRUPA", Integer)
   tydzien_raportu = Column("TYDZIEN_RAPORTU", Integer)
   nr_zlecenia = Column("NR_ZLECENIA", String(10))
-  naglowek_zlecenia = Column("NAGLOWEK_ZLECENIA", String)
+  naglowek_zlecenia = Column("NAGLOWEK_ZLECENIA", String(128))
   ilosc_na_zleceniu = Column("ILOSC_NA_ZLECENIU", Integer)
-  opis_do_zlecenia = Column("OPIS_DO_ZLECENIA", String)
+  opis_do_zlecenia = Column("OPIS_DO_ZLECENIA", String(512))
   data_wydania = Column("DATA_WYDANIA", String(10))
   data_zakonczenia = Column("DATA_ZAKONCZENIA", String(10))
   zamkniete = Column("ZAMKNIETE", Boolean)
@@ -208,10 +208,10 @@ class ZAM_PIANKI(Base):
   lp = Column("LP", Integer, autoincrement=True,  primary_key=True)
 
   tydzien = Column("TYDZIEN", Integer)
-  kod = Column("KOD", String)
-  model = Column("MODEL", String)
+  kod = Column("KOD", String(16))
+  model = Column("MODEL", String(128))
   nr_kompletacji = Column("NR_KOMPLETACJI", String(5))
-  opis = Column("OPIS", String)
+  opis = Column("OPIS", String(128))
   ile_zam = Column("ILE_ZAMOWIONE", Integer)
   znacznik_dostawcy = Column("ZNACZNIK_DOSTAWCY", String(2))
   galanteria = Column("GALANTERIA", String(1))
@@ -219,20 +219,20 @@ class ZAM_PIANKI(Base):
   leniwa = Column("LENIWA", String(1))
   zam1 = Column("ZAM1", String(7))
   zam2 = Column("ZAM2", String(7))
-  uwagi = Column("UWAGI", String)
+  uwagi = Column("UWAGI", String(512))
 
   potw_dos1 = Column("POTW_DATA_DOS_1", String)
   potw_dos2 = Column("POTW_DATA_DOS_2", String)
   data_dos1 = Column("DATA_DOSTARCZENIA_1", Date)
   data_dos2 = Column("DATA_DOSTARCZENIA_2", Date)
 
-  status_leniwa = Column("STATUS_LENIWA", String(50))
-  status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
-  owaty_wydano = Column("OWATY_WYDANO", String(50))
-  owaty_wycieto = Column("OWATY_WYCIETO", String(50))
-  owaty_kompletacja = Column("OWATY_KOMPLETACJA", String(50))
-  nr_pz = Column("nr_PZ", String)
-  nr_pw = Column("nr_PW", String)
+  # status_leniwa = Column("STATUS_LENIWA", String(50))
+  # status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
+  # owaty_wydano = Column("OWATY_WYDANO", String(50))
+  # owaty_wycieto = Column("OWATY_WYCIETO", String(50))
+  # owaty_kompletacja = Column("OWATY_KOMPLETACJA", String(50))
+  # nr_pz = Column("nr_PZ", String)
+  # nr_pw = Column("nr_PW", String)
   status_kompletacja = Column("STATUS_KOMPLETACJA", String(50))
   nr_samochodu = Column("nr_SAMOCHODU", String(50))
   nr_partii = Column("nr_PARTII", String(5))
@@ -263,11 +263,11 @@ class ZAM_PIANKI(Base):
             "nrKompletacji": self.nr_kompletacji,
             "opis": self.opis,
             "zamowione": int(self.ile_zam),
-            "leniwa": self.status_leniwa if "AVANT" in self.opis else "ND",
-            "leniwaSkos": self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
-            "owatyWydano": self.owaty_wydano,
-            "owatyWycieto": self.owaty_wycieto,
-            "owatyKompletacja": self.owaty_kompletacja,
+            "leniwa": "BRAK KOLUMNY",#self.status_leniwa if "AVANT" in self.opis else "ND",
+            "leniwaSkos": "BRAK KOLUMNY",#self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
+            "owatyWydano": "BRAK KOLUMNY",#self.owaty_wydano,
+            "owatyWycieto": "BRAK KOLUMNY",#self.owaty_wycieto,
+            "owatyKompletacja": "BRAK KOLUMNY",#self.owaty_kompletacja,
             "statusKompletacja": self.status_kompletacja if type(self.status_kompletacja) == str else ""
         }
   
