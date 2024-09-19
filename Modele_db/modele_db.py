@@ -4,12 +4,50 @@ from datetime import datetime as dt
 
 # Base = declarative_base()
 
-# class baza_PIANKI(Base):
-#   __tablename__ = "baza_PAINKI"
+# class INSTRUKCJA_ZAMAWIANIA(Base):
+#   __tablename__ = "INSTRUKCJA_ZAMAWIANIA"
+
+  
+
+# class PROPOZYCJA_ZAMOWIENIA(Base):
+#   __tablename__ = "PROPOZYCJA_ZAMOWIENIA"
+
+  
 
 
-# class WSPRZYMANE(Base):
-#   __tablename__ = "WSTRZYMANE"
+class baza_PIANKI(Base):
+  __tablename__ = "baza_PIANKI"
+
+  bpid = Column(Integer, primary_key=True)
+  MODEL = Column(String(64)) 
+  BRYLA = Column(String(64)) 
+  TYP = Column(String(64))
+  PRZEZ = Column(String(64)) 
+  OR = Column(String(64)) 
+  OZN = Column(String(64)) 
+  PROFIL = Column(String(64)) 
+  NUMER = Column(String(64)) 
+  ilosc = Column(Integer) 
+  WYMIAR = Column(String(64)) 
+  WYS = Column(Integer) 
+  SZER = Column(Integer) 
+  DLUG = Column(Integer) 
+  GAL = Column(Float) 
+  SHR = Column(Float) 
+  MEM = Column(Float) 
+  TOLERANCJA = Column(String(64))
+
+class OWATY(Base):
+    __tablename__ = "OWATY"
+
+    oid = Column(Integer, primary_key=True)
+    NAZWA_UKL = Column(String(64)) 
+    OPIS = Column(String(64)) 
+    RODZAJ_CIECIA = Column(String(64)) 
+    ZUZYCIE = Column(Float) 
+    TYP_OWATY = Column(String(64))
+
+
 
 class TRANSPORTY(Base):
   __tablename__ = "TRANSPORTY"
@@ -22,6 +60,7 @@ class TRANSPORTY(Base):
   uwagi = Column(String(255), nullable=True)
   czas_rozladunku = Column(Integer)
   ppid = Column(Integer)
+  nr_partii = Column(String(8))
   
 
   def __init__(self, nr_transportu, data_dostawy):
@@ -38,8 +77,6 @@ class TRANSPORTY_POZYCJE(Base):
   przesuniete_na_transport = Column(String(25), nullable=True)
   uwagi = Column(String(255), nullable=True)
   data_dostawy = Column(Date, nullable=False)  
-
-
 
   def __init__(self, tlp, zam_pianki_lp):
     self.tlp = tlp
@@ -105,7 +142,8 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
 class KOMPLETY_PIANEK(Base):
   __tablename__ = "KOMPLETY_PIANEK"
 
-  kod = Column("KOD", String(15), primary_key=True)
+  kpid = Column(Integer, primary_key=True)
+  kod = Column("KOD", String(15))
   opis = Column("OPIS", String(128))
   stan_max = Column("MAX", Integer)
   czy_bryla = Column("CZY_BRYLA", Boolean, default=0)

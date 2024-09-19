@@ -164,6 +164,16 @@ class UNO_P(MODEL6):
   def __init__(self,b:dict):
     super().__init__(b=b)
 
+class MISTRAL_P(MODEL6):
+  MODEL = "MISTRAL"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
+class ELIMIS_P(MODEL6):
+  MODEL = "ELI_MIS"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 class ONYX_P(MODEL6):
   MODEL = "ONYX"
   def __init__(self,b:dict):
