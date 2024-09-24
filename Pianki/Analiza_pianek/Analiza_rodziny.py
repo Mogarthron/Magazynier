@@ -1,5 +1,4 @@
 from Pianki.Analiza_pianek.funkcje_analizy_pianek import *
-#@title KLASA
 
 import plotly.graph_objects as go
 
@@ -20,10 +19,7 @@ class Analiza_Rodziny():
     self.grupa_sprzedarzy = grupa_sprzedarzy
     self.magazyn_skladowania = magazyn_skladowania
 
-    if cls2:
-      self.ana = analiza[analiza.RODZINA_NAZWA.str.contains(f"{cls.MODEL[:3]}|{cls2.MODEL[:3]}")]
-    else:
-      self.ana = analiza[analiza.RODZINA_NAZWA == cls.MODEL[:3]]
+    self.ana = analiza[analiza.OPIS.str.contains(cls.MODEL)]
 
     self.ana["GRUPA_SPRZEDARZY"] = grupa_sprzedarzy
 
@@ -97,7 +93,8 @@ class Analiza_Rodziny():
     fig.show()
 
   def Wykres_obj(self, nazwa_modelu=True, saldo=True, show_fig=True):
-    analiza_obj = analiza[analiza.RODZINA_NAZWA == self.MODEL[:3]][["OPIS"]+[x for x in analiza.columns if "obj" in x][1:-1]]
+    # analiza_obj = analiza[analiza.RODZINA_NAZWA == self.MODEL[:3]][["OPIS"]+[x for x in analiza.columns if "obj" in x][1:-1]]
+    analiza_obj = analiza[analiza.OPIS.str.contains(self.MODEL)][["OPIS"]+[x for x in analiza.columns if "obj" in x][1:-1]]
 
     bryly = analiza_obj["OPIS"].to_list()
 
