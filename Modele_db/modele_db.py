@@ -4,8 +4,33 @@ from datetime import datetime as dt
 
 # Base = declarative_base()
 
-# class INSTRUKCJA_ZAMAWIANIA(Base):
-#   __tablename__ = "INSTRUKCJA_ZAMAWIANIA"
+class INSTRUKCJA_ZAMAWIANIA(Base):
+  __tablename__ = "INSTRUKCJA_ZAMAWIANIA"
+  
+  izid = Column(Integer, primary_key=True)
+  MODEL = Column(String(64)) 
+  NAZWA_INSTRUKCJI = Column(String(64)) 
+  DOSTAWCA_GAL =  Column(String(32))
+  GALANTERIA = Column(String(128)) 
+  DOSTAWCA_SHR =  Column(String(32))
+  SIEDZISKA_HR = Column(String(128)) 
+  DOSTAWCA_MEM =  Column(String(32))
+  MEMORY = Column(String(128)) 
+  OPIS = Column(String(128)) 
+  AKTYWNA = Column(Boolean)
+
+  def __init__(self, model, nazwa_instrukcji, dos_gal, gal, dos_shr, sied, dos_mem, memo, opis, aktywna=True):
+    self.MODEL = model
+    self.NAZWA_INSTRUKCJI = nazwa_instrukcji
+    self.DOSTAWCA_GAL = dos_gal
+    self.GALANTERIA = gal
+    self.DOSTAWCA_SHR = dos_shr
+    self.SIEDZISKA_HR = sied
+    self.DOSTAWCA_MEM = dos_mem
+    self.MEMORY = memo
+    self.OPIS = opis
+    self.AKTYWNA = aktywna
+
 
   
 
@@ -13,12 +38,27 @@ from datetime import datetime as dt
 #   __tablename__ = "PROPOZYCJA_ZAMOWIENIA"
 
   
+class baza_STOLARNIA(Base):
+  __tablename__ = "baza_STOLARNIA"
+
+  bsid = Column(Integer, primary_key=True)
+  MODEL = Column(String(64)) 
+  BRYLA = Column(String(64)) 
+  MATERIAL = Column(String(64))
+  PRZEZ = Column(String(64)) 
+  _CZAS = Column(String(64)) 
+  _ILOSC = Column(String(64)) 
+  OZNACZ = Column(String(64)) 
+  NUMER = Column(String(64)) 
+  WYS = Column(Integer) 
+  SZER = Column(Integer) 
+  DLUG = Column(Integer) 
 
 
 class baza_PIANKI(Base):
   __tablename__ = "baza_PIANKI"
 
-  bpid = Column(Integer, primary_key=True)
+  index = Column(Integer, primary_key=True, autoincrement=False)
   MODEL = Column(String(64)) 
   BRYLA = Column(String(64)) 
   TYP = Column(String(64))
@@ -142,7 +182,7 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
 class KOMPLETY_PIANEK(Base):
   __tablename__ = "KOMPLETY_PIANEK"
 
-  kpid = Column(Integer, primary_key=True)
+  index = Column(Integer, primary_key=True)
   kod = Column("KOD", String(15))
   opis = Column("OPIS", String(128))
   stan_max = Column("MAX", Integer)
@@ -224,7 +264,7 @@ class BRAKI_PIANKI(Base):
   lpid = Column("LPID", Integer, autoincrement=True,  primary_key=True)
   lp = Column("LP", Integer)
   pozycja = Column("POZYCJA", String(128))
-  ilosc_brakow = Column("ILOSC_BRAKOW", Integer)
+  ilosc_brakow = Column("ILOSC_BRAKOW", SmallInteger)
   paczka = Column("PACZKA", String(5))
   data_kompletacji = Column("DATA_KOMPLETACJI", String(10))
   zamowione = Column("ZAMOWIONE", Integer)
@@ -252,9 +292,9 @@ class ZAM_PIANKI(Base):
   opis = Column("OPIS", String(128))
   ile_zam = Column("ILE_ZAMOWIONE", Integer)
   znacznik_dostawcy = Column("ZNACZNIK_DOSTAWCY", String(2))
-  galanteria = Column("GALANTERIA", String(1))
-  siedziska_HR = Column("SIEDZISKA_HR", String(1))
-  leniwa = Column("LENIWA", String(1))
+  galanteria = Column("GALANTERIA", String(16))
+  siedziska_HR = Column("SIEDZISKA_HR", String(16))
+  leniwa = Column("LENIWA", String(16))
   zam1 = Column("ZAM1", String(7))
   zam2 = Column("ZAM2", String(7))
   uwagi = Column("UWAGI", String(512))
