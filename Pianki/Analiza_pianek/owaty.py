@@ -2,8 +2,8 @@ import pandas as pd
 import json
 from Modele_db.modele_db import * 
 
-with open("./linki.json") as f:
-  linki = json.load(f)
+# with open("./linki.json") as f:
+#   linki = json.load(f)
 #   path_dane_pianki = linki["path_dane_pianki"]
   # owaty_linki = linki["owaty"]
 #   zam_pianki_link = linki["zam_pianki_link"]
