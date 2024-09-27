@@ -67,7 +67,7 @@ pianki_w_drodze.rename(columns={"ILE_ZAMOWIONE": "ZAMOWIONE"}, inplace=True)
 #PLIK DANE_PIANKI_XXXX
 
 
-def przygotowanie_danych_firebird(pda, data_ostaniej_paczki="2024.05.27"):
+def przygotowanie_danych_firebird(pda, data_ostaniej_paczki="2024.06.03"):
     with open("linki.json", "r") as c:
         param = json.load(c)["firebird"]
 

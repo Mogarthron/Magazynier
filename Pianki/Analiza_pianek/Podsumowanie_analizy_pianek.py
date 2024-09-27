@@ -9,9 +9,13 @@ class Podsumowanie_analizy_pianek():
         
         ar_podsum = pd.DataFrame([x.Raport() for x in instrukcja_zamawiania])
 
-        self._Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])
-        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
-                                                                                                                        'OBJ_VITA', 'OBJ_PIANPOL', '*WSPL_ZAP_WOLNE', '*WSPL_ZAP_ZAM']]
+        self._Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'POZ_ZAGR', 
+                                                                                                                        'POZ_ZAGR_NIE_ZAM','BRAKI', 'ILOSC_BRAKOW', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 
+                                                                                                                        'OBJ_CIECH', 'OBJ_VITA', 'OBJ_PIANPOL', '*WSPL_ZAP_WOLNE', 
+                                                                                                                        '*WSPL_ZAP_ZAM']]
+        
+        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'MIN', 'MAX', 'WOLNE', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
+                                                                                                                        'OBJ_VITA', 'OBJ_PIANPOL']]
         self.Tpa_Pianpol = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_PIANPOL", ascending=False)
         self.Tpa_Vita = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_VITA", ascending=False)
         self.Tpa_Ciech = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_CIECH", ascending=False)
