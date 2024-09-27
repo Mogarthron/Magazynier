@@ -61,7 +61,7 @@ def raport_zamowionych_pianek_i_owat(nr_partii):
 
         return render_template("raport_zamowionych_pianek_i_owat.html", title=f"ZAM PIANPOL {data_zamowienia}", 
                                                                         dostawca=dostawca, data_zamowienia=data_zamowienia,                                                                        
-                                                                        tabelka=tabelka, nr_partii=nr_partii, nr_zamowienia=nr_zamowienia, 
+                                                                        tabelka=tabelka, suma_zamowionych_kompletow=int(df.DO_ZAMOWIENIA.sum()), nr_partii=nr_partii, nr_zamowienia=nr_zamowienia, 
                                                                         preferowana_data_dostawy=preferowana_data_dostawy, metry_bierzace=metry_bierzace, rolki_owaty=rolki_owaty, 
                                                                         obietosc_zam=obietosc_zam, numery_partii=numery_partii)
     
