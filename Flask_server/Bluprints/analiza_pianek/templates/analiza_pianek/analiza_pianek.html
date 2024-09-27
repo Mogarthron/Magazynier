@@ -1,67 +1,134 @@
 {% extends "layout_ap.html" %}
 {% block content %}
     <div class="container">
-      <table class="table table-hover align-middle">
-        <thead>
-          <tr>   
-            <th scope="col">MODEL</th>                                
-            <th scope="col">GRUPA</th>                                
-            <th scope="col">WSP ZAM %</th>
-            <th scope="col">OBJ CIECH</th>
-            <th scope="col">OBJ VITA</th>
-            <th scope="col">OBJ PIANPOL</th>
-            <th scope="col">#</th>
+        <div class="row mb-3">
+            <h3>BRAKI</h3>
+            <table class="table align-middle braki">
+                <thead>                    
+                    <tr>
+                        <th>LP</th>
+                        {% for th in braki.columns %}
+                            <th>{{th}}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for tr in braki.iterrows() %}
+                        <tr>
+                            <td>{{loop.index}}</td>
+                            <td>{{tr[1].OPIS}}</td>
+                            <td>{{tr[1].WOLNE_SALDO}}</td>
+                            <td>{{tr[1].PACZKA}}</td>
+                            <td>{{tr[1].DATA_KOMPLETACJI}}</td>
+                            <td>{{tr[1].ZAMOWIONE}}</td>
+                            <td>{{tr[1].UWAGI}}</td>
+                            <td>{{tr[1].GRUPA}}</td>                           	
+                        </tr>
+                    {% endfor %}
+                    <tr class="danger"></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h3>PONIZEJ STANU</h3>
             
-          </tr>
-        </thead>
-        <tbody>
-          {% for r in pap.Tabela_podsumowania_analizy.iterrows()%}
-          <tr>
+            <div class="col">
 
-            <td>{{ r[1].MODEL }}</td>                                
-            <td>{{ r[1].GRUPA }}</td>                                
-            <td>{{ r[1].WSPL_DO_ZAM }}%</td>
-            <td>{{ r[1].OBJ_CIECH }}</td>
-            <td>{{ r[1].OBJ_VITA }}</td>
-            <td>{{ r[1].OBJ_PIANPOL }}</td>                               
-            <td><a href="{{url_for('analiza_pianek.analiza_modelu', model=r[1].MODEL)}}" class="btn btn-primary">ANALIZA MODELU</a></td>                               
-          </tr>                              
-          {% endfor %}
-        </tbody>
-      </table>
+                {% for p in podsumowanie_zagrorzonych %}
+                <p>{{p}}</p>
+                {% endfor %}
+            </div>
+            
+            <div class="col">
+                <table class="table table-hover align-middle">
+                    <thead>                    
+                        <tr>
+                            <th>LP</th>
+                            {% for th in zagrozone.columns %}
+                                <th>{{th}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for tr in zagrozone.iterrows() %}
+                            <tr>
+                                <td>{{loop.index}}</td>
+                                <td>{{tr[1].OPIS}}</td>
+                                <td>{{tr[1].ZAMOWIONE}}</td>
+                                <td>{{tr[1].CZEKA_NA_SPAKOWANIE}}</td>
+                                <td>{{tr[1].SALDO}}</td>
+                                <td>{{tr[1].MIN}}</td>
+                                <td>{{tr[1].WOLNE_SALDO}}</td>
+                               
+                                              	
+                            </tr>
+                            
+                        {% endfor %}
+                       
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="row">
+            <h3>
+                PODSUMOWANIE
+            </h3>
+            <div class="col mt-3">
+                {% for key in tabelka %}
+                <p>{{key}}: {{tabelka[key]|round(0)}}</p>
+                <hr>
+                {% endfor %}
+
+            </div>
+            <div class="col">
                
+
+            </div>
+        </div>
+     
+       
+            
     </div>
-      <script>
+ 
+
+
+
+    <script>
+
+  
+
+
         document.addEventListener('DOMContentLoaded', (event) => {
-        const tables = document.getElementsByClassName('podsum');
+        const tables = document.getElementsByClassName('braki');
         // console.log(tables)
 
-        for (let table of tables){
-          const rows = table.getElementsByTagName('tr');
-          for (let row of rows) {
+        for (let table of tables) {
+        const rows = table.getElementsByTagName('tr');
+        for (let row of rows) {
             const cells = row.getElementsByTagName('td');
             
-            if (cells.length > 8) {
-              const wolne = parseInt(cells[8].textContent);
-              const stan_min = parseInt(cells[6].textContent);
-              
-              if ((stan_min > wolne) && (wolne >= 0)) {
-                cells[4].style.backgroundColor = 'yellow';
-                //nsole.log(cells[0], stan_min, wolne)
-              }
-              else if ((wolne < 0)){
-                cells[4].style.backgroundColor = 'red';
-              }
-              else{
-                cells[4].style.backgroundColor = 'green';
-              }
-            } 
-            
+            // Logowanie każdej komórki w wierszu
+            for (let i = 0; i < cells.length; i++) {
+                console.log(`Komórka ${i}: ${cells[i].textContent.trim()}`);
+            }
 
-          }
+            // Sprawdzenie, czy wiersz ma co najmniej 8 komórek
+            if (cells.length > 7) {
+                const grupa = cells[7].textContent.trim();  // Kolumna "GRUPA" ma indeks 7 (lub inny)
+                
+
+                // Jeśli "GRUPA" równa 1, zmień tło wiersza na czerwono
+                if (parseInt(grupa) === 1) {                    
+                    row.classList.add('table-danger')
+                }
+                else if (parseInt(grupa) === 2){
+                    row.classList.add('table-warning')
+                }
+            }
         }
+    }
         
         });
-      </script>
- 
+      </script>    
 {% endblock %}

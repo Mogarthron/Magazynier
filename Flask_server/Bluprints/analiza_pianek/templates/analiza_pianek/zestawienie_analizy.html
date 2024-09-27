@@ -1,0 +1,91 @@
+{% extends "layout_ap.html" %}
+{% block content %}
+    <div class="container">
+      <p>
+        CIECH: {{pap.Podsumowanie_obietosci_pianek["OBJ_CIECH"].round(0)}} M3        
+      </p>
+      <p>
+        VITA: {{pap.Podsumowanie_obietosci_pianek["OBJ_VITA"].round(0)}} M3        
+      </p>
+      <p>
+        PIANPOL: {{pap.Podsumowanie_obietosci_pianek["OBJ_PIANPOL"].round(0)}} M3        
+      </p>
+        
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>   
+            <th scope="col">MODEL</th>                                
+            <th scope="col">GRUPA</th>     
+            <th scope="col">MAX</th>     
+            <th scope="col">MIN</th>     
+            <th scope="col">WOLNE</th>     
+            <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">WSP ZAM %</th>
+            <th scope="col">OBJ CIECH</th>
+            <th scope="col">OBJ VITA</th>
+            <th scope="col">OBJ PIANPOL</th>
+            <th scope="col">#</th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in pap.Tabela_podsumowania_analizy.iterrows()%}
+          <tr>
+
+            <td>{{ r[1].MODEL }}</td>                                
+            <td>{{ r[1].GRUPA }}</td>                                
+            <td>{{ r[1].MAX }}</td>                                
+            <td>{{ r[1].MIN }}</td>                                
+            <td>{{ r[1].WOLNE }}</td>                                
+            <td><span>{{ r[1].WSPL_DO_ZAM |round(0)}}</span>%</td>     
+            <td>{{ r[1].OBJ_CIECH |round(0) }}</td>
+            <td>{{ r[1].OBJ_VITA |round(0)}}</td>
+            <td>{{ r[1].OBJ_PIANPOL |round(0)}}</td>                               
+            <td><a href="{{url_for('analiza_pianek.analiza_modelu', model=r[1].MODEL)}}" class="btn btn-primary">ANALIZA MODELU</a></td>                               
+          </tr>                              
+          {% endfor %}
+        </tbody>
+      </table>
+               
+    </div>
+      <script>
+
+  
+
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+        const tables = document.getElementsByClassName('table');
+        // console.log(tables)
+
+        for (let table of tables){
+          const rows = table.getElementsByTagName('tr');
+          for (let row of rows) {
+            const cells = row.getElementsByTagName('td');
+            const wspDoZam = row.getElementsByTagName('span');
+            
+
+            if (cells.length > 8) {
+              const wolne = parseInt(cells[4].textContent);
+              const stan_min = parseInt(cells[3].textContent);
+              
+              if ((stan_min > wolne) && (wolne > 0)) {
+                cells[5].style.backgroundColor = 'yellow';
+                //nsole.log(cells[0], stan_min, wolne)
+              }
+              else if ((wolne <= 0)){
+                cells[5].style.backgroundColor = 'red'; 
+              }
+              
+              else{
+                cells[5].style.backgroundColor = 'green';
+                cells[5].style.color = 'white';
+              }
+            } 
+            
+
+          }
+        }
+        
+        });
+      </script>
+ 
+{% endblock %}
