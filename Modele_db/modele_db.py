@@ -1,8 +1,29 @@
 from Modele_db import *
-from sqlalchemy import Column, String, Integer, Float, SmallInteger, Boolean, Float, Date
+from sqlalchemy import Column, String, Integer, Float, SmallInteger, Boolean, Float, Date, DateTime
 from datetime import datetime as dt
 
-# Base = declarative_base()
+class SALDO(Base):
+  __tablename__ = "SALDO"
+
+  index = Column(Integer, primary_key=True, autoincrement=False)
+  kod = Column(String(15))
+  stan = Column(Integer)
+
+class WSTRZYMANE(Base):
+  __tablename__ = "WSTRZYMANE"
+
+  index = Column(Integer, primary_key=True, autoincrement=False)
+  kod = Column(String(15))
+  ilosc = Column(Integer)
+
+class NALICZONE(Base):
+  __tablename__ = "NALICZONE"
+
+  index = Column(Integer, primary_key=True, autoincrement=False)
+  limit_nazwa = Column(String(12))
+  kod = Column(String(15))
+  zapot_zlec = Column(Integer)
+  limit_data_prod = Column(DateTime)
 
 class INSTRUKCJA_ZAMAWIANIA(Base):
   __tablename__ = "INSTRUKCJA_ZAMAWIANIA"
@@ -31,12 +52,32 @@ class INSTRUKCJA_ZAMAWIANIA(Base):
     self.OPIS = opis
     self.AKTYWNA = aktywna
 
+class PROPOZYCJA_ZAMOWIENIA(Base):
+  __tablename__ = "PROPOZYCJA_ZAMOWIENIA"
 
-  
+  propozycja_zam_id = Column(Integer, primary_key=True)
+  id_inst_zam = Column(Integer)
+  bryla_id = Column(Integer)
+  ilosc = Column(Integer)
+  proponowana_ilosc = Column(Integer)
+  nr_partii = Column(String(5))
+  data_zamowienia = Column(DateTime)
+  data_dostawy = Column(Date)
+  dostawca = Column(String(32))
+  nr_dos1 = Column(String(7))
+  nr_dos2 = Column(String(7))
 
-# class PROPOZYCJA_ZAMOWIENIA(Base):
-#   __tablename__ = "PROPOZYCJA_ZAMOWIENIA"
+  akceptacja = Column(Boolean)
+  data_akceptacji = Column(DateTime)
+  uwagi = Column(String(256))
 
+  def __init__(self, id_instrukcja_zamawiania, bryla_id, ilosc, proponowana_ilosc):
+    self.id_inst_zam = id_instrukcja_zamawiania
+    self.bryla_id = bryla_id
+    self.ilosc = ilosc
+    self.proponowana_ilosc = proponowana_ilosc
+    self.data_zamowienia = dt.now()
+    
   
 class baza_STOLARNIA(Base):
   __tablename__ = "baza_STOLARNIA"
@@ -50,6 +91,7 @@ class baza_STOLARNIA(Base):
   _ILOSC = Column(String(64)) 
   OZNACZ = Column(String(64)) 
   NUMER = Column(String(64)) 
+  WYMIAR = Column(String(16)) 
   WYS = Column(Integer) 
   SZER = Column(Integer) 
   DLUG = Column(Integer) 
@@ -304,14 +346,15 @@ class ZAM_PIANKI(Base):
   data_dos1 = Column("DATA_DOSTARCZENIA_1", Date)
   data_dos2 = Column("DATA_DOSTARCZENIA_2", Date)
 
-  # status_leniwa = Column("STATUS_LENIWA", String(50))
-  # status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
-  # owaty_wydano = Column("OWATY_WYDANO", String(50))
-  # owaty_wycieto = Column("OWATY_WYCIETO", String(50))
-  # owaty_kompletacja = Column("OWATY_KOMPLETACJA", String(50))
-  # nr_pz = Column("nr_PZ", String)
-  # nr_pw = Column("nr_PW", String)
+  status_leniwa = Column("STATUS_LENIWA", String(50))
+  status_leniwa_skoks = Column("STATUS_LENIWA_SKOSOWANIE", String(50))
+  owaty_wydano = Column("OWATY_WYDANO", Date)
+  owaty_wycieto = Column("OWATY_WYCIETO", Date)
+  owaty_kompletacja = Column("OWATY_KOMPLETACJA", Date)
+  nr_pz = Column("nr_PZ", String)
+  nr_pw = Column("nr_PW", String)
   status_kompletacja = Column("STATUS_KOMPLETACJA", String(50))
+  data_zakonczenia = Column("DATA_ZAKONCZENIA", Date)
   nr_samochodu = Column("nr_SAMOCHODU", String(50))
   nr_partii = Column("nr_PARTII", String(5))
 
