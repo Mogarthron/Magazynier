@@ -32,5 +32,5 @@ def index():
     return render_template("analiza_pianek.html", title="Analiza pianek",
                            zagrozone=zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)],
                            podsumowanie_zagrorzonych=zagr_podsum,
-                           braki=br.sort_values(by=["GRUPA", "OPIS"]).drop("SALDO", axis=1), 
+                           braki=br.sort_values(by=["GRUPA", "OPIS"]).drop("SALDO", axis=1).drop_duplicates("OPIS"), 
                            tabelka=tabelka)

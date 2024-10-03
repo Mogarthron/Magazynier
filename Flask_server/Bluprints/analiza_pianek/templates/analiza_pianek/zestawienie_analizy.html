@@ -1,7 +1,7 @@
 {% extends "layout_ap.html" %}
 {% block content %}
     <div class="container">
-      <p>
+      <div class="row"><div class="col"><p></p>
         CIECH: {{pap.Podsumowanie_obietosci_pianek["OBJ_CIECH"].round(0)}} M3        
       </p>
       <p>
@@ -10,16 +10,30 @@
       <p>
         PIANPOL: {{pap.Podsumowanie_obietosci_pianek["OBJ_PIANPOL"].round(0)}} M3        
       </p>
+      <p></p>
+        SIGMA: {{pap.Podsumowanie_obietosci_pianek["RAZEM"].round(0)}} M3        
+      </p>
+    </div>
+      <div class="col"> 
+          <h3>LEGENDA WOLNE:</h3> 
+          <p>KOLOR ŻUŁTY: STAN WOLNY PONIZEJ STANU MINIMALNEGO 50%</p>
+          <p>KOLOR CZERWONY: STAN WOLNY RÓWNY LUB MNIEJSZY OD 0</p>
+          <h3>LEGENDA WSP ZAM%:</h3> 
+          <p>KOLOR ŻUŁTY: STANY WOLNE PONIZEJ OD SATNÓW MINIMALNYCH O 30%</p>
+          <p>KOLOR CZERWONY: STANY WOLNE PONIŻEJ 50% STANÓW MAXYMALNYCH</p>
+        
+      </div></div>
+      
         
       <table class="table table-hover align-middle">
         <thead>
           <tr>   
             <th scope="col">MODEL</th>                                
             <th scope="col">GRUPA</th>     
-            <th scope="col">MAX</th>     
-            <th scope="col">MIN</th>     
-            <th scope="col">WOLNE</th>     
-            <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top" title="Tooltip on top">WSP ZAM %</th>
+            <th scope="col">MAX_obj</th>     
+            <th scope="col">MIN_obj</th>     
+            <th scope="col">WOLNE_obj</th>     
+            <th scope="col">WSP ZAM %</th>
             <th scope="col">OBJ CIECH</th>
             <th scope="col">OBJ VITA</th>
             <th scope="col">OBJ PIANPOL</th>
@@ -33,9 +47,9 @@
 
             <td>{{ r[1].MODEL }}</td>                                
             <td>{{ r[1].GRUPA }}</td>                                
-            <td>{{ r[1].MAX }}</td>                                
-            <td>{{ r[1].MIN }}</td>                                
-            <td>{{ r[1].WOLNE }}</td>                                
+            <td>{{ r[1].MAX_obj }}</td>                                
+            <td>{{ r[1].MIN_obj }}</td>                                
+            <td>{{ r[1].WOLNE_obj }}</td>                                
             <td><span>{{ r[1].WSPL_DO_ZAM |round(0)}}</span>%</td>     
             <td>{{ r[1].OBJ_CIECH |round(0) }}</td>
             <td>{{ r[1].OBJ_VITA |round(0)}}</td>
@@ -60,24 +74,29 @@
           const rows = table.getElementsByTagName('tr');
           for (let row of rows) {
             const cells = row.getElementsByTagName('td');
-            const wspDoZam = row.getElementsByTagName('span');
-            
+            const spans = document.querySelectorAll('table tbody tr td span');
+
+            spans.forEach(function(span) {
+    console.log(span.textContent); // Wyświetli wartość procentową z elementu span
+});
 
             if (cells.length > 8) {
               const wolne = parseInt(cells[4].textContent);
               const stan_min = parseInt(cells[3].textContent);
               
+              
+
               if ((stan_min > wolne) && (wolne > 0)) {
-                cells[5].style.backgroundColor = 'yellow';
+                cells[4].style.backgroundColor = 'yellow';
                 //nsole.log(cells[0], stan_min, wolne)
               }
               else if ((wolne <= 0)){
-                cells[5].style.backgroundColor = 'red'; 
+                cells[4].style.backgroundColor = 'red'; 
               }
               
               else{
-                cells[5].style.backgroundColor = 'green';
-                cells[5].style.color = 'white';
+                cells[4].style.backgroundColor = 'green';
+                cells[4].style.color = 'white';
               }
             } 
             

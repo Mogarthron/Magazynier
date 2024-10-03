@@ -408,6 +408,10 @@ class ZAM_PIANKI(Base):
             "nrSamochodu": self.nr_samochodu
         }
 
+  # def obj_pianek_spakowanych(self, data_start:dt, data_stop:dt):
+
+  #   from sqlalchemy import func
+  #   return session.query(func.sum(self.ile_zam * KOMPLETY_PIANEK.obj)).join(KOMPLETY_PIANEK, KOMPLETY_PIANEK.kod == self.kod).filter(self.data_zakonczenia.between(data_start, data_stop)).all()
 
   def __repr__(self):
     return f"{self.tydzien}, {self.opis}"

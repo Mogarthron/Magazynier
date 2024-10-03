@@ -55,6 +55,7 @@ analiza["SUMA_ZLEC"] = (analiza.ZLECENIA + analiza.WST)
 analiza["SALDO_Z_NIE_SPAK"] = analiza.SALDO + analiza.CZEKA_NA_SPAKOWANIE
 analiza["WOLNE_SALDO"] = (analiza.SALDO - analiza.SUMA_ZLEC)
 analiza["WOLNE_NIE_SPAK"] = (analiza.SALDO_Z_NIE_SPAK - analiza.SUMA_ZLEC)
+analiza["MIN_obj"] = (analiza.MIN * analiza.obj)
 analiza["MAX_obj"] = (analiza.MAX * analiza.obj)
 analiza["ZAMOWIONE_obj"] = (analiza.ZAMOWIONE * analiza.obj)
 analiza["CZEKA_NA_SPAKOWANIE_obj"] = (analiza.CZEKA_NA_SPAKOWANIE * analiza.obj)

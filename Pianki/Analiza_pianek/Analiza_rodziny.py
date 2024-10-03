@@ -245,7 +245,10 @@ class Analiza_Rodziny():
               "OBJ_VITA": np.round_(bdz.vita_VOL,2),
               "OBJ_PIANPOL": np.round_(bdz.pianpol_VOL,2),
               "*WSPL_ZAP_WOLNE": np.round(self.ana.WOLNE_obj.sum() / self.ana.MAX_obj.sum(), 2)*100,
-              "*WSPL_ZAP_ZAM": np.round((self.ana.WOLNE_obj.sum()+self.ana.ZAMOWIONE_obj.sum()+self.ana.CZEKA_NA_SPAKOWANIE_obj.sum()) / self.ana.MAX_obj.sum(), 2)*100
+              "*WSPL_ZAP_ZAM": np.round((self.ana.WOLNE_obj.sum()+self.ana.ZAMOWIONE_obj.sum()+self.ana.CZEKA_NA_SPAKOWANIE_obj.sum()) / self.ana.MAX_obj.sum(), 2)*100,
+              "MIN_obj": np.round(self.ana.MIN_obj.sum(), 0),
+              "MAX_obj": np.round(self.ana.MAX_obj.sum(), 0),
+              "WOLNE_obj": np.round(self.ana.WOLNE_obj.sum(), 0)
               }
 
   def __repr__(self):

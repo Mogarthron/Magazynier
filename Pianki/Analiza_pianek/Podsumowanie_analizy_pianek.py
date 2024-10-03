@@ -14,7 +14,7 @@ class Podsumowanie_analizy_pianek():
                                                                                                                         'OBJ_CIECH', 'OBJ_VITA', 'OBJ_PIANPOL', '*WSPL_ZAP_WOLNE', 
                                                                                                                         '*WSPL_ZAP_ZAM']]
         
-        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'MIN', 'MAX', 'WOLNE', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
+        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'MIN_obj', 'MAX_obj', 'WOLNE_obj', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
                                                                                                                         'OBJ_VITA', 'OBJ_PIANPOL']]
         self.Tpa_Pianpol = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_PIANPOL", ascending=False)
         self.Tpa_Vita = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_VITA", ascending=False)
@@ -24,6 +24,9 @@ class Podsumowanie_analizy_pianek():
         podsumowanie_VOL["RAZEM"] = podsumowanie_VOL.sum()
 
         self.Podsumowanie_obietosci_pianek = podsumowanie_VOL
+
+    def Ar_podsum(model):
+        return 
 
     def Optymalizuj_auto(dostawca, objetosc):
         pass

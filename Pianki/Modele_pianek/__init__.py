@@ -159,6 +159,11 @@ class OVAL_P(MODEL5):
 
 from Pianki.Modele_pianek.Model6 import MODEL6
 
+class RAY_P(MODEL6):
+  MODEL = "RAY"
+  def __init__(self,b:dict):
+    super().__init__(b=b)
+
 class UNO_P(MODEL6):
   MODEL = "UNO"
   def __init__(self,b:dict):

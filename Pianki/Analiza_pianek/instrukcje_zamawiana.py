@@ -30,6 +30,7 @@ instrukcja_zamawiania_pianpol=[
     Analiza_Rodziny(UNO_P,4,100),
     Analiza_Rodziny(KELLY_P,4,100),
     Analiza_Rodziny(GREY_P,4),
+    Analiza_Rodziny(RAY_P,4),
     # Analiza_Rodziny(EXTREME,3), #ZROBIC KLASE
     # Analiza_Rodziny(MYSTIC,3), #NIE/ZROBIC KLASE?
 ]
