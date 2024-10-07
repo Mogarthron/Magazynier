@@ -185,6 +185,7 @@ def przygotowanie_danych_excel(pda):
     return saldo, naliczone, wstrzymane, nal_paczki
 
 
+# saldo, naliczone, wstrzymane, nal_paczki = przygotowanie_danych_excel(pda)
 saldo, naliczone, wstrzymane, nal_paczki = przygotowanie_danych_firebird(pda)
 
 # saldo = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="SALDO", usecols="B,D,H")

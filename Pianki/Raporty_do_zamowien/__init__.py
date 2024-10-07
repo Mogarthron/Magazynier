@@ -196,6 +196,7 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
     _df = zpdb_n[1]
     # _df = _df[_df.TYP != "G-401"]
     header = f"{cls.MODEL} {zpdb_n[0]} - {cls.bryly[zpdb_n[0]]:.0f}szt"
+
     # print(header)
     wb = openpyxl.Workbook()
     sheet = wb.active
@@ -215,6 +216,8 @@ def raport_dostarczonych_pianek(cls, nr_dos="", drukuj_excel=False):
     for row in sheet[f"A1:K{_df.shape[0]+1}"]:
       for cell in row:
         cell.border = Border(top=thin, left=thin, right=thin, bottom=thin)
+
+    
 
     path_ = f'Z:/160. ROZKRÓJ PIANEK/160.10 DOSTAWY PIANEK/160.10.50 ZLECENIE KONTROLA JAKOSCI ELEMENTOW PIANEK I PACZEK/{nr_dos.replace("/","_")}/'
     _file = f"{cls.MODEL[:3]} {zpdb_n[0].replace('/','_')}.xlsx"
