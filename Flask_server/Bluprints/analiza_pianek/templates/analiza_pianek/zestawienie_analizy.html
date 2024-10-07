@@ -1,7 +1,9 @@
 {% extends "layout_ap.html" %}
 {% block content %}
     <div class="container">
-      <div class="row"><div class="col"><p></p>
+      <div class="row"><div class="col">
+        <h3>M3 DO ZAMOWIENIA</h3>
+        <p>
         CIECH: {{pap.Podsumowanie_obietosci_pianek["OBJ_CIECH"].round(0)}} M3        
       </p>
       <p>
@@ -10,7 +12,7 @@
       <p>
         PIANPOL: {{pap.Podsumowanie_obietosci_pianek["OBJ_PIANPOL"].round(0)}} M3        
       </p>
-      <p></p>
+      <p>
         SIGMA: {{pap.Podsumowanie_obietosci_pianek["RAZEM"].round(0)}} M3        
       </p>
     </div>
