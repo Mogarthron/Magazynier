@@ -42,6 +42,7 @@ for nal_paczka in nal_paczki:
 analiza.rename(columns={"ILOSC": "WST", "ZAPOT_ZLEC":"ZLECENIA", "ILE_ZAMOWIONE": "ZAM"}, inplace=True)
 
 def do_zam_szt(max_,wolne,zam,czek_na_spak, czesiowo_dos):
+  """sztuki do zamowienia"""
   s = max_ - wolne - zam - czek_na_spak - czesiowo_dos
   if s > 0:
     return s
