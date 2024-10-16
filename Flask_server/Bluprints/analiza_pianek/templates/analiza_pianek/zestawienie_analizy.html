@@ -29,14 +29,29 @@
         
       <table class="table table-hover align-middle">
         <thead>
+          <tr>
+            <th colspan="2"></th>
+            <th colspan="5">WARTOSCI Z OWATAMI</th>
+            <th colspan="2">WARTOSCI BEZ OWAT (około 10% mniej obietosci)</th>
+          </tr>
+          <tr><th>1</th>
+          <th>2</th>
+          <th>3</th>
+          <th>4</th>
+          <th>5</th>
+          <th>6</th>
+          <th>7</th>
+          <th>8</th>
+          <th>9</th></tr>
           <tr>   
             <th scope="col">MODEL</th>                                
             <th scope="col">GRUPA</th>     
-            <th scope="col">MAX_obj</th>     
-            <th scope="col">MIN_obj</th>     
-            <th scope="col">WOLNE_obj</th>     
-            <th scope="col">WSP ZAM %</th>
-            <th scope="col">OBJ CIECH</th>
+            <th scope="col">MAX [M3]</th>                  
+            <th scope="col">SALDO [M3]</th>     
+            <th scope="col">WOLNE [M3]</th>     
+            <th scope="col">ZAMOWIONE NIESPAKOWANE [M3]</th>     
+            <th scope="col">% OBJ DO STANU MAX</th>
+            <!-- <th scope="col">OBJ CIECH</th> -->
             <th scope="col">OBJ VITA</th>
             <th scope="col">OBJ PIANPOL</th>
             <th scope="col">#</th>
@@ -50,10 +65,12 @@
             <td>{{ r[1].MODEL }}</td>                                
             <td>{{ r[1].GRUPA }}</td>                                
             <td>{{ r[1].MAX_obj }}</td>                                
-            <td>{{ r[1].MIN_obj }}</td>                                
+                                          
+            <td>{{ r[1].SALDO_obj }}</td>                                
             <td>{{ r[1].WOLNE_obj }}</td>                                
-            <td><span>{{ r[1].WSPL_DO_ZAM |round(0)}}</span>%</td>     
-            <td>{{ r[1].OBJ_CIECH |round(0) }}</td>
+            <td>{{ r[1].ZAMOWIONE_NIE_PRZYJETE_obj }}</td>                                
+            <td>{{ r[1].WSPL_DO_ZAM |round(0)}} %</td>     
+            {#<td>{{ r[1].OBJ_CIECH |round(0) }}</td>#}
             <td>{{ r[1].OBJ_VITA |round(0)}}</td>
             <td>{{ r[1].OBJ_PIANPOL |round(0)}}</td>                               
             <td><a href="{{url_for('analiza_pianek.analiza_modelu', model=r[1].MODEL)}}" class="btn btn-primary">ANALIZA MODELU</a></td>                               
@@ -84,11 +101,11 @@
 
             if (cells.length > 8) {
               const wolne = parseInt(cells[4].textContent);
-              const stan_min = parseInt(cells[3].textContent);
+              const stan_max = parseInt(cells[2].textContent);
               
               
 
-              if ((stan_min > wolne) && (wolne > 0)) {
+              if ((stan_max/2 > wolne) && (wolne > 0)) {
                 cells[4].style.backgroundColor = 'yellow';
                 //nsole.log(cells[0], stan_min, wolne)
               }

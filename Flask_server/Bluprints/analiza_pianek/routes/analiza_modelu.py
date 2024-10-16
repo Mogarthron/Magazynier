@@ -10,4 +10,6 @@ import json
 def analiza_modelu(model):
     _model = pap[model]
 
-    return render_template("analiza_modelu.html", tabelka_modelu=_model.ar, graphJSON=json.dumps(_model.Wykres_obj(nazwa_modelu=False, show_fig=False), cls=plotly.utils.PlotlyJSONEncoder)) 
+    return render_template("analiza_modelu.html", tabelka_modelu=_model.ar, 
+                           graphJSON_Saldo=json.dumps(_model.Wykres_obj(nazwa_modelu=False, show_fig=False), cls=plotly.utils.PlotlyJSONEncoder),
+                           graphJSON_Wolne=json.dumps(_model.Wykres_obj(nazwa_modelu=False, saldo=False, show_fig=False), cls=plotly.utils.PlotlyJSONEncoder)) 

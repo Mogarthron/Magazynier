@@ -25,14 +25,19 @@
 
 
 
-<div id="chart" class="chart"></div>
+<div id="chart_saldo" class="chart"></div>
+
+<div id="chart_wolne" class="chart"></div>
 
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 <script>
 
-    var graphs = {{graphJSON | safe}};
-    Plotly.plot('chart',graphs,{});
+    var graphs_saldo = {{graphJSON_Saldo | safe}};
+    Plotly.plot('chart_saldo',graphs_saldo,{});
+
+    var graphs_wolne = {{graphJSON_Wolne | safe}};
+    Plotly.plot('chart_wolne',graphs_wolne,{});
 
 
     document.addEventListener('DOMContentLoaded', (event) => {
