@@ -224,7 +224,7 @@ class RAPORT_KJ_DO_DOSTAWY_PIANEK(Base):
 class KOMPLETY_PIANEK(Base):
   __tablename__ = "KOMPLETY_PIANEK"
 
-  index = Column(Integer, primary_key=True)
+  lp = Column(Integer, primary_key=True)
   kod = Column("KOD", String(15))
   opis = Column("OPIS", String(128))
   stan_max = Column("MAX", Integer)
