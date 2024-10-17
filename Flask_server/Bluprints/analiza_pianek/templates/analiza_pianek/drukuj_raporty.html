@@ -1,1 +1,28 @@
-{%  %}
+{% extends "layout_ap.html" %}
+
+{% block content %}
+<form method="POST">
+    <div class="container">
+        <div class="mb-3">
+            <label for="nrPartii" class="form-label">Nr partii</label>
+            <input type="text" class="form-control" id="nrPartii" name="nr_partii", placeholder="XX/YY">      
+          </div>
+          <div class="mb-3">
+              <select class="form-select form-select-lg mb-3" name="typ_zlecenia" aria-label=".form-select-lg example">
+                  <option selected>Typ zlecenia</option>
+                  <option value="WYDZIAL ROZKROJ OWAT">WYDZIAL ROZKROJ OWAT</option>
+                  <option value="KOMPLETACJA OWAT">KOMPLETACJA OWAT</option>
+                  <option value="DOKLADANIE PIANEK I OWAT">DOKLADANIE PIANEK I OWAT</option>
+                  <option value="DOKLADANIE PIANEK, OWAT I MEMORY">DOKLADANIE PIANEK, OWAT I MEMORY</option>
+                  <option value="KONTROLA JAKOSCI">KONTROLA JAKOSCI</option>
+                </select>
+          </div>
+          <div class="mb-3">
+              <label for="zamowienie" class="form-label">ZAM</label>
+              <input type="text" class="form-control" id="zamowienie" name="zam" value="ZAM1">  
+          </div>
+          <button type="submit" class="btn btn-primary">POBIERZ RAPORTY</button>
+    </div>
+    
+  </form>
+{% endblock %}
