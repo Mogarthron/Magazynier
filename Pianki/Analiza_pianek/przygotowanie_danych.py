@@ -149,11 +149,15 @@ def aktualizuj_saldo():
   cur = con.cursor()
   
   SALDO_stmt = """SELECT Artykul.Artykul_Kod AS KOD, 
+                        --Artykul.Nazwa1
                         SUM( Mag_Dok_spec.ZNAK  * Mag_Dok_spec.ILOSC) AS SALDO 
                         FROM Mag_Dok_spec INNER JOIN ARTYKUL ON (Mag_Dok_spec.ARTYKUL_ID = Artykul.ARTYKUL_ID) 
                         INNER JOIN MAG_DOK_NAG ON (Mag_Dok_spec.MAG_DOK_NAG_ID = Mag_Dok_Nag.MAG_DOK_NAG_ID) 
                         INNER JOIN Magazyny ON Mag_dok_spec.magazyny_id = Magazyny.magazyny_id  
-                    WHERE Mag_Dok_Nag.DATA <= cast('NOW' as timestamp) AND (MAG_DOK_SPEC.MAGAZYNY_ID=23) AND Artykul.Artykul_Kod LIKE '16.%' OR Artykul.Artykul_Kod LIKE '13.130%' GROUP BY Mag_Dok_spec.Magazyny_id, Artykul.Artykul_Kod, Artykul.Nazwa1,  
+                    WHERE Mag_Dok_Nag.DATA <= cast('NOW' as timestamp) 
+                    AND (MAG_DOK_SPEC.MAGAZYNY_ID=23) 
+                    AND Artykul.Artykul_Kod LIKE '16.%' OR Artykul.Artykul_Kod LIKE '13.130%' 
+                    GROUP BY Mag_Dok_spec.Magazyny_id, Artykul.Artykul_Kod, Artykul.Nazwa1,  
                         Magazyny.magazyny_kod, Artykul.stan_uruchamiajacy, Artykul.stan_MAX ORDER BY Magazyny.magazyny_kod"""
 
   cur.execute(SALDO_stmt)
