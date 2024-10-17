@@ -248,7 +248,9 @@ class Analiza_Rodziny():
               "*WSPL_ZAP_ZAM": np.round((self.ana.WOLNE_obj.sum()+self.ana.ZAMOWIONE_obj.sum()+self.ana.CZEKA_NA_SPAKOWANIE_obj.sum()) / self.ana.MAX_obj.sum(), 2)*100,
               "MIN_obj": np.round(self.ana.MIN_obj.sum(), 0),
               "MAX_obj": np.round(self.ana.MAX_obj.sum(), 0),
-              "WOLNE_obj": np.round(self.ana.WOLNE_obj.sum(), 0)
+              "SALDO_obj": np.round(self.ana.SALDO_obj.sum(), 0),
+              "WOLNE_obj": np.round(self.ana.WOLNE_obj.sum(), 0),
+              "ZAMOWIONE_NIE_PRZYJETE_obj": np.round(self.ana.ZAMOWIONE_NIE_PRZYJETE_obj.sum(), 0)
               }
 
   def __repr__(self):

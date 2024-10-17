@@ -61,6 +61,7 @@ analiza["MAX_obj"] = (analiza.MAX * analiza.obj)
 analiza["ZAMOWIONE_obj"] = (analiza.ZAMOWIONE * analiza.obj)
 analiza["CZEKA_NA_SPAKOWANIE_obj"] = (analiza.CZEKA_NA_SPAKOWANIE * analiza.obj)
 analiza["CZESCIOWO_DOSTARCZONE_obj"] = (analiza.CZESIOWO_DOSTARCZONE * analiza.obj)
+analiza["ZAMOWIONE_NIE_PRZYJETE_obj"] = analiza.ZAMOWIONE_obj + analiza.CZEKA_NA_SPAKOWANIE_obj + analiza.CZESCIOWO_DOSTARCZONE_obj
 analiza["SALDO_obj"] = (analiza.SALDO * analiza.obj)
 analiza["WOLNE_obj"] = (analiza.WOLNE_SALDO * analiza.obj)
 analiza["WOLNE_NIE_SPAK_obj"] = (analiza.WOLNE_NIE_SPAK * analiza.obj)

@@ -14,7 +14,7 @@ class Podsumowanie_analizy_pianek():
                                                                                                                         'OBJ_CIECH', 'OBJ_VITA', 'OBJ_PIANPOL', '*WSPL_ZAP_WOLNE', 
                                                                                                                         '*WSPL_ZAP_ZAM']]
         
-        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'MIN_obj', 'MAX_obj', 'WOLNE_obj', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
+        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'MIN_obj', 'MAX_obj', 'SALDO_obj','WOLNE_obj', 'ZAMOWIONE_NIE_PRZYJETE_obj','BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
                                                                                                                         'OBJ_VITA', 'OBJ_PIANPOL']]
         self.Tpa_Pianpol = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_PIANPOL", ascending=False)
         self.Tpa_Vita = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_VITA", ascending=False)
@@ -26,7 +26,7 @@ class Podsumowanie_analizy_pianek():
         self.Podsumowanie_obietosci_pianek = podsumowanie_VOL
 
     def Ar_podsum(model):
-        return 
+        pass 
 
     def Optymalizuj_auto(dostawca, objetosc):
         pass
@@ -44,14 +44,13 @@ class Podsumowanie_analizy_pianek():
 
     def __repr__(self):
         
-        # saldo = analiza.SALDO_obj.sum()
-        # wolne = analiza.WOLNE_obj.sum()
-        # zamow = analiza.ZAMOWIONE_obj.sum()+analiza.CZEKA_NA_SPAKOWANIE_obj.sum()+analiza.CZESCIOWO_DOSTARCZONE_obj.sum()
-        # maks = analiza.MAX_obj.sum()
+        saldo = analiza.SALDO_obj.sum()
+        wolne = analiza.WOLNE_obj.sum()
+        zamow = analiza.ZAMOWIONE_obj.sum()+analiza.CZEKA_NA_SPAKOWANIE_obj.sum()+analiza.CZESCIOWO_DOSTARCZONE_obj.sum()
+        maks = analiza.MAX_obj.sum()
 
-        return self.Podsumowanie_obietosci_pianek.to_string()#+"\n---------\n"#+\
-            #   f"SALDO\tWOLNE\tMAX\n"+\
-            #   f"{saldo:.0f}\t{wolne:.0f}\t{maks:.0f}\n"+\
-            #   f"{saldo/maks*100:.0f}%\t{wolne/maks*100:.0f}%\t{(zamow+wolne)/maks*100:.0f}%"
+        return self.Podsumowanie_obietosci_pianek.to_string()+"\n---------\n"+\
+              f"SALDO\tWOLNE\tMAX\n"+\
+              f"{saldo:.0f}\t{wolne:.0f}\t{maks:.0f}\n"+f"{saldo/maks*100:.0f}%\t{wolne/maks*100:.0f}%\t{(zamow+wolne)/maks*100:.0f}%"
 
         
