@@ -291,7 +291,7 @@ def drukuj_raporty(nr_partii, zlecenie, pozycje, zam="ZAM1", drukuj_do_folderu=T
 
     if zlecenie == "KONTROLA JAKOSCI":        
         for r in pozycje.iterrows():        
-            raport_kontroli_jakosci(canvas, zlecenie, r[1].NR_PARTII, r[1].NR_KOMPLETACJI, r[1][zam], r[1].MODEL, r[1].OPIS, r[1].KJ_PACZKI, r[1].KJ)
+            raport_kontroli_jakosci(canvas, zlecenie, r[1].NR_PARTII,  r[1][zam], r[1].NR_KOMPLETACJI, r[1].MODEL, r[1].OPIS, r[1].KJ_PACZKI, r[1].KJ)
             canvas.showPage()
         
 
