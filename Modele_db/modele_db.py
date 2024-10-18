@@ -388,7 +388,7 @@ class ZAM_PIANKI(Base):
             "leniwaSkos": "BRAK KOLUMNY",#self.status_leniwa_skoks if "AVANT" in self.opis else "ND",
             "owatyWydano": "BRAK KOLUMNY",#self.owaty_wydano,
             "owatyWycieto": "BRAK KOLUMNY",#self.owaty_wycieto,
-            "owatyKompletacja": "BRAK KOLUMNY",#self.owaty_kompletacja,
+            "owatyKompletacja": "W TOKU" if self.owaty_kompletacja == None else self.owaty_kompletacja,
             "statusKompletacja": self.status_kompletacja if type(self.status_kompletacja) == str else ""
         }
   
@@ -407,11 +407,6 @@ class ZAM_PIANKI(Base):
             "nrPartii": self.nr_partii,
             "nrSamochodu": self.nr_samochodu
         }
-
-  # def obj_pianek_spakowanych(self, data_start:dt, data_stop:dt):
-
-  #   from sqlalchemy import func
-  #   return session.query(func.sum(self.ile_zam * KOMPLETY_PIANEK.obj)).join(KOMPLETY_PIANEK, KOMPLETY_PIANEK.kod == self.kod).filter(self.data_zakonczenia.between(data_start, data_stop)).all()
 
   def __repr__(self):
     return f"{self.tydzien}, {self.opis}"
