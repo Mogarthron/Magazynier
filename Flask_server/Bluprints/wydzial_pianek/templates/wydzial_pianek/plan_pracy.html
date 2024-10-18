@@ -63,7 +63,16 @@
       <!-- owaty -->
       <td>{{r["owatyWydano"]}}</td>
       <td>{{r["owatyWycieto"]}}</td>
-      <td>{{r["owatyKompletacja"]}}</td>
+      <td>{% if r["owatyKompletacja"] == "W TOKU" %}
+        {{r["owatyKompletacja"]}}
+        <form method="POST">
+          <label for="owatyKompletacja{{r['lp']}}"></label>
+          <button type="submit" name="owatyKompletacja_{{r['lp']}}">ZAKONCZONO</button>
+        </form>
+        {% else %}
+        ZAKONCZONO {{r["owatyKompletacja"]}}
+        {% endif %}
+      </td>
 
       <!-- kompletacja -->
       <td>{{r["statusKompletacja"]}} </td>
