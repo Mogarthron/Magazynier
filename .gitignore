@@ -162,6 +162,7 @@ cython_debug/
 dane_excel/
 OWATY/
 KOMPLETACJA/
+ZLECENIA_PROD/
 linki.json
 *.ipynb
 !Stolarnia/*.ipynb
@@ -171,3 +172,4 @@ linki.json
 propozycja_zamowionych_pianek.json
 alembic
 *.ini
+
