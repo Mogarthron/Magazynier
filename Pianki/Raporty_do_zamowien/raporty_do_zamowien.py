@@ -41,7 +41,7 @@ def kj_paczki(paczki, opis):
         else:
             return 10 * czas, 10
     except:
-        print(paczki, opis)
+        print("kj_paczki", paczki, opis)
         return 0, 0
     
 def dokladanie_owat_i_pianek(paczki, model, opis):
@@ -51,7 +51,7 @@ def dokladanie_owat_i_pianek(paczki, model, opis):
     try:
         czas = session.query(KOMPLETY_PIANEK.preferowany_czas_pakowania).filter(KOMPLETY_PIANEK.opis == opis).first()[0]
     except:
-        print(opis, 0)
+        print("dokladanie_owat_i_pianek", opis, 0)
         czas = 0
 
     if model not in memory:
@@ -65,8 +65,9 @@ def dokladanie_owat_pianek_memory(paczki, model, opis):
     try:        
         czas = session.query(KOMPLETY_PIANEK.preferowany_czas_pakowania_memory).filter(KOMPLETY_PIANEK.opis == opis).first()[0]
     except:
-        print(opis, 0)
+        print("dokladanie_owat_pianek_memory", opis, 0)
         czas = 0
+
     if model in memory:
         return paczki * czas
     return 0
@@ -149,7 +150,8 @@ def zlecenie_produkcyjne(cnvs:Canvas, zlecenie_prod, nr_partii, nr_kompl, model,
 
         # cnvs.line(16*cm, 10*cm, 26*cm, 10*cm)
         wysokosc_wiersza = 15.5
-        for r in session.query(OWATY.TYP_OWATY, OWATY.ZUZYCIE*ilosc_paczek*1.1, OWATY.RODZAJ_CIECIA, OWATY.NAZWA_UKL).filter(OWATY.OPIS.like(f"%{opis}%")).all():
+        # for r in session.query(OWATY.TYP_OWATY, OWATY.ZUZYCIE*ilosc_paczek*1.1, OWATY.RODZAJ_CIECIA, OWATY.NAZWA_UKL).filter(OWATY.OPIS.like(f"%{opis}%")).all():
+        for r in session.query(OWATY.TYP_OWATY, OWATY.ZUZYCIE*ilosc_paczek*1.1, OWATY.RODZAJ_CIECIA, OWATY.NAZWA_UKL).filter(OWATY.OPIS == opis).all():
             cnvs.drawString(16*cm, wysokosc_wiersza*cm, f"{r[0]}")
             cnvs.drawString(17*cm, wysokosc_wiersza*cm, f"{r[1]:.0f}")
             cnvs.drawString(18.5*cm, wysokosc_wiersza*cm, f"{r[2]}")

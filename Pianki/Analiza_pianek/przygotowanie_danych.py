@@ -1,11 +1,27 @@
 from Pianki.Analiza_pianek import *
 from Modele_db import engine, text
+from Modele_db.modele_db import ZAM_PIANKI, SALDO, WSTRZYMANE, NALICZONE, session
 import pandas as pd
 import fdb
-
+from datetime import datetime as dt, timedelta 
 import json
 
+with open("./linki.json") as f:
+  linki = json.load(f)
+  path_dane_pianki = linki["path_dane_pianki"]
 
+with open("daty_kompletacji.json") as f:
+    dkom = json.load(f)
+    daty_kompletacji = dkom["daty_kompletacji"]
+    plik_DANE_PIANKI = dkom["plik_dane_pianki"]
+
+for k in daty_kompletacji:
+    daty_kompletacji[k] = dt.strptime(daty_kompletacji[k], "%Y-%m-%d")
+
+data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
+
+
+pda = list(daty_kompletacji.keys())
 
 #@title PRZYGOTOWANIE DANYCH
 
@@ -58,7 +74,6 @@ zam_pianki[['ZAM1','ZAM2','STATUS_KOMPLETACJA']] = zam_pianki[['ZAM1','ZAM2','ST
 
 zam_pianki["dostarczono"] = zam_pianki.apply(lambda x: dostarczone(x.ZNACZNIK_DOSTAWCY, x.STATUS_KOMPLETACJA), axis=1)
 
-
 zam_nie_spakowane = zam_pianki[(zam_pianki.dostarczono == 2)]
 zam_nie_spakowane.rename(columns={"ILE_ZAMOWIONE": "CZEKA_NA_SPAKOWANIE"}, inplace=True)
 pianki_czesciowo_dostarczone = zam_pianki[(zam_pianki.dostarczono == 1)]
@@ -106,14 +121,6 @@ def przygotowanie_danych_firebird(pda, data_ostaniej_paczki="2024.06.03"):
     return saldo, naliczone, wstrzymane, nal_paczki
 
 
-# from Pianki.Analiza_pianek import saldo, naliczone, wstrzymane
-# from Modele_db import engine
-
-# with engine.begin() as conn:
-#     saldo.rename(columns={"KOD": "kod", "SALDO": "stan"}).to_sql("SALDO", conn, if_exists="replace")
-#     naliczone.rename(columns={'LIMIT_NAZWA':"limit_nazwa", 'KOD':"kod", 'ZAPOT_ZLEC':"zapot_zlec", 'LIMIT_DATA_PROD':"limit_data_prod"}).to_sql("NALICZONE", conn, if_exists="replace")
-#     wstrzymane.rename(columns={"KOD":"kod", 'ILOSC':"ilosc"}).to_sql("WSTRZYMANE", conn, if_exists="replace")
-
 def aktualizuj_zamowienia(pda, data_ostaniej_paczki="2024.06.03"):
   with open("linki.json", "r") as c:
         param = json.load(c)["firebird"]
@@ -126,7 +133,8 @@ def aktualizuj_zamowienia(pda, data_ostaniej_paczki="2024.06.03"):
   wstrzymane = pd.DataFrame(cur.fetchall(), columns=["KOD", "ILOSC"]) 
 
   NALICZONE_stmt = f"""
-        SELECT NR_ZLECENIA, MAT_KOD AS KOD, ZAPOT_ZLEC, LIMIT_DATA_PROD FROM MATERIALY_NALICZONE_ZLEC('{data_ostaniej_paczki} 00:00:00', '2024.12.30 00:00:00', NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL) where mat_nazwa1 like '%KOMPLET PIANEK%'  AND STATUS_NS<60
+        SELECT NR_ZLECENIA, MAT_KOD AS KOD, ZAPOT_ZLEC, LIMIT_DATA_PROD FROM MATERIALY_NALICZONE_ZLEC('{data_ostaniej_paczki} 00:00:00', '2024.12.30 00:00:00', NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL) 
+        where mat_nazwa1 like '%KOMPLET PIANEK%'  AND STATUS_NS<60
         """
 
   cur.execute(NALICZONE_stmt)
@@ -138,7 +146,8 @@ def aktualizuj_zamowienia(pda, data_ostaniej_paczki="2024.06.03"):
     naliczone.rename(columns={'LIMIT_NAZWA':"limit_nazwa", 'KOD':"kod", 'ZAPOT_ZLEC':"zapot_zlec", 'LIMIT_DATA_PROD':"limit_data_prod"}).to_sql("NALICZONE", conn, if_exists="replace")
     wstrzymane.rename(columns={"KOD":"kod", 'ILOSC':"ilosc"}).to_sql("WSTRZYMANE", conn, if_exists="replace")
 
-  nal_paczki = [naliczone[naliczone.LIMIT_NAZWA == x].groupby("KOD").ZAPOT_ZLEC.sum().reset_index().rename(columns={"ZAPOT_ZLEC": "/".join(x.split("/")[1:3])}) for x in naliczone.LIMIT_NAZWA.unique()]
+  # nal_paczki = [naliczone[naliczone.LIMIT_NAZWA == x].groupby("KOD").ZAPOT_ZLEC.sum().reset_index().rename(columns={"ZAPOT_ZLEC": "/".join(x.split("/")[1:3])}) for x in naliczone.LIMIT_NAZWA.unique()]
+
 
 def aktualizuj_saldo():
   with open("linki.json", "r") as c:
@@ -168,7 +177,6 @@ def aktualizuj_saldo():
     saldo.rename(columns={"KOD": "kod", "SALDO": "stan"}).to_sql("SALDO", conn, if_exists="replace")
 
 
-
 def przygotowanie_danych_excel(pda):
     
     with open("./linki.json") as f:
@@ -189,13 +197,16 @@ def przygotowanie_danych_excel(pda):
     return saldo, naliczone, wstrzymane, nal_paczki
 
 
-# saldo, naliczone, wstrzymane, nal_paczki = przygotowanie_danych_excel(pda)
-saldo, naliczone, wstrzymane, nal_paczki = przygotowanie_danych_firebird(pda)
+# saldo, naliczone, wstrzymane, nal_paczki = przygotowanie_danych_firebird(pda)
 
 # saldo = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="SALDO", usecols="B,D,H")
 # naliczone = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="NALICZONE", usecols="C,F,Y,Z,AK").query(f"LIMIT_NAZWA.str.contains('{'|'.join(pda)}')", engine='python')
 # wstrzymane = pd.read_excel(path_dane_pianki+plik_DANE_PIANKI, sheet_name="ZLECENIA").drop_duplicates("KOD")#.query("KOD.str.contains('16.')", engine='python')
+saldo = pd.DataFrame(session.query(SALDO.kod, SALDO.stan).all(), columns=["KOD", "SALDO"])
+naliczone = pd.DataFrame(session.query(NALICZONE.limit_nazwa, NALICZONE.kod, NALICZONE.zapot_zlec, NALICZONE.limit_data_prod), columns=["LIMIT_NAZWA", "KOD", "ZAPOT_ZLEC", "LIMIT_DATA_PROD"])
+wstrzymane = pd.DataFrame(session.query(WSTRZYMANE.kod, WSTRZYMANE.ilosc), columns=["KOD", "ILOSC"]) .drop_duplicates("KOD")#.query("KOD.str.contains('16.')", engine='python')
 
 
 #PACZKI Z ZAMÓWIENIAMI
 # nal_paczki = [naliczone[naliczone.LIMIT_NAZWA == x].groupby("KOD_ART").ZAPOTRZ.sum().reset_index().rename(columns={"KOD_ART": "KOD", "ZAPOTRZ": "/".join(x.split("/")[1:3])}) for x in naliczone.LIMIT_NAZWA.unique()]
+nal_paczki = [naliczone[naliczone.LIMIT_NAZWA == x].groupby("KOD").ZAPOT_ZLEC.sum().reset_index().rename(columns={"ZAPOT_ZLEC": "/".join(x.split("/")[1:3])}) for x in naliczone.LIMIT_NAZWA.unique()]

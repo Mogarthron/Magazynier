@@ -7,22 +7,22 @@ import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
 
-with open("./linki.json") as f:
-  linki = json.load(f)
-  path_dane_pianki = linki["path_dane_pianki"]
+# with open("./linki.json") as f:
+#   linki = json.load(f)
+#   path_dane_pianki = linki["path_dane_pianki"]
 
 with open("daty_kompletacji.json") as f:
     dkom = json.load(f)
     daty_kompletacji = dkom["daty_kompletacji"]
     plik_DANE_PIANKI = dkom["plik_dane_pianki"]
 
-for k in daty_kompletacji:
-    daty_kompletacji[k] = dt.strptime(daty_kompletacji[k], "%Y-%m-%d")
+# for k in daty_kompletacji:
+#     daty_kompletacji[k] = dt.strptime(daty_kompletacji[k], "%Y-%m-%d")
 
-data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
+# data_WST = daty_kompletacji[list(daty_kompletacji.keys())[-1]] + timedelta(7)
 
 
-pda = list(daty_kompletacji.keys())
+# pda = list(daty_kompletacji.keys())
 
 from ..Analiza_pianek.przygotowanie_danych import *
 
