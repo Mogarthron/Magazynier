@@ -5,7 +5,7 @@
         <tr>
             {% for h in tabelka_modelu.columns %}
             
-            <th>{{h}}</th>
+            <th>{{h.replace("_", " ")}}</th>
             {% endfor %}
         </tr>
     </thead>
