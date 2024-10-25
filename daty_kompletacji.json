@@ -1,9 +1,8 @@
 {
-    "plik_dane_pianki": "DANE_PIANKI_2435.xlsx",
-    "daty_kompletacji": {               
-        
-        "31/01": "2024-10-23",
-        "32/01": "2024-10-30"
-        
+    "plik_dane_pianki": "",
+    "data_wstawienia_pierwszej_kompletacji": "2024-08-05",
+    "daty_kompletacji": {     
+        "32/01": "2024-10-30",
+        "33/01": "2024-11-06"        
     }
 }
