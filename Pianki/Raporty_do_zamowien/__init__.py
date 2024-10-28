@@ -2,8 +2,14 @@ import pandas as pd
 import numpy as np
 from Modele_db.modele_db import *
 from Pianki.Analiza_pianek import funkcje_analizy_pianek as ap, owaty as ow
-from Pianki.Modele_pianek import tab
+# from Pianki.Modele_pianek import tab
 from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as ar
+
+
+with engine.begin() as conn:
+  tab = pd.read_sql(text("SELECT * from baza_PIANKI"), conn)
+
+
 
 ard = {a.MODEL: a for a in ar}
 komplety_pianek = ap.komplety_pianek
@@ -125,9 +131,6 @@ def zlecenia_produkcyjne_pianki_kompletacja(model, nr_kompletacji, nr_partii):
 
     print(_file)
     wb.save(path_ + _file)
-
-
-
 
 #specyfikacje i zestawienie pianek w modelach do zamowień
 def specyfikacja_zam_vita_xlsx(NR_zam:str, raport_vita:pd.DataFrame):
@@ -289,8 +292,6 @@ def Dodaj_pozycje_do_ZAM_PIANKI(tydzien, zancznik_dostawcy, nr_kompletacji, mode
   galanteria = klasa.galanteria
   siedziska_HR = klasa.siedziska_HR
   leniwa = klasa.leniwa
-
-
 
   if DODAJ_DO_BAZY:
 

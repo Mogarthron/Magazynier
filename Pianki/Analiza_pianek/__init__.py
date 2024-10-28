@@ -26,7 +26,59 @@ with open("daty_kompletacji.json") as f:
 
 from ..Analiza_pianek.przygotowanie_danych import *
 
+def stworz_tabele_analizy(pda):
 
+
+  _analiza = komplety_pianek.merge(
+    right=saldo[["KOD","SALDO"]], how="left", on="KOD").merge(
+    # right=naliczone.groupby("KOD_ART").sum().reset_index(), how="left", left_on="KOD", right_on="KOD_ART").merge(
+    right=naliczone.groupby("KOD").ZAPOT_ZLEC.sum().reset_index(), how="left", on="KOD").merge(
+    right=wstrzymane, how="left", on="KOD").merge(
+    right=zam_nie_spakowane.groupby("KOD").sum()["CZEKA_NA_SPAKOWANIE"].reset_index(), how="left", on="KOD").merge(
+    right=pianki_w_drodze.groupby("KOD").sum()["ZAMOWIONE"].reset_index(), how="left", on="KOD").merge(
+    right=pianki_czesciowo_dostarczone.groupby("KOD").sum()["CZESIOWO_DOSTARCZONE"].reset_index(), how="left", on="KOD")
+
+
+
+  for nal_paczka in nal_paczki:
+    _analiza = _analiza.merge(nal_paczka, how="left", on="KOD")
+
+  _analiza.rename(columns={"ILOSC": "WST", "ZAPOT_ZLEC":"ZLECENIA", "ILE_ZAMOWIONE": "ZAM"}, inplace=True)
+
+  def do_zam_szt(max_,wolne,zam,czek_na_spak, czesiowo_dos):
+    """sztuki do zamowienia"""
+    s = max_ - wolne - zam - czek_na_spak - czesiowo_dos
+    if s > 0:
+      return s
+    return 0
+
+  # _analiza.drop("KOD_ART", axis=1, inplace=True)
+  _analiza.fillna(0, axis=1, inplace=True)
+  _analiza[["MAX", "obj", "SALDO", "ZLECENIA", "WST", "CZEKA_NA_SPAKOWANIE", "ZAMOWIONE"]] = _analiza[["MAX", "obj", "SALDO", "ZLECENIA", "WST", "CZEKA_NA_SPAKOWANIE", "ZAMOWIONE"]].astype(float)
+  _analiza["MIN"] = (_analiza.MAX/2).round(0).astype(int)
+  _analiza["SUMA_ZLEC"] = (_analiza.ZLECENIA + _analiza.WST)
+  _analiza["SALDO_Z_NIE_SPAK"] = _analiza.SALDO + _analiza.CZEKA_NA_SPAKOWANIE
+  _analiza["WOLNE_SALDO"] = (_analiza.SALDO - _analiza.SUMA_ZLEC)
+  _analiza["WOLNE_NIE_SPAK"] = (_analiza.SALDO_Z_NIE_SPAK - _analiza.SUMA_ZLEC)
+  _analiza["MIN_obj"] = (_analiza.MIN * _analiza.obj)
+  _analiza["MAX_obj"] = (_analiza.MAX * _analiza.obj)
+  _analiza["ZAMOWIONE_obj"] = (_analiza.ZAMOWIONE * _analiza.obj)
+  _analiza["CZEKA_NA_SPAKOWANIE_obj"] = (_analiza.CZEKA_NA_SPAKOWANIE * _analiza.obj)
+  _analiza["CZESCIOWO_DOSTARCZONE_obj"] = (_analiza.CZESIOWO_DOSTARCZONE * _analiza.obj)
+  _analiza["ZAMOWIONE_NIE_PRZYJETE_obj"] = _analiza.ZAMOWIONE_obj + _analiza.CZEKA_NA_SPAKOWANIE_obj + _analiza.CZESCIOWO_DOSTARCZONE_obj
+  _analiza["SALDO_obj"] = (_analiza.SALDO * _analiza.obj)
+  _analiza["WOLNE_obj"] = (_analiza.WOLNE_SALDO * _analiza.obj)
+  _analiza["WOLNE_NIE_SPAK_obj"] = (_analiza.WOLNE_NIE_SPAK * _analiza.obj)
+  _analiza["DO_ZAM_SZT"] = _analiza.apply(lambda x: do_zam_szt(x.MAX, x.WOLNE_SALDO, x.ZAMOWIONE, x.CZEKA_NA_SPAKOWANIE, x.CZESIOWO_DOSTARCZONE), axis=1)
+  _analiza["DO_ZAM_obj"] = (_analiza.DO_ZAM_SZT * _analiza.obj)
+
+  return _analiza
+
+
+
+##################################################
+
+##################################################
 analiza = komplety_pianek.merge(
     right=saldo[["KOD","SALDO"]], how="left", on="KOD").merge(
     # right=naliczone.groupby("KOD_ART").sum().reset_index(), how="left", left_on="KOD", right_on="KOD_ART").merge(
