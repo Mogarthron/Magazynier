@@ -29,6 +29,7 @@ pda = list(daty_kompletacji.keys())
 # komplety_pianek = pd.read_excel(zam_pianki_link, sheet_name="Arkusz3")
 with engine.begin() as conn:
   komplety_pianek = pd.read_sql(text("SELECT * FROM KOMPLETY_PIANEK"), conn)
+  
 komplety_pianek['CZY_BRYLA'] = komplety_pianek['CZY_BRYLA'].fillna(1)
 komplety_pianek['BRYLA_GEN'] = komplety_pianek['BRYLA_GEN'].fillna("").astype(str).apply(lambda x: x.replace(".", ","))
 komplety_pianek["RODZINA_NAZWA"] = komplety_pianek.OPIS.apply(lambda x: x[:3])

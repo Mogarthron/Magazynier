@@ -113,8 +113,8 @@ def dane_zam_pianki_czasy(nr_partii:str):
 
 
 
-    dostawa["KJ"] = dostawa.apply(lambda x: kj_paczki(x.ILE_ZAM, x.OPIS)[0], axis=1)
     dostawa["KJ_PACZKI"] = dostawa.apply(lambda x: kj_paczki(x.ILE_ZAM, x.OPIS)[1], axis=1)
+    dostawa["KJ"] = dostawa.apply(lambda x: kj_paczki(x.ILE_ZAM, x.OPIS)[0], axis=1)
     dostawa["WYCINANIE_OWAT"] = dostawa.apply(lambda x: wycinanie_owat(x.ILE_ZAM, x.OPIS), axis=1)
     dostawa["DOKLADANIE_OWAT_I_PIANEK"] = dostawa.apply(lambda x: dokladanie_owat_i_pianek(x.ILE_ZAM, x.MODEL, x.OPIS), axis=1)
     dostawa["DOKLADANIE_OWAT_PIANEK_I_MEMORY"] = dostawa.apply(lambda x: dokladanie_owat_pianek_memory(x.ILE_ZAM, x.MODEL, x.OPIS), axis=1)
