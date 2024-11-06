@@ -5,7 +5,7 @@
         <tr>
             {% for h in tabelka_modelu.columns %}
             
-            <th>{{h.replace("_", " ")}}</th>
+            <th class="text-center">{{h.replace("_", " ")}}</th>
             {% endfor %}
         </tr>
     </thead>
@@ -14,7 +14,7 @@
                           
         <tr>
           {% for data in row[1] %}
-          <td>
+          <td class="text-center">
             {{data}}
           </td>
           {% endfor %}
@@ -50,8 +50,8 @@
         const cells = row.getElementsByTagName('td');
         
         if (cells.length > 8) {
-          const wolne = parseInt(cells[9].textContent);
-          const stan_min = parseInt(cells[6].textContent);
+          const wolne = parseInt(cells[5].textContent);
+          const stan_min = parseInt(cells[7].textContent);
           
           if ((stan_min > wolne) && (wolne >= 0)) {
             cells[4].style.backgroundColor = 'yellow';

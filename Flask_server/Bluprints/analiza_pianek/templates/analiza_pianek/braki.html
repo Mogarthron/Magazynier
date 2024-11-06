@@ -1,0 +1,71 @@
+{% extends "layout_ap.html" %}
+{% block content %}
+<div class="container">
+    <div class="row mb-3">
+        <h3>BRAKI</h3>
+        <table class="table align-middle braki">
+            <thead>                    
+                <tr>
+                    <th>LP</th>
+                    {% for th in braki.columns %}
+                        <th>{{th}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for tr in braki.iterrows() %}
+                    <tr>
+                        <td>{{loop.index}}</td>
+                        <td>{{tr[1].OPIS}}</td>
+                        <td>{{tr[1].WOLNE_SALDO}}</td>
+                        <td>{{tr[1].PACZKA}}</td>
+                        <td>{{tr[1].DATA_KOMPLETACJI}}</td>
+                        <td>{{tr[1].ZAMOWIONE}}</td>
+                        <td>{{tr[1].UWAGI}}</td>
+                        <td>{{tr[1].GRUPA}}</td>                           	
+                    </tr>
+                {% endfor %}
+                <tr class="danger"></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+  
+
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+    const tables = document.getElementsByClassName('braki');
+    // console.log(tables)
+
+    for (let table of tables) {
+    const rows = table.getElementsByTagName('tr');
+    for (let row of rows) {
+        const cells = row.getElementsByTagName('td');
+        
+        // Logowanie każdej komórki w wierszu
+        for (let i = 0; i < cells.length; i++) {
+            console.log(`Komórka ${i}: ${cells[i].textContent.trim()}`);
+        }
+
+        // Sprawdzenie, czy wiersz ma co najmniej 8 komórek
+        if (cells.length > 7) {
+            const grupa = cells[7].textContent.trim();  // Kolumna "GRUPA" ma indeks 7 (lub inny)
+            
+
+            // Jeśli "GRUPA" równa 1, zmień tło wiersza na czerwono
+            if (parseInt(grupa) === 1) {                    
+                row.classList.add('table-danger')
+            }
+            else if (parseInt(grupa) === 2){
+                row.classList.add('table-warning')
+            }
+        }
+    }
+}
+    
+    });
+  </script>  
+{% endblock %}

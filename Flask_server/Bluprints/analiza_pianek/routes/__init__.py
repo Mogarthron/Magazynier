@@ -13,24 +13,23 @@ pap = Podsumowanie_analizy_pianek(izp)
 z_pianki = dict()
 
 
-
-
 @analiza_pianek.route("/")
 def index():
     tabelka = Ogolna_analiza_objetosci("json")
-    br = Braki(WOLNE="SALDO")[0] #USUNAC PROBLEM Z DUBLUJACYMI SIE ZAMOWIANIAMI(JEDNO DOSTARCZONE DRUGIE W DRODZE TWORZĄ SIĘ DWIE POZYCJE)
-    zagr = Zagrozone(prt=False)
+    # br = Braki(WOLNE="SALDO")[0] #USUNAC PROBLEM Z DUBLUJACYMI SIE ZAMOWIANIAMI(JEDNO DOSTARCZONE DRUGIE W DRODZE TWORZĄ SIĘ DWIE POZYCJE)
+    # zagr = Zagrozone(prt=False)
 
-    zagr_nie_zam = zagr[(zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0]
+    # zagr_nie_zam = zagr[(zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0]
 
-    zagr_podsum = [f"WOLNE PONIZEJ MIN: {zagr.shape[0]} POZYCJE",
-    f"WOLNE PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE",
-    f"SALDO PONIZEJ MIN: {zagr[zagr.SALDO < zagr.MIN].shape[0]} POZYCJE",
-    f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE"]
+    # zagr_podsum = [f"WOLNE PONIZEJ MIN: {zagr.shape[0]} POZYCJE",
+    # f"WOLNE PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE",
+    # f"SALDO PONIZEJ MIN: {zagr[zagr.SALDO < zagr.MIN].shape[0]} POZYCJE",
+    # f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE"]
   
 
     return render_template("analiza_pianek.html", title="Analiza pianek",
-                           zagrozone=zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)],
-                           podsumowanie_zagrorzonych=zagr_podsum,
-                           braki=br.sort_values(by=["GRUPA", "OPIS"]).drop("SALDO", axis=1).drop_duplicates("OPIS"), 
+                        #    zagrozone=zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)],
+                        #    podsumowanie_zagrorzonych=zagr_podsum,
+                        #    braki=br.sort_values(by=["GRUPA", "OPIS"]).drop("SALDO", axis=1).drop_duplicates("OPIS"), 
                            tabelka=tabelka)
+    # return render_template("analiza_pianek.html", title="Analiza pianek")
