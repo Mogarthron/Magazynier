@@ -289,9 +289,9 @@ class Analiza_Rodziny():
     """
 
     kol_1 = ["KOD", "OPIS", "ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE", "SALDO", "SALDO_Z_NIE_SPAK", "MIN", "SUMA_ZLEC", "WOLNE_SALDO", "WOLNE_NIE_SPAK"]
-    kol_1_MAX = ["KOD", "OPIS", "ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE", "SALDO", "SALDO_Z_NIE_SPAK", "MIN", "MAX", "SUMA_ZLEC", "WOLNE_SALDO", "WOLNE_NIE_SPAK"]
+    kol_1_MAX = ["KOD", "OPIS", "ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE", "SALDO", "WOLNE_SALDO", "DO_ZAM_SZT", "MIN", "MAX", "SALDO_Z_NIE_SPAK", "WOLNE_NIE_SPAK", "SUMA_ZLEC"]
     kol_2 = pda#"ZLECENIA"
-    kol_3 = ["WST", "DO_ZAM_SZT"]
+    kol_3 = ["WST"]
     kol_MAX = kol_1_MAX+kol_2+kol_3
     kol_skr = kol_1
     self.MODEL = cls.MODEL
