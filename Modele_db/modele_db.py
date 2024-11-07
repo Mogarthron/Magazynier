@@ -1,6 +1,28 @@
 from Modele_db import *
-from sqlalchemy import Column, String, Integer, Float, SmallInteger, Boolean, Float, Date, DateTime
+from sqlalchemy import Column, String, Integer, Float, SmallInteger, Boolean, Date, DateTime
 from datetime import datetime as dt
+
+
+class STANY_MAGAZYNOWE_PIANEK(Base):
+  __tablename__ = "STANY_MAGAZYNOWE_PIANEK"
+
+  tydzien = Column(Integer, primary_key=True, autoincrement=False)
+  ilosc_spakowana = Column(Integer)
+  saldo = Column(Integer)
+  wolne_saldo = Column(Integer)
+  stan_max = Column(Integer)
+  zamowienia_klientow = Column(Integer)
+  prc_wolne_zam_max = Column(Float)
+  
+  def __init__(self, tydzien, ilosc_spakowana, saldo, wolne, stan_max, zamowienia_klientow, prc):
+    self.tydzien = tydzien
+    self.ilosc_spakowana = ilosc_spakowana
+    self.saldo = saldo
+    self.wolne_saldo = wolne
+    self.stan_max = stan_max
+    self.zamowienia_klientow = zamowienia_klientow
+    self.prc_wolne_zam_max = prc
+
 
 class SALDO(Base):
   __tablename__ = "SALDO"
