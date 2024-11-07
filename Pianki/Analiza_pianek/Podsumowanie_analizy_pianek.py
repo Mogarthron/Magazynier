@@ -8,13 +8,13 @@ class Podsumowanie_analizy_pianek():
         self.ard = {a.MODEL: a for a in instrukcja_zamawiania}
         
         ar_podsum = pd.DataFrame([x.Raport() for x in instrukcja_zamawiania])
-
+        ar_podsum["do_zam_vol"] = ar_podsum['OBJ_CIECH'] + ar_podsum['OBJ_VITA'] + ar_podsum['OBJ_PIANPOL']
         self._Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'POZ_ZAGR', 
                                                                                                                         'POZ_ZAGR_NIE_ZAM','BRAKI', 'ILOSC_BRAKOW', 'BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 
                                                                                                                         'OBJ_CIECH', 'OBJ_VITA', 'OBJ_PIANPOL', '*WSPL_ZAP_WOLNE', 
                                                                                                                         '*WSPL_ZAP_ZAM']]
         
-        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True,False])[['GRUPA', 'MODEL', 'MIN_obj', 'MAX_obj', 'SALDO_obj','WOLNE_obj', 'ZAMOWIONE_NIE_PRZYJETE_obj','BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
+        self.Tabela_podsumowania_analizy = ar_podsum.sort_values(by=["GRUPA", "WSPL_DO_ZAM"], ascending=[True, False])[['GRUPA', 'MODEL', 'MIN_obj', 'MAX_obj', 'SALDO_obj','WOLNE_obj', 'ZAMOWIONE_NIE_PRZYJETE_obj','BRYL_DO_ZAMOWIENIA', 'WSPL_DO_ZAM', 'OBJ_CIECH',
                                                                                                                         'OBJ_VITA', 'OBJ_PIANPOL']]
         self.Tpa_Pianpol = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_PIANPOL", ascending=False)
         self.Tpa_Vita = self.Tabela_podsumowania_analizy.sort_values(by="OBJ_VITA", ascending=False)
