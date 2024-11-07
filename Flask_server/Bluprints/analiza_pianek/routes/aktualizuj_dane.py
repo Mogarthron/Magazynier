@@ -16,7 +16,6 @@ import json
 with open("daty_kompletacji.json") as f:
     dkom = json.load(f)
     daty_kompletacji = dkom["daty_kompletacji"]
-    daty_kompletacji = dkom["daty_kompletacji"]
     data_wstawienia_pierszej_kompletacji = dkom["data_wstawienia_pierwszej_kompletacji"]
 
 for k in daty_kompletacji:

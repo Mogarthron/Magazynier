@@ -1,0 +1,43 @@
+{% extends "layout_wp.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h3>ZAPOTRZEBOWANIE NA OWATY</h3>
+        <ul class="list-group">
+            <li class="list-group-item">O1 zielona, 73.115.00001: {{owaty.loc["O1"]["ILE ROLEK ZPOTRZ"]}} ROLEK</li>
+            <li class="list-group-item">O2 niebieska, 73.120.00001: {{owaty.loc["O2"]["ILE ROLEK ZPOTRZ"]}} ROLEK</li>
+            <li class="list-group-item">O3 czerwona, 73.120.00002: {{owaty.loc["O3"]["ILE ROLEK ZPOTRZ"]}} ROLEK</li>
+            <li class="list-group-item">L1: {{owaty.loc["L1"]["ILE ROLEK ZPOTRZ"]}} ROLEK</li>
+            <li class="list-group-item">W3: {{owaty.loc["W3"]["ILE ROLEK ZPOTRZ"]}} ROLEK</li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>NR PARTII</th>
+                <th>OPIS</th>
+                <th>ILE ZAM</th>
+                <th>O1</th>
+                <th>O2</th>
+                <th>O3</th>
+                <th>L1</th>
+                <th>W1</th>
+                <th>ZAKONCZ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in owaty_w_toku.iterrows() %}
+                <tr>
+                    {% for d in r[1] %}
+                        <td>{{d}}</td>
+                    {% endfor %}
+                    <td>ZAKONCZ</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
