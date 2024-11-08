@@ -8,8 +8,8 @@ import json
 
 @analiza_pianek.route("/analiza_modelu/<model>", methods=["GET", "POST"])
 def analiza_modelu(model):
-
-    _model = pap[model]
+    
+    _model = {x.MODEL: x for x in izp}[model]
     ar = _model.ar
     ar[ar.columns[1:]] = ar[ar.columns[1:]].astype(int)
 

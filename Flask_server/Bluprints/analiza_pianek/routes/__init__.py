@@ -6,10 +6,11 @@ from Pianki.Analiza_pianek.Podsumowanie_analizy_pianek import Podsumowanie_anali
 from Pianki.Analiza_pianek.funkcje_analizy_pianek import *
 
 from Flask_server.Bluprints.analiza_pianek import analiza_pianek
+
 from ..routes import *
 
-ard = {x.MODEL: x for x in izp}
-pap = Podsumowanie_analizy_pianek(izp)
+# ard = {x.MODEL: x for x in izp}
+# pap = Podsumowanie_analizy_pianek(izp)
 z_pianki = dict()
 
 
