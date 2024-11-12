@@ -27,13 +27,8 @@ class Pianki:
     shr_war = inst_zam[5]
     mem_war = inst_zam[6]
 
-    # dos_gal = inst_zam[1]
-    # dos_shr = inst_zam[2]
-    # dos_mem = inst_zam[3]
-
     self.Model = "ELI/MIS" if inst_zam[0] == "ELI_MIS" else inst_zam[0]
 
-    # self.tab = pd.DataFrame([r.__dict__ for r in session.query(baza_PIANKI).filter(baza_PIANKI.MODEL == self.Model, baza_PIANKI.BRYLA.in_(list(bryly.keys()))).all()]).drop("_sa_instance_state", axis=1)
     self.tab = pd.DataFrame(session.query(baza_PIANKI.BRYLA,	
                                           baza_PIANKI.TYP,	
                                           baza_PIANKI.OZN,	
@@ -91,8 +86,6 @@ class Pianki:
     lt = list() #lista tabel pianek dla karzdej bryły w madelu
     lista_opisowa = list()
 
-    # self.tab = self.tab[self.tab.BRYLA.isin(list(bryly.keys()))]
-
     for i in bryly:
       lt.append(self.__bryla_pianki(i, bryly[i]))
 
@@ -139,7 +132,7 @@ class Pianki:
     lo_b = [x[-1] for x in lista_opisowa]
 
     if len(lt) > 0:
-      zpm = pianki.merge(pd.concat([pd.DataFrame([x[:-1] for x in lista_opisowa], columns=["NUMER", "TYP", "PROFIL", "OZN", "PRZEZ", "OPIS", "WYMIAR"]),
+      zpm = pianki.merge(pd.concat([pd.DataFrame([x[:-1] for x in lista_opisowa], columns=["NUMER", "TYP", "PROFIL", "OZN", "PRZEZ", "WYMIAR", "OPIS",]),
               pd.DataFrame(lo_b, columns=[f"br{x}" for x in range(1, maks+1)])],axis=1), how="left", on="NUMER")    
     else:
       zpm = pianki
