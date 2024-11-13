@@ -9,8 +9,8 @@ from Flask_server.Bluprints.analiza_pianek import analiza_pianek
 
 from ..routes import *
 
-# ard = {x.MODEL: x for x in izp}
-# pap = Podsumowanie_analizy_pianek(izp)
+ard = {x.MODEL: x for x in izp}
+pap = Podsumowanie_analizy_pianek(izp)
 z_pianki = dict()
 
 

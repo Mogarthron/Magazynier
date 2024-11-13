@@ -1,5 +1,8 @@
 from ..routes import *
 
+# ard = {x.MODEL: x for x in izp}
+# pap = Podsumowanie_analizy_pianek(izp)
+
 @analiza_pianek.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
     ile_bryl_z_analizy = ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True)

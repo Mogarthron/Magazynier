@@ -16,10 +16,11 @@
             <table class="table table-hover align-middle podsum">
                 <thead>                    
                     <tr>
-                        <th>LP</th>
-                        {% for th in zagrozone.columns %}
-                            <th>{{th.replace('_', " ")}}</th>
-                        {% endfor %}
+                        <th>LP</th>                       
+                        <th>OPIS</th>
+                        <th>SALDO</th>
+                        <th>MIN</th>
+                        <th>WOLNE</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -27,8 +28,6 @@
                         <tr>
                             <td>{{loop.index}}</td>
                             <td>{{tr[1].OPIS}}</td>
-                            <td class="text-center">{{tr[1].ZAMOWIONE}}</td>
-                            <td class="text-center">{{tr[1].CZEKA_NA_SPAKOWANIE}}</td>
                             <td class="text-center">{{tr[1].SALDO}}</td>
                             <td class="text-center">{{tr[1].MIN}}</td>
                             <td class="text-center">{{tr[1].WOLNE_SALDO}}</td>
@@ -57,9 +56,9 @@
       for (let row of rows) {
         const cells = row.getElementsByTagName('td');
         
-        if (cells.length > 5) {
-          const saldo = parseInt(cells[4].textContent);
-          const stan_min = parseInt(cells[5].textContent);
+        if (cells.length > 3) {
+          const saldo = parseInt(cells[2].textContent);
+          const stan_min = parseInt(cells[3].textContent);
           
           if ((stan_min > saldo)) {
             
