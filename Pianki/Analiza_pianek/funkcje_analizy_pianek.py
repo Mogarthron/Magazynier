@@ -33,7 +33,7 @@ def Ogolna_analiza_objetosci(widok = None):
   sm = (podsum.SALDO_obj / podsum.MAX_obj)
   wm = (podsum.WOLNE_obj / podsum.MAX_obj)
   wnsm = (podsum.WOLNE_NIE_SPAK_obj / podsum.MAX_obj)
-  wzm = ((podsum.WOLNE_obj + podsum.ZAMOWIONE_obj+podsum.CZEKA_NA_SPAKOWANIE_obj) / podsum.MAX_obj)
+  wzm = ((podsum.WOLNE_obj + podsum.ZAMOWIONE_obj + podsum.CZESCIOWO_DOSTARCZONE_obj + podsum.CZEKA_NA_SPAKOWANIE_obj) / podsum.MAX_obj)
 
  
   if widok == "tabelka":
@@ -156,18 +156,18 @@ def Zagrozone(prt=True, WOLNE="SALDO"):
   Drukuje lub zwraca informacje o ilosci pozycji w tabeli analiza gdzie wolne znajduną sie poniżej stanu minim
   """
   if WOLNE == "SALDO":
-    zagr = analiza[(analiza.WOLNE_SALDO >= 0) & (analiza.WOLNE_SALDO < analiza.MIN)][["OPIS", "ZAMOWIONE", "CZEKA_NA_SPAKOWANIE","SALDO", "MIN", "WOLNE_SALDO"]]
+    zagr = analiza[(analiza.WOLNE_SALDO >= 0) & (analiza.WOLNE_SALDO < analiza.MIN)][["OPIS", "ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE","SALDO", "MIN", "WOLNE_SALDO"]]
   if WOLNE == "NIE_SPAK":
-    zagr = analiza[(analiza.WOLNE_NIE_SPAK >= 0) & (analiza.WOLNE_NIE_SPAK < analiza.MIN)][["OPIS", "ZAMOWIONE", "SALDO_Z_NIE_SPAK", "MIN", "WOLNE_NIE_SPAK"]]
+    zagr = analiza[(analiza.WOLNE_NIE_SPAK >= 0) & (analiza.WOLNE_NIE_SPAK < analiza.MIN)][["OPIS", "ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "SALDO_Z_NIE_SPAK", "MIN", "WOLNE_NIE_SPAK"]]
 
 
-  zagr_nie_zam = zagr[(zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0]
+  zagr_nie_zam = zagr[(zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE + zagr.CZESIOWO_DOSTARCZONE) == 0]
 
   if prt:
     print(f"WOLNE PONIZEJ MIN: {zagr.shape[0]} POZYCJE")
     print(f"WOLNE PONIZEJ MIN NIE ZAMOWIONE: {zagr_nie_zam.shape[0]} POZYCJE")
     print(f"SALDO PONIZEJ MIN: {zagr[zagr.SALDO < zagr.MIN].shape[0]} POZYCJE")
-    print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
+    print(f"SALDO PONIZEJ MIN NIE ZAMOWIONE: {zagr[((zagr.ZAMOWIONE + zagr.CZEKA_NA_SPAKOWANIE + zagr.CZESIOWO_DOSTARCZONE) == 0)&(zagr.SALDO < zagr.MIN)].shape[0]} POZYCJE")
   else:
    return zagr
 
