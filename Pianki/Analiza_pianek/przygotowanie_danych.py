@@ -59,12 +59,16 @@ def dostarczone(zd, sk):
 
     if zd == np.NaN:
       return 0
+    
+    statusy = ["pV", "Pv", "r.", ".r", "r", "rV", "Pr"]
 
     try:
-      if len(zd) == len(sk):
+      if zd == sk:
         return 2
       elif sk == "":
         return 0
+      elif sk in statusy:
+         return 1      
       else:
         return 1
     except:
