@@ -5,100 +5,104 @@
   <div class="col"></div>
 
 </div>
+<div class="container">
+  <table id="tabelaZamowionychPozycji" class="table table-striped-columns table-hover">
+    <thead style="position: sticky; top: 0">
+      <tr>
+             
+        <th>NR PARTII</th>
+        <th>ZAM1</th>
+        <th>ZAM2</th>
+        <th>MODEL</th>
+        <th>NR KOMPLETCJI</th>
+        <th>OPIS</th>
+        <th>ZAMOWIONE</th>
+       
+        <th>OWATY KOMPLETACJA</th>
+        <th>ZNACZNIK DOSTAWCY</th>
+        <th>STATUS KOMPLETACJA</th>
+        <th></th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {%for r in plan_pracy["plan_pracy"]%}
+      <tr>
+        
+        <td>{{r["nr_partii"]}}</td>
+        <td>{{r["zam1"]}}</td>
+        <td>{{r["zam2"]}}</td>
+        <td>{{r["model"]}}</td>
+        <td>{{r["nrKompletacji"]}}</td>
+        <td>{{r["opis"]}}</td>
+        <td>{{r["zamowione"]}}</td>    
+      
+        <!-- owaty -->
+   
+        <td>{% if r["owatyKompletacja"] == "W TOKU" %}
+          {{r["owatyKompletacja"]}}
+          <form method="POST">
+            <label for="owatyKompletacja{{r['lp']}}"></label>
+            <button type="submit" name="owatyKompletacja_{{r['lp']}}">ZAKONCZONO</button>
+          </form>
+          {% else %}
+          ZAKONCZONO <br> {{r["owatyKompletacja"]}}
+          {% endif %}
+        </td>
+  
+        <!-- kompletacja -->
+        <td>{{r["znacznikDostawcy"]}}</td>
+        <!-- status kompletacja -->
+        <td>
+          {% if r["statusKompletacja"] == r["znacznikDostawcy"] %}
+          {{r["statusKompletacja"]}}
+          {% else %}
+          <form method="post" class="row">
 
-<table id="tabelaZamowionychPozycji" class="table table-striped-columns table-hover">
-  <thead style="position: sticky; top: 0">
-    <tr>
-      <th>ZNACZNIK DOSTAWCY</th>
-      <th>ZAM1</th>
-      <th>ZAM2</th>
-      <th>MODEL</th>
-      <th>NR KOMPLETCJI</th>
-      <th>OPIS</th>
-      <th>ZAMOWIONE</th>
-      <th>LENIWA</th>
-      <th>LENIWA SKOS</th>
-      <th>OWATY WYDANO</th>
-      <th>OWATY WYCIETO</th>
-      <th>OWATY KOMPLETACJA</th>
-      <th>STATUS KOMPLETACJA</th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {%for r in plan_pracy["plan_pracy"]%}
-    <tr>
-      <td>{{r["znacznikDostawcy"]}}</td>
-      <td>{{r["zam1"]}}</td>
-      <td>{{r["zam2"]}}</td>
-      <td>{{r["model"]}}</td>
-      <td>{{r["nrKompletacji"]}}</td>
-      <td>{{r["opis"]}}</td>
-      <td>{{r["zamowione"]}}</td>
-      <!-- leniwa -->
-      {% if r["leniwa"] == 'ND' %}
-      <td>{{r["leniwa"]}}</td>
-      {% else %}
-      <td>
-        {{r["leniwa"]}}
-        <form method="POST">
-          <label for="leniwa_{{r['lp']}}"></label>
-          <button type="submit" name="lewniwa_{{r['lp']}}">ZAKONCZONO</button>
-        </form>
-      </td>
-      {% endif %}
-      <!-- leniwa skos -->
-      {% if r["leniwaSkos"] == 'ND' %}
-      <td>{{r["leniwaSkos"]}}</td>
-      {% else %}
-      <td>
-        {{r["leniwaSkos"]}}
-        <form method="POST">
-          <label for="leniwaSkos_{{r['lp']}}"></label>
-          <button type="submit" name="leniwaSkos_{{r['lp']}}">ZAKONCZONO</button>
-        </form>
-      </td>
-      {% endif %}
-      <!-- owaty -->
-      <td>{{r["owatyWydano"]}}</td>
-      <td>{{r["owatyWycieto"]}}</td>
-      <td>{% if r["owatyKompletacja"] == "W TOKU" %}
-        {{r["owatyKompletacja"]}}
-        <form method="POST">
-          <label for="owatyKompletacja{{r['lp']}}"></label>
-          <button type="submit" name="owatyKompletacja_{{r['lp']}}">ZAKONCZONO</button>
-        </form>
-        {% else %}
-        ZAKONCZONO {{r["owatyKompletacja"]}}
-        {% endif %}
-      </td>
+            <div class="col-auto">             
+              <input type="text" style="width: 50px;" name="zatwierdz_dostawe_{{r['lp']}}" class="form-control" value="{{r['statusKompletacja']}}">
+            </div>
 
-      <!-- kompletacja -->
-      <td>{{r["statusKompletacja"]}} </td>
+            <div class="col-auto">
+              <button type="submit" name="zatwierdzDostawe" class="btn btn-primary">ZATWIERDZ</button>
+            </div>     
+            
+          </form>
 
-      <td>
-        <form method="POST">
-          <label for="edytuj_{{r['lp']}}"></label>
-          <button type="submit" name="edytuj_{{r['lp']}}">EDYTUJ</button>
-        </form>
-      </td>
-      </td>
-      <td>
-        {% if r["statusKompletacja"]|length>0 %}
-        <form method="POST">
-          <label for="zakonczono_{{r['lp']}}"></label>
-          <button type="submit" name="zakonczono_{{r['lp']}}">ZAKONCZONO</button>
-        </form>
-        {% else %}
-        <button disabled>ZAKONCZONO</button>
+          {% endif %}
+           
+        
+        </td>
+  
+        
+        <td>
+          {# if r["statusKompletacja"]|length>0 #}
+          {% if r["statusKompletacja"] == r["znacznikDostawcy"] and r["owatyKompletacja"] != "W TOKU"%}
+          <form method="POST">
+            <label for="zakonczono_{{r['lp']}}"></label>
+            <button type="submit" name="zakonczono_{{r['lp']}}">ZAKONCZONO</button>
+          </form>
+          {% elif r["statusKompletacja"] == r["znacznikDostawcy"] and r["owatyKompletacja"] == "W TOKU"%}
+            NIE WYCIETO OWAT
 
-        {% endif %}
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+          {% elif r["statusKompletacja"] != r["znacznikDostawcy"] and r["statusKompletacja"]|length>0%}
+            PIANKI NIE KOMPLETNE
+
+          {% elif r["statusKompletacja"] != r["znacznikDostawcy"]%}
+            PIANKI W DRODZE
+
+          {% else %}
+
+          <button disabled>ZAKONCZONO</button>
+  
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 
 
 
