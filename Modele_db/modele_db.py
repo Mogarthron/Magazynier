@@ -399,6 +399,7 @@ class ZAM_PIANKI(Base):
   def plan_pracy_to_json(self):
     return {
             "lp": self.lp,
+            "nr_partii": self.nr_partii,
             "zam1": self.zam1 if type(self.zam1) == str else "",
             "zam2": self.zam2 if type(self.zam2) == str else "",
             "znacznikDostawcy": self.znacznik_dostawcy,
