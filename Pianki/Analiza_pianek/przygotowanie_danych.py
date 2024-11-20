@@ -1,6 +1,6 @@
 from Pianki.Analiza_pianek import *
 from Modele_db import engine, text
-from Modele_db.modele_db import ZAM_PIANKI, SALDO, WSTRZYMANE, NALICZONE, session
+from Modele_db.modele_db import ZAM_PIANKI, SALDO, WSTRZYMANE, NALICZONE, KOMPLETY_PIANEK, session
 import pandas as pd
 import fdb
 from datetime import datetime as dt, timedelta 
