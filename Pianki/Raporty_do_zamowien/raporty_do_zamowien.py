@@ -258,6 +258,34 @@ def raport_kontroli_jakosci(cnvs:Canvas, zlecenie_prod, nr_partii, nr_zam, nr_ko
         table.wrapOn(cnvs, 20*cm, 18*cm)
         table.drawOn(cnvs, 1*cm, 10*cm)
 
+def naklejki_zebra(data:list, cnvs:Canvas, owaty=True, wys=9.6, szer=16.0):
+
+    cnvs.setFont(psfontname="Helvetica", size=10)
+    cnvs.setPageSize((szer*cm,wys*cm))
+    cnvs.drawString(1*cm, 9*cm, f"NR PARTII: {data[3]}")
+    if owaty:
+        cnvs.drawString(8*cm, 9*cm, "OWATY")
+    else:
+        cnvs.drawString(6*cm, 9*cm, f"NR KOMPL: {data[1]}")
+
+    cnvs.drawString(12*cm, 9*cm, f"NR PACZKI: {data[-1]}")
+
+    cnvs.setFont(psfontname="Helvetica-Bold", size=60)
+    cnvs.drawString(1*cm, 6*cm, f"{data[0]}")
+    if len(data[2])>5:
+        cnvs.setFont(psfontname="Helvetica-Bold", size=45)
+        cnvs.drawString(1*cm, 4*cm, f"{data[2]}")
+    else:
+        cnvs.drawString(5*cm, 4*cm, f"{data[2]}")
+
+    cnvs.setFont(psfontname="Helvetica", size=10)
+    cnvs.drawString(1*cm, 2*cm, "PACZKA JAKOSC")
+    cnvs.drawString(1*cm, 1*cm, "NR PRAC")
+
+    cnvs.drawString(8*cm, 2*cm, "UWAGI")
+    cnvs.drawString(12*cm, 2*cm, "NR PAKUJACEGO")
+
+
 def drukuj_raporty(nr_partii, zlecenie, pozycje, zam="ZAM1", drukuj_do_folderu=True):
     """
     nazwy zlecen:
@@ -266,6 +294,7 @@ def drukuj_raporty(nr_partii, zlecenie, pozycje, zam="ZAM1", drukuj_do_folderu=T
         * DOKLADANIE PIANEK I OWAT
         * DOKLADANIE PIANEK, OWAT I MEMORY
         * KONTROLA JAKOSCI
+        * NAKLEJKI
        
     """
     print(f"drukuj raporty args: {nr_partii}, {zlecenie}, {zam}")
@@ -393,3 +422,5 @@ def drukuj_raporty_xlsx(nr_partii, zlecenie, dostawca):
 
         dostawa = dane_zam_pianki_czasy(nr_partii)
         dostawa.drop(["NR_PARTII", "MODEL"], axis=1).reindex(pd.Index(range(1,dostawa.shape[0]))).to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
+
+
