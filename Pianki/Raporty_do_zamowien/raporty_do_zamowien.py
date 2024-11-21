@@ -350,7 +350,6 @@ def objetosc_wozka(dostawca, nr_partii, obj_wozka=5.5):
 
   return df
 
-
 def drukuj_raporty_xlsx(nr_partii, zlecenie, dostawca):
     """
     nazwy zlecen:
@@ -391,6 +390,6 @@ def drukuj_raporty_xlsx(nr_partii, zlecenie, dostawca):
         lista_mem.to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
 
     if zlecenie == "CZASY PROCESOW":
-        
+
         dostawa = dane_zam_pianki_czasy(nr_partii)
         dostawa.drop(["NR_PARTII", "MODEL"], axis=1).reindex(pd.Index(range(1,dostawa.shape[0]))).to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
