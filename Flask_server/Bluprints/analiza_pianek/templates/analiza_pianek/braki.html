@@ -1,28 +1,28 @@
 {% extends "layout_ap.html" %}
 {% block content %}
-<div class="container">
+<div class="container" id="printableArea">
+    <div class="row mb-3">160.100.20 BRAKI</div>
     <div class="row mb-3">
-        <h3>BRAKI</h3>
-        <table class="table align-middle braki">
+        <table class="table table-bordered align-middle braki">
             <thead>                    
                 <tr>
-                    <th>LP</th>
+                    <th class="text-center">LP</th>
                     {% for th in braki.columns %}
-                        <th>{{th}}</th>
+                        <th>{{ th }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for tr in braki.iterrows() %}
                     <tr>
-                        <td>{{loop.index}}</td>
-                        <td>{{tr[1].OPIS}}</td>
-                        <td>{{tr[1].WOLNE_SALDO}}</td>
-                        <td>{{tr[1].PACZKA}}</td>
-                        <td>{{tr[1].DATA_KOMPLETACJI}}</td>
-                        <td>{{tr[1].ZAMOWIONE}}</td>
-                        <td>{{tr[1].UWAGI}}</td>
-                        <td>{{tr[1].GRUPA}}</td>                           	
+                        <td class="text-center">{{ loop.index }}</td>
+                        <td>{{ tr[1].OPIS }}</td>
+                        <td>{{ tr[1].WOLNE_SALDO }}</td>
+                        <td>{{ tr[1].PACZKA }}</td>
+                        <td>{{ tr[1].DATA_KOMPLETACJI }}</td>
+                        <td>{{ tr[1].ZAMOWIONE }}</td>
+                        <td>{{ tr[1].UWAGI }}</td>
+                        <td>{{ tr[1].GRUPA }}</td>                           	
                     </tr>
                 {% endfor %}
                 <tr class="danger"></tr>
@@ -30,42 +30,86 @@
         </table>
     </div>
 </div>
+<a href="javascript:void(0);" class="btn btn-primary" onclick="printPageArea('printableArea')">DRUKUJ</a>
 
-<script>
+<style>
+    /* Styl dla kontenera */
+    #printableArea {
+        margin: 0 auto;
+        padding: 20px;
+        width: 100%;
+        overflow-x: auto;
+    }
 
-  
+    /* Styl dla tabeli */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
+    .table th, .table td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: left;
+    }
 
-    document.addEventListener('DOMContentLoaded', (event) => {
-    const tables = document.getElementsByClassName('braki');
-    // console.log(tables)
+    .table th {
+        background-color: #f8f9fa;
+    }
 
-    for (let table of tables) {
-    const rows = table.getElementsByTagName('tr');
-    for (let row of rows) {
-        const cells = row.getElementsByTagName('td');
-        
-        // Logowanie każdej komórki w wierszu
-        for (let i = 0; i < cells.length; i++) {
-            console.log(`Komórka ${i}: ${cells[i].textContent.trim()}`);
+    /* Dodanie marginesów i stylu na wydruk */
+    @media print {
+        body {
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
         }
 
-        // Sprawdzenie, czy wiersz ma co najmniej 8 komórek
-        if (cells.length > 7) {
-            const grupa = cells[7].textContent.trim();  // Kolumna "GRUPA" ma indeks 7 (lub inny)
-            
+        #printableArea {
+            width: 100%;
+            overflow: visible;
+        }
 
-            // Jeśli "GRUPA" równa 1, zmień tło wiersza na czerwono
-            if (parseInt(grupa) === 1) {                    
-                row.classList.add('table-danger')
-            }
-            else if (parseInt(grupa) === 2){
-                row.classList.add('table-warning')
-            }
+        .table {
+            page-break-inside: avoid;
         }
     }
-}
-    
+</style>
+
+<script>
+    function printPageArea(areaID) {
+        const printContent = document.getElementById(areaID).innerHTML;
+        const originalContent = document.body.innerHTML;
+
+        document.body.innerHTML = printContent;
+        window.print();
+        document.body.innerHTML = originalContent;
+        window.location.reload(); // Odśwież stronę po wydruku
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const tables = document.getElementsByClassName('braki');
+
+        for (let table of tables) {
+            const rows = table.getElementsByTagName('tr');
+            for (let row of rows) {
+                const cells = row.getElementsByTagName('td');
+
+                for (let i = 0; i < cells.length; i++) {
+                    console.log(`Komórka ${i}: ${cells[i].textContent.trim()}`);
+                }
+
+                if (cells.length > 7) {
+                    const grupa = cells[7].textContent.trim();
+
+                    if (parseInt(grupa) === 1) {
+                        row.classList.add('table-danger');
+                    } else if (parseInt(grupa) === 2) {
+                        row.classList.add('table-warning');
+                    }
+                }
+            }
+        }
     });
-  </script>  
+</script>
 {% endblock %}
