@@ -5,8 +5,12 @@ from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
 from reportlab_qrcode import QRCodeImage
 from datetime import datetime as dt
+
 from Modele_db.modele_db import session, OWATY, baza_PIANKI, ZAM_PIANKI, KOMPLETY_PIANEK, TRANSPORTY, TRANSPORTY_POZYCJE, INSTRUKCJA_ZAMAWIANIA
-from sqlalchemy import func
+from Pianki.Modele_pianek.nowe_pianki import Pianki
+from Pianki.Raporty_do_zamowien.raporty_do_zamowien import *
+
+from sqlalchemy import func, case, and_, Integer
 from sqlalchemy.orm import aliased
 
 import pandas as pd
@@ -256,15 +260,17 @@ def raport_kontroli_jakosci(cnvs:Canvas, zlecenie_prod, nr_partii, nr_zam, nr_ko
 
 def drukuj_raporty(nr_partii, zlecenie, pozycje, zam="ZAM1", drukuj_do_folderu=True):
     """
-    nazwy zkecen:
+    nazwy zlecen:
         * WYDZIAL ROZKROJ OWAT
         * KOMPLETACJA OWAT
         * DOKLADANIE PIANEK I OWAT
         * DOKLADANIE PIANEK, OWAT I MEMORY
         * KONTROLA JAKOSCI
+       
     """
     print(f"drukuj raporty args: {nr_partii}, {zlecenie}, {zam}")
     print(pozycje.shape)
+
     canvas = Canvas(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')} {zlecenie}.pdf") 
 
     if not os.path.exists(f"./ZLECENIA_PROD/{zlecenie}"):
@@ -296,7 +302,95 @@ def drukuj_raporty(nr_partii, zlecenie, pozycje, zam="ZAM1", drukuj_do_folderu=T
             raport_kontroli_jakosci(canvas, zlecenie, r[1].NR_PARTII,  r[1][zam], r[1].NR_KOMPLETACJI, r[1].MODEL, r[1].OPIS, r[1].KJ_PACZKI, r[1].KJ)
             canvas.showPage()
         
-
     canvas.save()
 
+def objetosc_wozka(dostawca, nr_partii, obj_wozka=5.5):
 
+  case_result = case(
+             
+              (and_(INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_GAL == dostawca, INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_SHR == dostawca, INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_MEM == dostawca),
+                (func.sum(baza_PIANKI.GAL) + func.sum(baza_PIANKI.SHR) + func.sum(baza_PIANKI.MEM))),
+              
+              (and_(INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_GAL == dostawca, INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_SHR == dostawca, INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_MEM != dostawca),
+                (func.sum(baza_PIANKI.GAL) + func.sum(baza_PIANKI.SHR))),
+
+              (and_(INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_GAL != dostawca, INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_SHR != dostawca, INSTRUKCJA_ZAMAWIANIA.DOSTAWCA_MEM == dostawca),
+                (func.sum(baza_PIANKI.MEM)))
+              
+              )
+
+  query = session.query(
+            ZAM_PIANKI.nr_kompletacji.label("NR KOMPLETACJI"),
+            ZAM_PIANKI.opis.label("OPIS"),  
+            ZAM_PIANKI.ile_zam.label("ILE ZAM"),
+            
+            func.round((case_result * ZAM_PIANKI.ile_zam), 1).label("VOL DOSTAWA"),
+
+            func.cast(
+              (func.ceil(case_result * ZAM_PIANKI.ile_zam / obj_wozka)), Integer).label("ILE WOZKOW")
+              
+              )\
+            .join(
+                KOMPLETY_PIANEK, KOMPLETY_PIANEK.opis==ZAM_PIANKI.opis
+            )\
+            .join(
+                baza_PIANKI, baza_PIANKI.BRYLA==KOMPLETY_PIANEK.bryla_gen
+            )\
+            .join(
+                INSTRUKCJA_ZAMAWIANIA, INSTRUKCJA_ZAMAWIANIA.MODEL==ZAM_PIANKI.model
+            )\
+            .filter(ZAM_PIANKI.nr_partii == nr_partii, ZAM_PIANKI.model == baza_PIANKI.MODEL)\
+            .group_by(ZAM_PIANKI.opis)\
+            .all() 
+
+
+  df = pd.DataFrame(query)
+  df = df.loc[df["ILE WOZKOW"] > 0].dropna(how="all", axis=0)
+  
+
+  return df
+
+
+def drukuj_raporty_xlsx(nr_partii, zlecenie, dostawca):
+    """
+    nazwy zlecen:
+    * WOZKI DO DOSTAWY
+    * RAPORT MEMORY
+    * CZASY PROCESOW
+    """
+    print(nr_partii, dostawca)
+    if not os.path.exists(f"./ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/"):
+
+        os.makedirs(f"./ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/")
+
+        print("path:", f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
+
+    if zlecenie == "WOZKI DO DOSTAWY":
+        objetosc_wozka(dostawca, nr_partii).to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
+
+
+    if zlecenie == "RAPORT MEMORY":
+        df = pd.DataFrame(session.query(
+                        ZAM_PIANKI.model, 
+                        INSTRUKCJA_ZAMAWIANIA.NAZWA_INSTRUKCJI,                        
+                        KOMPLETY_PIANEK.bryla_gen,
+                        ZAM_PIANKI.ile_zam
+                        )\
+                    .join(
+                    KOMPLETY_PIANEK, KOMPLETY_PIANEK.opis==ZAM_PIANKI.opis)\
+                    .join(
+                    INSTRUKCJA_ZAMAWIANIA, INSTRUKCJA_ZAMAWIANIA.MODEL==ZAM_PIANKI.model)\
+                    .filter(
+                    ZAM_PIANKI.nr_partii == nr_partii).all())
+        
+
+        lista_mem = pd.concat(
+                    [Pianki(y[1][0], {k:v for k,v in [x[1] for x in df[df.model == y[1][1]][["bryla_gen", "ile_zam"]].iterrows()]}).zpm.query("TYP == 'G-401'") for y in df[["NAZWA_INSTRUKCJI", "model"]].drop_duplicates().iterrows()]
+                    ).dropna(axis=1).drop(["TYP","PRZEZ","OPIS"], axis=1)
+        
+        lista_mem.to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
+
+    if zlecenie == "CZASY PROCESOW":
+        
+        dostawa = dane_zam_pianki_czasy(nr_partii)
+        dostawa.drop(["NR_PARTII", "MODEL"], axis=1).reindex(pd.Index(range(1,dostawa.shape[0]))).to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
