@@ -9,10 +9,6 @@ import json
 from Pianki.Analiza_pianek import session, KOMPLETY_PIANEK, NALICZONE, SALDO, WSTRZYMANE
 from datetime import datetime as dt, timedelta
 
-
-
-
-
 class Tabela_analizy():
 
   def __init__(self, session, model=None) -> None:
