@@ -267,11 +267,6 @@
 #       return f"MODEL: {self.MODEL}\n"+\
 #             f"BRYŁ DO ZAMÓWIENIA: {self.ana[self.ana.CZY_BRYLA == 1].DO_ZAM_SZT.sum()}szt\n"+\
 #             f"OBJ BRYŁ DO ZAMÓWIENIA DO OBJETOSCI MAX: {(self.analiza_obj.DO_ZAM_obj / self.analiza_obj.MAX_obj)*100:.1f}%\n"
-       
-
-
-
-
 
 
 
@@ -279,6 +274,7 @@
 # STARA LOGIKA
 #####################################################################
 from Pianki.Analiza_pianek.funkcje_analizy_pianek import *
+from Pianki.Analiza_pianek.Tabela_analizy import Tabela_analizy
 
 import plotly.graph_objects as go
 
@@ -313,6 +309,15 @@ class Analiza_Rodziny():
     self.zagrozone = self.ar[war_zagr][["OPIS", "ZAMOWIONE", "CZESIOWO_DOSTARCZONE", "CZEKA_NA_SPAKOWANIE", "SALDO", "MIN", "WOLNE_SALDO"]]
 
     self.krytyczne = self.ar[(self.ar.WOLNE_SALDO < 0)][["OPIS", "ZAMOWIONE","CZEKA_NA_SPAKOWANIE", "SALDO", "SALDO_Z_NIE_SPAK", "MIN"]+kol_2+["WST", "WOLNE_SALDO"]]
+
+  # @property
+  # def ana(self):
+
+  #   ta = Tabela_analizy(session, self.MODEL)  
+  #   analiza = ta.analiza
+  #   analiza["GRUPA_SPRZEDARZY"] = self.grupa_sprzedarzy
+
+  #   return analiza
 
   def Bryly_do_zamowienia(self, wszystkie_bryly=False, zerowe_zam=False, lista_zagrozonych=False, lista_korekty_zam = False, korekta_zam:dict=None):
     """
@@ -533,8 +538,9 @@ class Analiza_Rodziny():
               "ZAMOWIONE_NIE_PRZYJETE_obj": np.round(self.ana.ZAMOWIONE_NIE_PRZYJETE_obj.sum(), 0)
               }
 
-  def __repr__(self):
-      return f"MODEL: {self.MODEL}\n"+\
-            f"BRYŁ DO ZAMÓWIENIA: {self.ana[self.ana.CZY_BRYLA == 1].DO_ZAM_SZT.sum()}szt\n"+\
-            f"OBJ BRYŁ DO ZAMÓWIENIA DO OBJETOSCI MAX: {(self.analiza_obj.DO_ZAM_obj / self.analiza_obj.MAX_obj)*100:.1f}%\n"
+  # def __repr__(self):
+  #     return f"MODEL: {self.MODEL}\n"+\
+  #           f"BRYŁ DO ZAMÓWIENIA: {self.ana[self.ana.CZY_BRYLA == 1].DO_ZAM_SZT.sum()}szt\n"+\
+  #           f"BRYŁ DO ZAMÓWIENIA: {self.ana[self.ana.CZY_BRYLA == 1].DO_ZAM_SZT.sum()}szt\n"+\
+  #           f"OBJ BRYŁ DO ZAMÓWIENIA DO OBJETOSCI MAX: {(self.analiza_obj.DO_ZAM_obj / self.analiza_obj.MAX_obj)*100:.1f}%\n"
            

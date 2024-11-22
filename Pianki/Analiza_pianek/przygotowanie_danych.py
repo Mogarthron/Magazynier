@@ -138,7 +138,7 @@ def aktualizuj_zamowienia(pda, data_ostaniej_paczki="2024.06.03"):
   wstrzymane = pd.DataFrame(cur.fetchall(), columns=["KOD", "ILOSC"]) 
 
   NALICZONE_stmt = f"""
-        SELECT NR_ZLECENIA, MAT_KOD AS KOD, ZAPOT_ZLEC, LIMIT_DATA_PROD FROM MATERIALY_NALICZONE_ZLEC('{data_ostaniej_paczki} 00:00:00', '2024.12.30 00:00:00', NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL) 
+        SELECT NR_ZLECENIA, MAT_KOD AS KOD, ZAPOT_ZLEC, LIMIT_DATA_PROD FROM MATERIALY_NALICZONE_ZLEC('{data_ostaniej_paczki} 00:00:00', '2025.12.30 00:00:00', NULL, NULL, NULL, NULL, 1, 1, NULL, NULL, NULL) 
         where mat_nazwa1 like '%KOMPLET PIANEK%'  AND STATUS_NS<60
         """
 
