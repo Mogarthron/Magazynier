@@ -1,6 +1,6 @@
 from ..routes import *
 from Pianki.Raporty_do_zamowien.Komponowanie_zamowienia import Raport_zamowionych_pianek_i_owat
-
+from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
 import json
 import numpy as np
 import os
@@ -9,6 +9,8 @@ from flask import flash
 @analiza_pianek.route("/dodaj_pianki_model", methods=["GET", "POST"])
 def dodaj_pianki_model():
 
+    ard = {x.MODEL: x for x in izp}
+    
     if request.method == "POST" and "del" in list(request.form.keys())[0].split("_")[0]:
         
         if len(list(request.form.keys())[0].split("_")[1:]) > 0:

@@ -1,10 +1,8 @@
 from ..routes import *
 
-
-
-
 import plotly
 import json
+from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
 
 @analiza_pianek.route("/analiza_modelu/<model>", methods=["GET", "POST"])
 def analiza_modelu(model):

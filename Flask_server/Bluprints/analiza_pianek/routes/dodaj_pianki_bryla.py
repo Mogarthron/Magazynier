@@ -1,10 +1,13 @@
 from ..routes import *
+from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
 
+# from Pianki.Analiza_pianek.Podsumowanie_analizy_pianek import Podsumowanie_analizy_pianek
 # ard = {x.MODEL: x for x in izp}
 # pap = Podsumowanie_analizy_pianek(izp)
 
 @analiza_pianek.route("/dodaj_pianki_bryla/<model>", methods=["GET", "POST"])
 def dodaj_pianki_bryla(model):
+    ard = {x.MODEL: x for x in izp}
     ile_bryl_z_analizy = ard[model].Bryly_do_zamowienia(wszystkie_bryly=True, lista_korekty_zam=True)
     if request.method == "POST" and "dodajBryly" in request.form.keys():
         bryly_do_zamowienia = {k:v for k,v in request.form.lists()}

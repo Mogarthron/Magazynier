@@ -12,9 +12,6 @@ from ..routes import *
 # pap = Podsumowanie_analizy_pianek(izp)
 # z_pianki = dict()
 
-
-
-
 @analiza_pianek.route("/braki")
 def braki():
     

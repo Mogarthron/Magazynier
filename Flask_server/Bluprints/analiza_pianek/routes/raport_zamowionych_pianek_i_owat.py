@@ -1,6 +1,9 @@
 from ..routes import *
 
 from Pianki.Raporty_do_zamowien.Komponowanie_zamowienia import Raport_zamowionych_pianek_i_owat
+from Pianki.Analiza_pianek.instrukcje_zamawiana import instrukcja_zamawiania_pianpol as izp
+
+
 import json
 import os
 from datetime import datetime as dt
@@ -8,7 +11,9 @@ from datetime import datetime as dt
 @analiza_pianek.route("/raport_zamowionych_pianek_i_owat", methods=["GET", "POST"], defaults={"nr_partii": None})
 @analiza_pianek.route("/raport_zamowionych_pianek_i_owat/<nr_partii>", methods=["GET", "POST"])
 def raport_zamowionych_pianek_i_owat(nr_partii):
-    
+
+    ard = {x.MODEL: x for x in izp}
+
     numery_partii = None
     with open("./propozycja_zamowionych_pianek.json", "r") as f:
         numery_partii = list(json.load(f).keys())
