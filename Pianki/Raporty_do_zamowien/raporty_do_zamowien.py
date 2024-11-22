@@ -451,25 +451,15 @@ def naklejki_zebra(data:list, cnvs:Canvas, owaty=True, wys=9.6, szer=16.0):
     cnvs.drawString(12*cm, 2*cm, "NR PAKUJACEGO")
 
 def naklejki_na_paczki_pianek(nr_partii, zam="ZAM1", owaty=True):
-    # with engine.begin() as conn:
-    #     zp = conn.execute(text(f"""SELECT MODEL, NR_KOMPLETACJI, OPIS, ILE_ZAMOWIONE,
-    #                     ZAM1, ZAM2, NR_PARTII from ZAM_PIANKI WHERE {zam} = '{nr_zam}'"""))
     
-    # zam_pianki = zp.fetchall()
     zam_pianki = session.query(ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis, ZAM_PIANKI.ile_zam, ZAM_PIANKI.zam1, ZAM_PIANKI.zam2, ZAM_PIANKI.nr_partii).filter(ZAM_PIANKI.nr_partii == nr_partii).all()
-    # print(zam_pianki)
-
+    
     zam_list = list()
     for r in zam_pianki:
         for i in range(r[3]):
             nr = f"{r[0]}, {r[1]}, {r[2].replace(r[0], '').replace(',','.').strip()}, {r[-1]}, {i+1}/{r[3]}"
         
             zam_list.append(nr)
-
-    # if zam == "ZAM1":
-    #     nr_zam = session.query(ZAM_PIANKI.zam1.distinct()).filter(ZAM_PIANKI.nr_partii == nr_partii).all()[0][0]
-    # else:
-    #     nr_zam = session.query(ZAM_PIANKI.zam2.distinct()).filter(ZAM_PIANKI.nr_partii == nr_partii).all()[0][0]
 
     if owaty:   
 
