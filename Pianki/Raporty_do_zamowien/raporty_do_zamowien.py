@@ -423,4 +423,68 @@ def drukuj_raporty_xlsx(nr_partii, zlecenie, dostawca):
         dostawa = dane_zam_pianki_czasy(nr_partii)
         dostawa.drop(["NR_PARTII", "MODEL"], axis=1).reindex(pd.Index(range(1,dostawa.shape[0]))).to_excel(f"ZLECENIA_PROD/{zlecenie}/{nr_partii.replace('/', '_')}/{dostawca}_{zlecenie}.xlsx")
 
+def naklejki_zebra(data:list, cnvs:Canvas, owaty=True, wys=9.6, szer=16.0):
 
+    cnvs.setFont(psfontname="Helvetica", size=10)
+    cnvs.setPageSize((szer*cm,wys*cm))
+    cnvs.drawString(1*cm, 9*cm, f"NR PARTII: {data[3]}")
+    if owaty:
+        cnvs.drawString(8*cm, 9*cm, "OWATY")
+    else:
+        cnvs.drawString(6*cm, 9*cm, f"NR KOMPL: {data[1]}")
+
+    cnvs.drawString(12*cm, 9*cm, f"NR PACZKI: {data[-1]}")
+
+    cnvs.setFont(psfontname="Helvetica-Bold", size=60)
+    cnvs.drawString(1*cm, 6*cm, f"{data[0]}")
+    if len(data[2])>5:
+        cnvs.setFont(psfontname="Helvetica-Bold", size=45)
+        cnvs.drawString(1*cm, 4*cm, f"{data[2]}")
+    else:
+        cnvs.drawString(5*cm, 4*cm, f"{data[2]}")
+
+    cnvs.setFont(psfontname="Helvetica", size=10)
+    cnvs.drawString(1*cm, 2*cm, "PACZKA JAKOSC")
+    cnvs.drawString(1*cm, 1*cm, "NR PRAC")
+
+    cnvs.drawString(8*cm, 2*cm, "UWAGI")
+    cnvs.drawString(12*cm, 2*cm, "NR PAKUJACEGO")
+
+def naklejki_na_paczki_pianek(nr_partii, zam="ZAM1", owaty=True):
+    # with engine.begin() as conn:
+    #     zp = conn.execute(text(f"""SELECT MODEL, NR_KOMPLETACJI, OPIS, ILE_ZAMOWIONE,
+    #                     ZAM1, ZAM2, NR_PARTII from ZAM_PIANKI WHERE {zam} = '{nr_zam}'"""))
+    
+    # zam_pianki = zp.fetchall()
+    zam_pianki = session.query(ZAM_PIANKI.model, ZAM_PIANKI.nr_kompletacji, ZAM_PIANKI.opis, ZAM_PIANKI.ile_zam, ZAM_PIANKI.zam1, ZAM_PIANKI.zam2, ZAM_PIANKI.nr_partii).filter(ZAM_PIANKI.nr_partii == nr_partii).all()
+    # print(zam_pianki)
+
+    zam_list = list()
+    for r in zam_pianki:
+        for i in range(r[3]):
+            nr = f"{r[0]}, {r[1]}, {r[2].replace(r[0], '').replace(',','.').strip()}, {r[-1]}, {i+1}/{r[3]}"
+        
+            zam_list.append(nr)
+
+    # if zam == "ZAM1":
+    #     nr_zam = session.query(ZAM_PIANKI.zam1.distinct()).filter(ZAM_PIANKI.nr_partii == nr_partii).all()[0][0]
+    # else:
+    #     nr_zam = session.query(ZAM_PIANKI.zam2.distinct()).filter(ZAM_PIANKI.nr_partii == nr_partii).all()[0][0]
+
+    if owaty:   
+
+        cnvs = Canvas(f"./ZLECENIA_PROD/NAKLEJKI OWATY/{nr_partii.replace('/', '_')}.pdf")
+        if not os.path.exists(f"./ZLECENIA_PROD/NAKLEJKI OWATY"):
+            os.makedirs(f"./ZLECENIA_PROD/NAKLEJKI OWATY")
+    else:
+
+        cnvs = Canvas(f"./ZLECENIA_PROD/NAKLEJKI PIANKI/{nr_partii.replace('/', '_')}.pdf")
+        if not os.path.exists(f"./ZLECENIA_PROD/NAKLEJKI PIANKI"):
+            os.makedirs(f"./ZLECENIA_PROD/NAKLEJKI PIANKI")
+
+    for r in zam_list: 
+     
+        naklejki_zebra(r.split(", "), cnvs, owaty)
+        cnvs.showPage()
+
+    cnvs.save()
